@@ -6,10 +6,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  // 如果你的 GitHub Pages 部署在子路徑（例如 username.github.io/repository-name）
-  // 請取消註釋下面這行並替換為你的 repository 名稱
-  // basePath: '/repository-name',
-  // assetPrefix: '/repository-name',
+  // 設置 basePath 和 assetPrefix 為 /2026
+  basePath: '/2026',
+  assetPrefix: '/2026',
 };
 
 export default nextConfig;
