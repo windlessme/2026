@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  /* Light theme variables */
+  /* Default light theme variables */
   --background: #ffffff;
   --foreground: #171717;
   --card-background: #f8f9fa;
   --card-border: #e9ecef;
-  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(0, 0, 0, 0.05);
   --glass-border: rgba(0, 0, 0, 0.1);
   --accent-primary: #22c55e;
   --accent-secondary: #3b82f6;
-  --text-muted: #6b7280;
+  --text-muted: #4b5563;
+  --text-secondary: #6b7280;
   --border-color: #e5e7eb;
 }
 
@@ -29,20 +30,7 @@
   --border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Light theme overrides */
-:root.light {
-  --background: #ffffff;
-  --foreground: #171717;
-  --card-background: #f8f9fa;
-  --card-border: #e9ecef;
-  --glass-bg: rgba(0, 0, 0, 0.05);
-  --glass-border: rgba(0, 0, 0, 0.1);
-  --accent-primary: #22c55e;
-  --accent-secondary: #3b82f6;
-  --text-muted: #4b5563;
-  --text-secondary: #6b7280;
-  --border-color: #e5e7eb;
-}
+
 
 @theme inline {
   --color-background: var(--background);
@@ -51,8 +39,6 @@
   --color-card-border: var(--card-border);
   --color-text-muted: var(--text-muted);
   --color-text-secondary: var(--text-secondary);
-  --color-glass-bg: var(--glass-bg);
-  --color-glass-border: var(--glass-border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -73,6 +59,7 @@ body {
     ui-sans-serif,
     system-ui,
     sans-serif;
+  overflow-x: hidden;
 }
 
 /* Custom utility classes for theme colors */
@@ -191,10 +178,9 @@ body {
   text-rendering: optimizeSpeed;
 }
 
-/* 手機版額外優化 */
+/* 手機版老虎機優化 */
 @media (max-width: 768px) {
   .slot-machine-display {
-    /* 手機上使用較少的變換效果 */
     will-change: color;
   }
 }
@@ -335,21 +321,17 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-/* Light theme timeline card */
+/* Dark theme timeline card shadow */
+:root.dark .timeline-card {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Light theme timeline card shadow */
 :root.light .timeline-card {
-  background: var(--card-background);
-  border: 1px solid var(--card-border);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-/* 時間軸數字動畫 */
-.timeline-number {
-  transition: all 0.3s ease;
-}
 
-.timeline-number:hover {
-  transform: scale(1.05);
-}
 
 /* 進度條漸層效果 */
 .progress-gradient {
@@ -368,14 +350,14 @@ body {
   }
 }
 
-/* 手機版優化 */
+/* 手機版進度條優化 */
 @media (max-width: 768px) {
   .timeline-progress-bar::before {
-    animation: none; /* 手機版關閉閃爍效果以節省電池 */
+    animation: none;
   }
 
   .progress-gradient {
-    animation: none; /* 手機版使用靜態漸層 */
+    animation: none;
     background: linear-gradient(90deg, #3b82f6, #8b5cf6);
   }
 }
@@ -385,10 +367,6 @@ body {
   .timeline-progress-bar::before,
   .progress-gradient {
     animation: none !important;
-  }
-
-  .timeline-number {
-    transition: none !important;
   }
 }
 
@@ -796,10 +774,7 @@ body,
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
-/* 防止動畫期間的布局跳動 */
-body {
-  overflow-x: hidden;
-}
+
 
 /* 圖標包裝器 */
 .theme-icon-wrapper {
@@ -810,7 +785,7 @@ body {
   z-index: 1;
 }
 
-/* 為動畫添加硬體加速 */
+/* 主題切換按鈕點擊效果 */
 .theme-toggle-btn::before {
   content: '';
   position: absolute;
@@ -832,7 +807,7 @@ body {
   opacity: 0.2;
 }
 
-/* 圖標旋轉動畫 */
+/* 主題切換按鈕圖標動畫 */
 .theme-toggle-btn svg {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
