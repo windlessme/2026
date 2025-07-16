@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Calendar, MapPin, Users, Mail, Info, X, Dices, ExternalLink, Clock, Star } from "lucide-react";
+import { Calendar, MapPin, Users, Mail, Info, X, Dices, ExternalLink } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
@@ -12,6 +12,7 @@ import {
   faTelegram,
 } from "@fortawesome/free-brands-svg-icons";
 import { useState, useEffect } from "react";
+import RecentEvents from "./components/RecentEvents";
 
 export default function Home() {
   // 在頁面載入時輸出 SITCON 超大圖標到主控台
@@ -48,6 +49,7 @@ export default function Home() {
       "background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 18px; font-weight: bold; padding: 10px;"
     );
   }, []);
+  
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [isSlotMachineSpinning, setIsSlotMachineSpinning] = useState(false);
@@ -84,21 +86,6 @@ export default function Home() {
   };
 
   const timelineData = calculateTimelineData();
-
-  // 最近活動資料
-  const recentEvents = [
-    {
-      id: 1,
-      title: "SITCON 2026 BoF 定期聚",
-      date: "2025-08-09",
-      time: "18:00",
-      location: "臺灣師範大學",
-      description: "想更了解 SITCON 或參與 2026 的籌備嗎？歡迎來聊聊！",
-      type: "meeting",
-      status: "upcoming",
-      link: "https://forms.gle/rr93tuxJ9m9uStDf9",
-    },
-  ];
 
   const closeModal = () => {
     setIsClosing(true);
@@ -168,258 +155,132 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center px-4">
-      {/* Main Content */}
-      <div className="text-center space-y-6 md:space-y-8 animate-fade-in max-w-4xl w-full">
-        {/* Title */}
-        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight animate-fade-in-up">
-          SITCON 2026
-        </h1>
+    <div className="bg-black text-white">
+      {/* 第一屏 - SITCON 2026 主要內容 */}
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 relative">
+        {/* Main Content */}
+        <div className="text-center space-y-6 md:space-y-8 animate-fade-in max-w-4xl w-full">
+          {/* Title */}
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight animate-fade-in-up">
+            SITCON 2026
+          </h1>
 
-        {/* Subtitle */}
-        <div className="space-y-3 md:space-y-4 animate-fade-in-up animation-delay-300">
-          <p className="text-lg sm:text-xl md:text-2xl text-gray-300">學生計算機年會</p>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-base md:text-lg text-gray-400">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 md:w-5 md:h-5" />
-              <span>2026 年 3 月 28 日 (六)</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 md:w-5 md:h-5" />
-              <Link
-                href="https://maps.google.com?q=中央研究院人文社會科學館"
-                target="_blank"
-                rel="noopener noreferrer"
-                prefetch={false}
-                className="text-center hover:text-blue-400 transition-colors cursor-pointer underline decoration-dotted underline-offset-2"
-              >
-                中央研究院人文社會科學館
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center animate-fade-in-up animation-delay-600 px-4">
-          <Link
-            href="https://forms.gle/rr93tuxJ9m9uStDf9"
-            target="_blank"
-            rel="noopener noreferrer"
-            prefetch={false}
-            className="liquid-glass-btn primary large"
-            aria-label="工人預約跳坑 - 開啟新視窗"
-          >
-            <Users />
-            工人預約跳坑
-          </Link>
-
-          <Link
-            href="https://groups.google.com/g/sitcon-general/"
-            target="_blank"
-            rel="noopener noreferrer"
-            prefetch={false}
-            className="liquid-glass-btn secondary large"
-            aria-label="郵件論壇 - 開啟新視窗"
-          >
-            <Mail />
-            郵件論壇
-          </Link>
-
-          <button
-            onClick={() => setIsAboutOpen(true)}
-            className="liquid-glass-btn secondary large"
-            aria-label="關於 SITCON - 開啟對話框"
-          >
-            <Info />
-            關於 SITCON
-          </button>
-        </div>
-
-        {/* 時間軸 */}
-        <div className="flex justify-center animate-fade-in-up animation-delay-1000 px-4">
-          <div className="timeline-card rounded-lg p-4 md:p-6 space-y-4 w-full sm:w-auto sm:min-w-[450px] md:min-w-[575px]">
-            {/* 標題 */}
-            {/* 
-            <div className="text-center space-y-2">
-              <h3 className="text-lg md:text-xl font-bold text-white">
-                🚀 距離 SITCON 2026 還有
-              </h3>
-              {timelineData.isEventPassed ? (
-                <p className="text-2xl md:text-3xl font-bold text-green-400">
-                  🎉 年會已結束！
-                </p>
-              ) : (
-                <p className="text-2xl md:text-3xl font-bold text-blue-400 timeline-number">
-                  {timelineData.remainingDays} 天
-                </p>
-              )}
-            </div>
-            */}
-
-            {/* 進度條 */}
-            <div className="space-y-2">
-              <div className="flex justify-between text-xs md:text-sm text-gray-400">
-                <span>2025/7/13</span>
-                <span>{timelineData.progressPercentage.toFixed(1)}%</span>
-                <span>2026/3/28</span>
+          {/* Subtitle */}
+          <div className="space-y-3 md:space-y-4 animate-fade-in-up animation-delay-300">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-300">學生計算機年會</p>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-base md:text-lg text-gray-400">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 md:w-5 md:h-5" />
+                <span>2026 年 3 月 28 日 (六)</span>
               </div>
-
-              <div className="w-full bg-zinc-800 rounded-full h-2 md:h-3 timeline-progress-bar">
-                <div
-                  className="h-full progress-gradient rounded-full transition-all duration-1000 ease-out"
-                  style={{ width: `${timelineData.progressPercentage}%` }}
-                />
-              </div>
-
-              <div className="flex justify-between text-xs text-gray-500">
-                <span>籌備開始</span>
-                <span className="text-center">{timelineData.isEventPassed ? "已完成" : "進行中"}</span>
-                <span>年會舉辦</span>
-              </div>
-            </div>
-
-            {/* 詳細資訊 */}
-            {/* 
-            {!timelineData.isEventPassed && (
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-center">
-                 <div className="space-y-1">
-                   <p className="text-xs text-gray-400">總籌備時間</p>
-                   <p className="text-sm font-semibold text-white timeline-number">{timelineData.totalDays} 天</p>
-                 </div>
-                 <div className="space-y-1">
-                   <p className="text-xs text-gray-400">已籌備時間</p>
-                   <p className="text-sm font-semibold text-green-400 timeline-number">
-                     {timelineData.totalDays - timelineData.remainingDays} 天
-                   </p>
-                 </div>
-                 <div className="space-y-1">
-                   <p className="text-xs text-gray-400">剩餘時間</p>
-                   <p className="text-sm font-semibold text-orange-400 timeline-number">
-                     {timelineData.remainingDays} 天
-                   </p>
-                 </div>
-               </div>
-                
-            )}
-               */}
-          </div>
-        </div>
-
-        {/* 最近活動 */}
-        <div className="flex justify-center animate-fade-in-up animation-delay-1200 px-4">
-          <div className="timeline-card rounded-lg p-4 md:p-6 space-y-4 w-full max-w-4xl">
-            <div className="text-center space-y-2">
-              <h3 className="text-lg md:text-xl font-bold text-white flex items-center justify-center gap-2">
-                <Star className="w-5 h-5" />
-                最近活動
-              </h3>
-              <p className="text-sm text-gray-400">掌握最新 SITCON 活動資訊</p>
-            </div>
-
-            <div className="space-y-3">
-              {recentEvents.map((event) => (
-                <div
-                  key={event.id}
-                  className={`bg-zinc-800/50 backdrop-blur-sm rounded-lg p-4 border border-zinc-700/50 hover:border-zinc-600/50 transition-all duration-300 ${
-                    event.status === "upcoming" ? "border-l-4 border-l-blue-500" : "border-l-4 border-l-gray-600"
-                  }`}
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 md:w-5 md:h-5" />
+                <Link
+                  href="https://maps.google.com?q=中央研究院人文社會科學館"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  prefetch={false}
+                  className="text-center hover:text-blue-400 transition-colors cursor-pointer underline decoration-dotted underline-offset-2"
                 >
-                  <div className="space-y-3">
-                    {/* Title and Status Badge */}
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-white text-sm md:text-base leading-tight text-left">
-                          {event.title}
-                        </h4>
-                      </div>
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
-                          event.status === "upcoming"
-                            ? "bg-blue-500/20 text-blue-400 border border-blue-500/30"
-                            : "bg-gray-600/20 text-gray-400 border border-gray-600/30"
-                        }`}
-                      >
-                        {event.status === "upcoming" ? "即將舉行" : "已結束"}
-                      </span>
-                    </div>
+                  中央研究院人文社會科學館
+                </Link>
+              </div>
+            </div>
+          </div>
 
-                    {/* Description */}
-                    <div className="text-left">
-                      <p className="text-gray-300 text-xs md:text-sm leading-relaxed">{event.description}</p>
-                    </div>
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center animate-fade-in-up animation-delay-600 px-4">
+            <Link
+              href="https://forms.gle/rr93tuxJ9m9uStDf9"
+              target="_blank"
+              rel="noopener noreferrer"
+              prefetch={false}
+              className="liquid-glass-btn primary large"
+              aria-label="工人預約跳坑 - 開啟新視窗"
+            >
+              <Users />
+              工人預約跳坑
+            </Link>
 
-                    {/* Date, Time, Location - Mobile Optimized */}
-                    <div className="space-y-2 sm:space-y-0 sm:flex sm:flex-wrap sm:gap-4">
-                      <div className="flex items-center gap-2 text-xs text-gray-400">
-                        <Calendar className="w-3 h-3 flex-shrink-0" />
-                        <span>
-                          {(() => {
-                            const date = new Date(event.date);
-                            const year = date.getFullYear();
-                            const month = date.getMonth() + 1;
-                            const day = date.getDate();
-                            return `${year} 年 ${month} 月 ${day} 日`;
-                          })()}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-gray-400">
-                        <Clock className="w-3 h-3 flex-shrink-0" />
-                        <span>{event.time}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-gray-400">
-                        <MapPin className="w-3 h-3 flex-shrink-0" />
-                        <span>{event.location}</span>
-                      </div>
-                    </div>
+            <Link
+              href="https://groups.google.com/g/sitcon-general/"
+              target="_blank"
+              rel="noopener noreferrer"
+              prefetch={false}
+              className="liquid-glass-btn secondary large"
+              aria-label="郵件論壇 - 開啟新視窗"
+            >
+              <Mail />
+              郵件論壇
+            </Link>
 
-                    {/* Action Button */}
-                    {event.link && event.link !== "#" && (
-                      <div className="flex justify-end pt-1">
-                        <Link
-                          href={event.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          prefetch={false}
-                          className="liquid-glass-btn secondary small"
-                          aria-label={`前往 ${event.title}`}
-                        >
-                          <ExternalLink className="w-3 h-3" />
-                          <span className="hidden sm:inline">前往</span>
-                        </Link>
-                      </div>
-                    )}
-                  </div>
+            <button
+              onClick={() => setIsAboutOpen(true)}
+              className="liquid-glass-btn secondary large"
+              aria-label="關於 SITCON - 開啟對話框"
+            >
+              <Info />
+              關於 SITCON
+            </button>
+          </div>
+
+          {/* 時間軸 */}
+          <div className="flex justify-center animate-fade-in-up animation-delay-1000 px-4">
+            <div className="timeline-card rounded-lg p-4 md:p-6 space-y-4 w-full sm:w-auto sm:min-w-[450px] md:min-w-[575px]">
+              {/* 進度條 */}
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs md:text-sm text-gray-400">
+                  <span>2025/7/13</span>
+                  <span>{timelineData.progressPercentage.toFixed(1)}%</span>
+                  <span>2026/3/28</span>
                 </div>
-              ))}
-            </div>
 
-            <div className="text-center pt-2">
-              <Link
-                href="https://groups.google.com/g/sitcon-general/"
-                target="_blank"
-                rel="noopener noreferrer"
-                prefetch={false}
-                className="text-blue-400 hover:text-blue-300 transition-colors text-sm underline decoration-dotted underline-offset-2"
-              >
-                訂閱郵件論壇獲取更多活動資訊 →
-              </Link>
+                <div className="w-full bg-zinc-800 rounded-full h-2 md:h-3 timeline-progress-bar">
+                  <div
+                    className="h-full progress-gradient rounded-full transition-all duration-1000 ease-out"
+                    style={{ width: `${timelineData.progressPercentage}%` }}
+                  />
+                </div>
+
+                <div className="flex justify-between text-xs text-gray-500">
+                  <span>籌備開始</span>
+                  <span className="text-center">{timelineData.isEventPassed ? "已完成" : "進行中"}</span>
+                  <span>年會舉辦</span>
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+
+        {/* 背景動畫 */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div
+            className="absolute -top-40 -right-40 w-80 h-80 bg-white/2 rounded-full blur-3xl"
+            style={{ animation: "subtlePulse 4s ease-in-out infinite" }}
+          ></div>
+          <div
+            className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/2 rounded-full blur-3xl"
+            style={{ animation: "subtlePulse 4s ease-in-out infinite 2s" }}
+          ></div>
+        </div>
+
+        {/* 向下滑動提示 */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <div className="flex flex-col items-center space-y-2 text-gray-400">
+            <span className="text-sm">向下滑動查看最新活動</span>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
           </div>
         </div>
       </div>
 
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute -top-40 -right-40 w-80 h-80 bg-white/2 rounded-full blur-3xl"
-          style={{ animation: "subtlePulse 4s ease-in-out infinite" }}
-        ></div>
-        <div
-          className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/2 rounded-full blur-3xl"
-          style={{ animation: "subtlePulse 4s ease-in-out infinite 2s" }}
-        ></div>
+      {/* 第二屏 - 最近活動 */}
+      <div className="min-h-screen py-20 px-4 bg-gradient-to-b from-black via-zinc-900 to-black">
+        <RecentEvents />
       </div>
 
+      {/* 關於 SITCON 彈出視窗 */}
       {isAboutOpen && (
         <div
           className={`fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 ${
@@ -504,6 +365,7 @@ export default function Home() {
                   ))}
                 </div>
               </div>
+              
               <div>
                 <h3 className="text-base md:text-lg font-semibold text-white mb-3">年會時光機</h3>
                 <div className="bg-zinc-800 rounded-lg p-4 space-y-4">
