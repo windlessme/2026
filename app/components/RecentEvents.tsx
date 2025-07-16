@@ -188,13 +188,13 @@ export default function RecentEvents() {
 
         <div className="text-center pt-2">
           <Link
-            href="https://groups.google.com/g/sitcon-general/"
+            href="https://calendar.google.com/calendar/embed?src=ull8p8ceof4sdba5na86s016p8%40group.calendar.google.com&ctz=Asia%2FTaipei"
             target="_blank"
             rel="noopener noreferrer"
             prefetch={false}
             className="text-blue-400 hover:text-blue-300 transition-colors text-sm underline decoration-dotted underline-offset-2"
           >
-            訂閱郵件論壇獲取更多活動資訊 →
+            加入 SITCON 行事曆同步最新活動資訊 →
           </Link>
         </div>
       </div>
