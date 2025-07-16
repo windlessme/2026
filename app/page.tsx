@@ -117,7 +117,7 @@ export default function Home() {
     const spinDuration = 2000; // 2秒
     // 根據設備調整動畫頻率，手機使用較慢的頻率
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const spinInterval = isMobile ? 150 : 100; // 手機150ms，桌面100ms
+    const spinInterval = isMobile ? 100 : 50; // 手機150ms，桌面100ms
     const totalSpins = spinDuration / spinInterval;
     let currentSpin = 0;
 
@@ -385,7 +385,7 @@ export default function Home() {
 
                   <div className="flex items-center justify-center">
                     <div className="bg-zinc-700 rounded-lg px-6 py-4 border-2 border-zinc-600">
-                      <div className={`text-3xl font-bold text-center w-[80px] font-mono slot-machine-display ${isSlotMachineSpinning ? 'text-yellow-400' : 'text-white'}`}>
+                      <div className={`text-3xl font-bold text-center w-[80px] font-mono transition-all slot-machine-display ${isSlotMachineSpinning ? 'text-yellow-400 blur-sm' : 'text-white'}`}>
                         {slotMachineDisplay}
                       </div>
                     </div>

@@ -2,13 +2,11 @@ import { ReactNode } from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
-
-import { config } from "@fortawesome/fontawesome-svg-core";
-import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Metadata } from "next";
-config.autoAddCss = false;
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"], variable: "--font-inter"
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const image = "https://sitcon.org/2026/og.png";
@@ -99,31 +97,19 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   };
 
   return (
-    <html lang="zh-TW">
+    <html lang="zh-TW" >
       <GoogleTagManager gtmId="GTM-NPVBCDZ" />
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <link
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined"
-          rel="stylesheet"
-        />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet" />
       </head>
       <body
-        className={`${inter.className} antialiased bg-black text-white`}
-        style={{ fontFamily: "'Noto Sans TC', sans-serif" }}
+        className={`${inter.variable} antialiased bg-black text-white`}
       >
         {children}
       </body>
-    </html>
+    </html >
   );
 } 
