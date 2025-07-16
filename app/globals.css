@@ -1,22 +1,60 @@
 @import "tailwindcss";
 
 :root {
+  /* Light theme variables */
   --background: #ffffff;
   --foreground: #171717;
+  --card-background: #f8f9fa;
+  --card-border: #e9ecef;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --accent-primary: #22c55e;
+  --accent-secondary: #3b82f6;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+}
+
+/* Dark theme variables */
+:root.dark {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card-background: rgba(24, 24, 27, 0.5);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --accent-primary: #22c55e;
+  --accent-secondary: #3b82f6;
+  --text-muted: #9ca3af;
+  --text-secondary: #6b7280;
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Light theme overrides */
+:root.light {
+  --background: #ffffff;
+  --foreground: #171717;
+  --card-background: #f8f9fa;
+  --card-border: #e9ecef;
+  --glass-bg: rgba(0, 0, 0, 0.05);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --accent-primary: #22c55e;
+  --accent-secondary: #3b82f6;
+  --text-muted: #4b5563;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card-background: var(--card-background);
+  --color-card-border: var(--card-border);
+  --color-text-muted: var(--text-muted);
+  --color-text-secondary: var(--text-secondary);
+  --color-glass-bg: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
@@ -35,6 +73,23 @@ body {
     ui-sans-serif,
     system-ui,
     sans-serif;
+}
+
+/* Custom utility classes for theme colors */
+.bg-card-background {
+  background-color: var(--card-background);
+}
+
+.border-card-border {
+  border-color: var(--card-border);
+}
+
+.text-text-muted {
+  color: var(--text-muted);
+}
+
+.text-text-secondary {
+  color: var(--text-secondary);
 }
 
 /* Custom fade animations */
@@ -274,10 +329,17 @@ body {
 
 /* 時間軸卡片樣式 */
 .timeline-card {
-  background: rgba(24, 24, 27, 0.5);
+  background: var(--card-background);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--card-border);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Light theme timeline card */
+:root.light .timeline-card {
+  background: var(--card-background);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 /* 時間軸數字動畫 */
@@ -360,14 +422,14 @@ body {
   
   /* 液態玻璃效果 - 更透明 */
   background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.15) 0%, 
+    var(--glass-bg) 0%, 
     rgba(255, 255, 255, 0.05) 50%, 
-    rgba(255, 255, 255, 0.1) 100%);
+    var(--glass-bg) 100%);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   
   /* 玻璃邊框 */
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--glass-border);
   
   /* 多層陰影效果 */
   box-shadow: 
@@ -446,10 +508,10 @@ body {
 /* 次要按鈕（預設） */
 .liquid-glass-btn.secondary {
   background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.15) 0%, 
+    var(--glass-bg) 0%, 
     rgba(255, 255, 255, 0.05) 50%, 
-    rgba(255, 255, 255, 0.1) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+    var(--glass-bg) 100%);
+  border: 1px solid var(--glass-border);
 }
 
 /* 尺寸變化 */
@@ -647,39 +709,158 @@ body {
   }
 }
 
-/* 黑暗模式適配 */
-@media (prefers-color-scheme: dark) {
-  .liquid-glass-btn {
-    background: linear-gradient(135deg, 
-      rgba(255, 255, 255, 0.12) 0%, 
-      rgba(255, 255, 255, 0.04) 50%, 
-      rgba(255, 255, 255, 0.08) 100%);
-    color: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+/* Light theme button styles */
+:root.light .liquid-glass-btn {
+  background: linear-gradient(135deg, 
+    rgba(0, 0, 0, 0.05) 0%, 
+    rgba(0, 0, 0, 0.02) 50%, 
+    rgba(0, 0, 0, 0.04) 100%);
+  color: rgba(0, 0, 0, 0.87);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+
+:root.light .liquid-glass-btn.primary {
+  background: linear-gradient(135deg, 
+    rgba(34, 197, 94, 0.15) 0%, 
+    rgba(34, 197, 94, 0.08) 50%, 
+    rgba(34, 197, 94, 0.12) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: rgba(0, 0, 0, 0.87);
+  box-shadow: 
+    0 8px 32px rgba(34, 197, 94, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+
+:root.light .liquid-glass-btn:hover {
+  background: linear-gradient(135deg, 
+    rgba(0, 0, 0, 0.08) 0%, 
+    rgba(0, 0, 0, 0.03) 50%, 
+    rgba(0, 0, 0, 0.06) 100%);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+
+:root.light .liquid-glass-btn.primary:hover {
+  background: linear-gradient(135deg, 
+    rgba(34, 197, 94, 0.25) 0%, 
+    rgba(34, 197, 94, 0.12) 50%, 
+    rgba(34, 197, 94, 0.2) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  box-shadow: 
+    0 12px 40px rgba(34, 197, 94, 0.2),
+    0 4px 12px rgba(34, 197, 94, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* 主題切換動畫 */
+.theme-toggle-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle-btn.animating {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.theme-fade-overlay {
+  will-change: opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* 主題切換時的平滑過渡 */
+body, 
+.timeline-card,
+.liquid-glass-btn,
+.bg-card-background,
+.text-text-muted,
+.text-text-secondary,
+.text-foreground {
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+/* 防止動畫期間的布局跳動 */
+body {
+  overflow-x: hidden;
+}
+
+/* 圖標包裝器 */
+.theme-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+/* 為動畫添加硬體加速 */
+.theme-toggle-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.1;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.theme-toggle-btn:active::before {
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+}
+
+/* 圖標旋轉動畫 */
+.theme-toggle-btn svg {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle-btn:hover svg {
+  transform: rotate(15deg);
+}
+
+.theme-toggle-btn:active svg {
+  transform: rotate(-15deg) scale(0.9);
+}
+
+.theme-toggle-btn.animating svg {
+  animation: iconFade 0.45s ease-in-out;
+}
+
+@keyframes iconFade {
+  0% {
+    transform: scale(1);
+    opacity: 1;
   }
-  
-  .liquid-glass-btn.primary {
-    background: linear-gradient(135deg, 
-      rgba(34, 197, 94, 0.3) 0%, 
-      rgba(34, 197, 94, 0.12) 50%, 
-      rgba(34, 197, 94, 0.22) 100%);
-    border: 1px solid rgba(34, 197, 94, 0.4);
+  50% {
+    transform: scale(0.8);
+    opacity: 0.6;
   }
-  
-  .liquid-glass-btn:hover {
-    background: linear-gradient(135deg, 
-      rgba(255, 255, 255, 0.18) 0%, 
-      rgba(255, 255, 255, 0.06) 50%, 
-      rgba(255, 255, 255, 0.12) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-  }
-  
-  .liquid-glass-btn.primary:hover {
-    background: linear-gradient(135deg, 
-      rgba(34, 197, 94, 0.4) 0%, 
-      rgba(34, 197, 94, 0.18) 50%, 
-      rgba(34, 197, 94, 0.3) 100%);
-    border: 1px solid rgba(34, 197, 94, 0.5);
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 
@@ -692,6 +873,42 @@ body {
   .liquid-glass-btn:hover,
   .liquid-glass-btn:active {
     transform: none !important;
+  }
+  
+  .theme-toggle-btn svg {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .theme-toggle-btn:hover svg,
+  .theme-toggle-btn:active svg {
+    transform: none !important;
+  }
+  
+  .theme-toggle-btn.animating svg {
+    animation: none !important;
+  }
+  
+  .theme-fade-overlay {
+    transition: none !important;
+  }
+  
+  body, 
+  .timeline-card,
+  .liquid-glass-btn,
+  .bg-card-background,
+  .text-text-muted,
+  .text-text-secondary,
+  .text-foreground {
+    transition: none !important;
+  }
+  
+  /* 禁用所有動畫關鍵幀 */
+  @keyframes iconFade {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 }
 

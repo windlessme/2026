@@ -105,11 +105,11 @@ export default function RecentEvents() {
     <div className="flex justify-center animate-fade-in-up animation-delay-1200 px-4">
       <div className="timeline-card rounded-lg p-4 md:p-6 space-y-4 w-full max-w-4xl">
         <div className="text-center space-y-2">
-          <h3 className="text-lg md:text-xl font-bold text-white flex items-center justify-center gap-2">
+          <h3 className="text-lg md:text-xl font-bold text-foreground flex items-center justify-center gap-2">
             <Star className="w-5 h-5" />
             最近活動
           </h3>
-          <p className="text-sm text-gray-400">掌握最新 SITCON 活動資訊</p>
+          <p className="text-sm text-text-secondary">掌握最新 SITCON 活動資訊</p>
         </div>
 
         <div className="space-y-3">
@@ -118,13 +118,13 @@ export default function RecentEvents() {
             return (
               <div
                 key={event.id}
-                className={`bg-zinc-800/50 backdrop-blur-sm rounded-lg p-4 border border-zinc-700/50 hover:border-zinc-600/50 transition-all duration-300 ${getBorderStyle(status)}`}
+                className={`bg-card-background backdrop-blur-sm rounded-lg p-4 border border-card-border hover:border-card-border transition-all duration-300 ${getBorderStyle(status)}`}
               >
                 <div className="space-y-3">
                   {/* Title and Status Badge */}
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1">
-                      <h4 className="font-semibold text-white text-sm md:text-base leading-tight text-left">
+                      <h4 className="font-semibold text-foreground text-sm md:text-base leading-tight text-left">
                         {event.title}
                       </h4>
                     </div>
@@ -137,12 +137,12 @@ export default function RecentEvents() {
 
                   {/* Description */}
                   <div className="text-left">
-                    <p className="text-gray-300 text-xs md:text-sm leading-relaxed">{event.description}</p>
+                    <p className="text-text-muted text-xs md:text-sm leading-relaxed">{event.description}</p>
                   </div>
 
                   {/* Date, Time, Location - Mobile Optimized */}
                   <div className="space-y-2 sm:space-y-0 sm:flex sm:flex-wrap sm:gap-4">
-                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                    <div className="flex items-center gap-2 text-xs text-text-secondary">
                       <Calendar className="w-3 h-3 flex-shrink-0" />
                       <span>
                         {(() => {
@@ -154,11 +154,11 @@ export default function RecentEvents() {
                         })()}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                    <div className="flex items-center gap-2 text-xs text-text-secondary">
                       <Clock className="w-3 h-3 flex-shrink-0" />
                       <span>{event.time}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                    <div className="flex items-center gap-2 text-xs text-text-secondary">
                       <MapPin className="w-3 h-3 flex-shrink-0" />
                       <span>{event.location}</span>
                     </div>
@@ -192,7 +192,7 @@ export default function RecentEvents() {
             target="_blank"
             rel="noopener noreferrer"
             prefetch={false}
-            className="text-blue-400 hover:text-blue-300 transition-colors text-sm underline decoration-dotted underline-offset-2"
+            className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors text-sm underline decoration-dotted underline-offset-2"
           >
             加入 SITCON 行事曆同步最新活動資訊 →
           </Link>

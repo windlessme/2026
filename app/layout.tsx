@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { Metadata } from "next";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import ThemeToggle from "./components/ThemeToggle";
 
 const inter = Inter({
   subsets: ["latin"], variable: "--font-inter"
@@ -97,7 +99,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   };
 
   return (
-    <html lang="zh-TW" >
+    <html lang="zh-TW" className="dark">
       <GoogleTagManager gtmId="GTM-NPVBCDZ" />
       <head>
         <script
@@ -106,9 +108,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body
-        className={`${inter.variable} antialiased bg-black text-white`}
+        className={`${inter.variable} antialiased bg-background text-foreground transition-colors duration-300`}
       >
-        {children}
+        <ThemeProvider>
+          {/* Theme Toggle Button */}
+          <div className="fixed top-4 right-4 z-50">
+            <ThemeToggle />
+          </div>
+          {children}
+        </ThemeProvider>
       </body>
     </html >
   );

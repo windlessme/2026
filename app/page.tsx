@@ -155,7 +155,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-background text-foreground transition-colors duration-300">
       {/* 第一屏 - SITCON 2026 主要內容 */}
       <div className="min-h-screen flex flex-col items-center justify-center px-4 relative">
         {/* Main Content */}
@@ -167,8 +167,8 @@ export default function Home() {
 
           {/* Subtitle */}
           <div className="space-y-3 md:space-y-4 animate-fade-in-up animation-delay-300">
-            <p className="text-lg sm:text-xl md:text-2xl text-gray-300">學生計算機年會</p>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-base md:text-lg text-gray-400">
+            <p className="text-lg sm:text-xl md:text-2xl text-text-muted">學生計算機年會</p>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-base md:text-lg text-text-secondary">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 md:w-5 md:h-5" />
                 <span>2026 年 3 月 28 日 (六)</span>
@@ -229,7 +229,7 @@ export default function Home() {
             <div className="timeline-card rounded-lg p-4 md:p-6 space-y-4 w-full sm:w-auto sm:min-w-[450px] md:min-w-[575px]">
               {/* 進度條 */}
               <div className="space-y-2">
-                <div className="flex justify-between text-xs md:text-sm text-gray-400">
+                <div className="flex justify-between text-xs md:text-sm text-text-secondary">
                   <span>2025/7/13</span>
                   <span>{timelineData.progressPercentage.toFixed(1)}%</span>
                   <span>2026/3/28</span>
@@ -242,7 +242,7 @@ export default function Home() {
                   />
                 </div>
 
-                <div className="flex justify-between text-xs text-gray-500">
+                <div className="flex justify-between text-xs text-text-secondary">
                   <span>籌備開始</span>
                   <span className="text-center">{timelineData.isEventPassed ? "已完成" : "進行中"}</span>
                   <span>年會舉辦</span>
@@ -266,7 +266,7 @@ export default function Home() {
 
         {/* 向下滑動提示 */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="flex flex-col items-center space-y-2 text-gray-400">
+          <div className="flex flex-col items-center space-y-2 text-text-secondary">
             <span className="text-sm">向下滑動查看最新活動</span>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
@@ -276,7 +276,7 @@ export default function Home() {
       </div>
 
       {/* 第二屏 - 最近活動 */}
-      <div className="min-h-screen py-20 px-4 bg-gradient-to-b from-black via-zinc-900 to-black">
+      <div className="min-h-screen py-20 px-4 bg-gradient-to-b from-background via-background to-background">
         <RecentEvents />
       </div>
 
@@ -289,13 +289,13 @@ export default function Home() {
           onClick={closeModal}
         >
           <div
-            className={`bg-zinc-900 rounded-lg max-w-2xl w-full max-h-[90vh] md:max-h-[80vh] overflow-y-auto ${
+            className={`bg-card-background rounded-lg max-w-2xl w-full max-h-[90vh] md:max-h-[80vh] overflow-y-auto ${
               isClosing ? "modal-content-exit" : "modal-content-enter"
             }`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-4 md:p-6 border-b border-zinc-700 flex justify-between items-center">
-              <h2 className="text-xl md:text-2xl font-bold text-white">關於 SITCON</h2>
+            <div className="p-4 md:p-6 border-b border-card-border flex justify-between items-center">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground">關於 SITCON</h2>
               <button
                 onClick={closeModal}
                 className="liquid-glass-btn icon-only"
@@ -308,14 +308,14 @@ export default function Home() {
 
             <div className="p-4 md:p-6 space-y-5">
               <div>
-                <p className="text-gray-300 leading-relaxed text-sm md:text-base">
+                <p className="text-text-muted leading-relaxed text-sm md:text-base">
                   學生計算機年會（Students' Information Technology Conference）自 2012
                   年發起，以學生為本、由學生自發舉辦，長期投身學生資訊教育與推廣開源精神，希望引領更多學子踏入資訊的殿堂，更冀望所有對資訊有興趣的學生，能夠在年會裏齊聚一堂，彼此激盪、傳承、啟發，達到「學以致用、教學相長」的實際展現。
                 </p>
               </div>
 
               <div>
-                <h3 className="text-base md:text-lg font-semibold text-white mb-3">歷年年會</h3>
+                <h3 className="text-base md:text-lg font-semibold text-foreground mb-3">歷年年會</h3>
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
                   {years.map((item) => (
                     <Link
@@ -334,8 +334,8 @@ export default function Home() {
               </div>
 
               <div>
-                <h3 className="text-base md:text-lg font-semibold text-white mb-3">聯絡我們</h3>
-                <div className="bg-zinc-800 rounded-md p-3">
+                <h3 className="text-base md:text-lg font-semibold text-foreground mb-3">聯絡我們</h3>
+                <div className="bg-card-background rounded-md p-3">
                   <Link
                     href="mailto:contact@sitcon.org"
                     prefetch={false}
@@ -347,7 +347,7 @@ export default function Home() {
               </div>
 
               <div>
-                <h3 className="text-base md:text-lg font-semibold text-white mb-3">社群媒體</h3>
+                <h3 className="text-base md:text-lg font-semibold text-foreground mb-3">社群媒體</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {socialLinks.map((social) => (
                     <Link
@@ -367,15 +367,15 @@ export default function Home() {
               </div>
               
               <div>
-                <h3 className="text-base md:text-lg font-semibold text-white mb-3">年會時光機</h3>
-                <div className="bg-zinc-800 rounded-lg p-4 space-y-4">
-                  <p className="text-sm text-gray-400 text-center">想回顧哪一年的 SITCON？來抽抽看吧！</p>
+                <h3 className="text-base md:text-lg font-semibold text-foreground mb-3">年會時光機</h3>
+                <div className="bg-card-background rounded-lg p-4 space-y-4">
+                  <p className="text-sm text-text-muted text-center">想回顧哪一年的 SITCON？來抽抽看吧！</p>
 
                   <div className="flex items-center justify-center">
-                    <div className="bg-zinc-700 rounded-lg px-6 py-4 border-2 border-zinc-600">
+                    <div className="bg-card-background rounded-lg px-6 py-4 border-2 border-card-border">
                       <div
                         className={`text-3xl font-bold text-center w-[80px] font-mono transition-all slot-machine-display ${
-                          isSlotMachineSpinning ? "text-yellow-400 blur-sm" : "text-white"
+                          isSlotMachineSpinning ? "text-yellow-400 blur-sm" : "text-foreground"
                         }`}
                       >
                         {slotMachineDisplay}
