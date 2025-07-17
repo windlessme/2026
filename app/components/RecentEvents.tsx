@@ -90,6 +90,17 @@ export default function RecentEvents() {
     },
     {
       id: 2,
+      title: "SITCON 2026 設計組傳承研討會",
+      date: "2025-07-18",
+      time: "21:00",
+      location: "線上會議",
+      description: "想成為 SITCON 2026 的設計組組長嗎？歡迎參加說明會了解更多！",
+      type: "meeting",
+      link: "https://meet.google.com/bvh-xejx-bfo",
+      duration: 2, // 1.5 小時
+    },
+    {
+      id: 3,
       title: "SITCON 2026 議程組傳承研討會",
       date: "2025-07-16",
       time: "22:30",
