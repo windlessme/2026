@@ -2,8 +2,85 @@
 
 import Link from "next/link";
 import { Calendar, MapPin, Clock, Star, ExternalLink } from "lucide-react";
+import { useEffect, useState } from "react";
 // @ts-ignore
-const recentEventsData = require("./recentEvents.json");
+// const recentEventsData = require("./recentEvents.json");
+
+const ICS_URL = "https://corsproxy.io/?https://calendar.google.com/calendar/ical/ull8p8ceof4sdba5na86s016p8%40group.calendar.google.com/public/basic.ics";
+const RANGE_START = new Date("2025-07-13");
+const RANGE_END = new Date("2026-03-30");
+
+function parseICS(icsText: string) {
+  // 解析 .ics，支援多行欄位與欄位前後空白
+  const events: any[] = [];
+  // 將多行欄位合併（RFC 5545: 以空白或 tab 開頭的行為上一行延續）
+  const normalized = icsText.replace(/\r?\n[ \t]/g, "");
+  const veventBlocks = normalized.split("BEGIN:VEVENT").slice(1);
+  for (const block of veventBlocks) {
+    // 取欄位值
+    const get = (key: string) => {
+      const match = block.match(new RegExp(`${key}:([^\n\r]+)`, "i"));
+      return match ? match[1].trim() : "";
+    };
+    const dtstart = get("DTSTART");
+    const dtend = get("DTEND");
+    let summary = get("SUMMARY");
+    let description = get("DESCRIPTION");
+    if (description) {
+      // 先將 \n 轉為實體換行
+      description = description.replace(/\\n/g, "\n");
+      // Google Meet 特例：只保留第一行
+      const meetMatch = description.match(/^使用 Google Meet 加入：.*$/m);
+      if (meetMatch) {
+        description = meetMatch[0];
+      }
+      description = description.replace(/\n/g, "<br>");
+    }
+    let location = get("LOCATION");
+    let url = get("URL");
+    let conference = get("X-GOOGLE-CONFERENCE");
+    // SUMMARY 前後空白去除
+    summary = summary.trim();
+    // DESCRIPTION 取第一個 http(s) 連結作為 link
+    let link = url || conference;
+    if (!link && description) {
+      const urlMatch = description.match(/https?:\/\/[^\s\\]+/);
+      if (urlMatch) link = urlMatch[0];
+    }
+    if (conference) {
+      location = "Google Meet 線上會議";
+    }
+    // 解析日期與時間（支援 UTC 格式，並轉為台灣時區）
+    let eventDateObj: Date | null = null;
+    if (/^\d{8}T\d{6}Z$/.test(dtstart)) {
+      // e.g. 20250716T143000Z
+      eventDateObj = new Date(dtstart.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/, "$1-$2-$3T$4:$5:$6Z"));
+      // 轉為台灣時區
+      
+    } else if (/^\d{8}$/.test(dtstart)) {
+      // e.g. 20250716（整天）
+      eventDateObj = new Date(dtstart.replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3T00:00:00+08:00"));
+    }
+    if (!eventDateObj) continue;
+    if (eventDateObj < RANGE_START || eventDateObj > RANGE_END) continue;
+    // 產生 YYYY-MM-DD 與 HH:mm
+    const pad = (n: number) => n.toString().padStart(2, "0");
+    const dateStr = `${eventDateObj.getFullYear()}-${pad(eventDateObj.getMonth() + 1)}-${pad(eventDateObj.getDate())}`;
+    const timeStr = `${pad(eventDateObj.getHours())}:${pad(eventDateObj.getMinutes())}`;
+    events.push({
+      id: dtstart + summary,
+      title: summary,
+      date: dateStr,
+      time: timeStr,
+      location,
+      description,
+      type: "meeting",
+      link: link || "#",
+      duration: 2,
+    });
+  }
+  return events;
+}
 
 interface Event {
   id: number;
@@ -20,6 +97,31 @@ interface Event {
 type EventStatus = "upcoming" | "ongoing" | "completed";
 
 export default function RecentEvents() {
+  const [recentEvents, setRecentEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setLoading(true);
+    fetch(ICS_URL)
+      .then(r => r.text())
+      .then(text => {
+        const events = parseICS(text);
+        if (events.length > 0) {
+          setRecentEvents(events.sort((a, b) => {
+            const dateA = new Date(`${a.date} ${a.time}`);
+            const dateB = new Date(`${b.date} ${b.time}`);
+            return dateB.getTime() - dateA.getTime();
+          }));
+        } else {
+          setRecentEvents([]);
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        setRecentEvents([]);
+        setLoading(false);
+      });
+  }, []);
+
   // 計算活動狀態
   const calculateEventStatus = (date: string, time: string, duration: number = 3): EventStatus => {
     const now = new Date();
@@ -77,13 +179,6 @@ export default function RecentEvents() {
     }
   };
 
-  // 最近活動資料
-  const recentEvents: Event[] = [...recentEventsData].sort((a, b) => {
-    const dateA = new Date(`${a.date} ${a.time}`);
-    const dateB = new Date(`${b.date} ${b.time}`);
-    return dateB.getTime() - dateA.getTime();
-  });
-
   return (
     <div className="flex justify-center animate-fade-in-up animation-delay-1200 px-4">
       <div className="timeline-card rounded-lg p-4 md:p-6 space-y-4 w-full max-w-4xl">
@@ -120,7 +215,7 @@ export default function RecentEvents() {
 
                   {/* Description */}
                   <div className="text-left">
-                    <p className="text-text-muted text-xs md:text-sm leading-relaxed">{event.description}</p>
+                    <p className="text-text-muted text-xs md:text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: event.description }} />
                   </div>
 
                   {/* Date, Time, Location - Mobile Optimized */}
@@ -167,6 +262,11 @@ export default function RecentEvents() {
               </div>
             );
           })}
+          {loading && (
+            <div className="flex justify-center py-6">
+              <span className="animate-spin rounded-full border-4 border-gray-300 border-t-blue-500 h-8 w-8 inline-block" />
+            </div>
+          )}
         </div>
 
         <div className="text-center pt-2">
