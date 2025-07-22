@@ -190,17 +190,7 @@ export default function Home() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center animate-fade-in-up animation-delay-600 px-4">
-            <Link
-              href="https://forms.gle/rr93tuxJ9m9uStDf9"
-              target="_blank"
-              rel="noopener noreferrer"
-              prefetch={false}
-              className="liquid-glass-btn primary large"
-              aria-label="工人預約跳坑 - 開啟新視窗"
-            >
-              <Users />
-              工人預約跳坑
-            </Link>
+            
 
             <Link
               href="https://groups.google.com/g/sitcon-general/"
@@ -212,6 +202,18 @@ export default function Home() {
             >
               <Mail />
               郵件論壇
+            </Link>
+
+            <Link
+              href="https://hackmd.io/@SITCON/2026-recruit"
+              target="_blank"
+              rel="noopener noreferrer"
+              prefetch={false}
+              className="liquid-glass-btn primary large fire-effect fire-animate hot-recruit-btn"
+              aria-label="工人招募資訊 - 開啟新視窗"
+            >
+              <Users />
+              工人招募資訊
             </Link>
 
             <button

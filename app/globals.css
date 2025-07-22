@@ -959,3 +959,78 @@ body,
   text-decoration: none;
   color: inherit;
 }
+
+/* ==================== FIRE EFFECT FOR HOT BUTTON ==================== */
+.fire-effect {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 8px 2px #ff9800, 0 0 16px 4px #ff5722;
+  animation: fireGlow 2s alternate infinite cubic-bezier(0.4,0,0.2,1);
+}
+
+@keyframes fireGlow {
+  0% {
+    box-shadow: 0 0 4px 1px #ff9800, 0 0 8px 2px #ff5722;
+    filter: brightness(1.05) saturate(1.1);
+  }
+  50% {
+    box-shadow: 0 0 12px 4px #ffb300, 0 0 24px 8px #ff7043;
+    filter: brightness(1.12) saturate(1.2);
+  }
+  100% {
+    box-shadow: 0 0 8px 2px #ff9800, 0 0 16px 4px #ff5722;
+    filter: brightness(1.05) saturate(1.1);
+  }
+}
+
+.fire-animate::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 12px;
+  background: radial-gradient(ellipse at center, rgba(255,152,0,0.25) 0%, rgba(255,87,34,0.10) 60%, transparent 100%);
+  filter: blur(6px);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 2;
+  animation: fireFlicker 1.2s infinite alternate;
+}
+
+@keyframes fireFlicker {
+  0% { opacity: 0.4; transform: translateX(-50%) scaleY(1); }
+  50% { opacity: 0.6; transform: translateX(-50%) scaleY(1.08); }
+  100% { opacity: 0.4; transform: translateX(-50%) scaleY(1); }
+}
+
+.fire-text {
+  color: inherit !important;
+  text-shadow: 0 0 2px #ff9800, 0 0 4px #ff5722;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  animation: fireTextPulse 2s infinite alternate;
+}
+
+@keyframes fireTextPulse {
+  0% { text-shadow: 0 0 2px #ff9800, 0 0 4px #ff5722; }
+  50% { text-shadow: 0 0 4px #ffb300, 0 0 8px #ff7043; }
+  100% { text-shadow: 0 0 2px #ff9800, 0 0 4px #ff5722; }
+}
+
+.hot-recruit-btn {
+  background: linear-gradient(135deg, rgba(255, 94, 0, 0.35) 0%, rgba(255, 94, 0, 0.18) 50%, rgba(255, 87, 34, 0.28) 100%) !important;
+  border: 1px solid rgba(255, 94, 0, 0.5) !important;
+  box-shadow: 0 8px 32px rgba(255, 94, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+.hot-recruit-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 94, 0, 0.45) 0%, rgba(255, 94, 0, 0.25) 50%, rgba(255, 87, 34, 0.4) 100%) !important;
+  border: 1px solid rgba(255, 94, 0, 0.6) !important;
+  box-shadow: 0 12px 40px rgba(255, 94, 0, 0.3), 0 4px 12px rgba(255, 94, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+.hot-recruit-btn:active {
+  background: linear-gradient(135deg, rgba(255, 94, 0, 0.3) 0%, rgba(255, 94, 0, 0.12) 50%, rgba(255, 87, 34, 0.22) 100%) !important;
+  border: 1px solid rgba(255, 94, 0, 0.4) !important;
+  box-shadow: 0 4px 16px rgba(255, 94, 0, 0.2), 0 1px 4px rgba(255, 94, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}

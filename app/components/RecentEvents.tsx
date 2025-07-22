@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { Calendar, MapPin, Clock, Star, ExternalLink } from "lucide-react";
+// @ts-ignore
+const recentEventsData = require("./recentEvents.json");
 
 interface Event {
   id: number;
@@ -76,41 +78,11 @@ export default function RecentEvents() {
   };
 
   // 最近活動資料
-  const recentEvents: Event[] = [
-    {
-      id: 1,
-      title: "SITCON 2026 BoF 定期聚",
-      date: "2025-08-09",
-      time: "18:00",
-      location: "臺灣師範大學",
-      description: "想更了解 SITCON 或參與 2026 的籌備嗎？歡迎來聊聊！",
-      type: "meeting",
-      link: "https://forms.gle/rr93tuxJ9m9uStDf9",
-      duration: 2, // 2 小時
-    },
-    {
-      id: 2,
-      title: "SITCON 2026 設計組傳承研討會",
-      date: "2025-07-18",
-      time: "21:00",
-      location: "線上會議",
-      description: "想成為 SITCON 2026 的設計組組長嗎？歡迎參加說明會了解更多！",
-      type: "meeting",
-      link: "https://meet.google.com/bvh-xejx-bfo",
-      duration: 2, // 1.5 小時
-    },
-    {
-      id: 3,
-      title: "SITCON 2026 議程組傳承研討會",
-      date: "2025-07-16",
-      time: "22:30",
-      location: "線上會議",
-      description: "想成為 SITCON 2026 的議程組組長嗎？歡迎參加說明會了解更多！",
-      type: "meeting",
-      link: "https://meet.google.com/mqq-czuz-tap",
-      duration: 2, // 1.5 小時
-    },
-  ];
+  const recentEvents: Event[] = [...recentEventsData].sort((a, b) => {
+    const dateA = new Date(`${a.date} ${a.time}`);
+    const dateB = new Date(`${b.date} ${b.time}`);
+    return dateB.getTime() - dateA.getTime();
+  });
 
   return (
     <div className="flex justify-center animate-fade-in-up animation-delay-1200 px-4">
