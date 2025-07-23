@@ -243,7 +243,7 @@ export default function RecentEvents() {
                   </div>
 
                   {/* Action Button */}
-                  {event.link && event.link !== "#" && (
+                  {event.link && event.link !== "#" && status !== "completed" && (
                     <div className="flex justify-end pt-1">
                       <Link
                         href={event.link}
