@@ -308,7 +308,7 @@ export default function StatsPage() {
           
           <div className="space-y-4">
             <div className="text-center">
-              <div className="text-2xl lg:text-3xl font-bold text-green-400 mb-1">
+              <div className="text-4xl lg:text-6xl font-bold text-green-400 mb-2">
                 {stats.sponsorship.current.toLocaleString()} {stats.sponsorship.currency}
               </div>
               <div className="text-text-muted text-sm">
