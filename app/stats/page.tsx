@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Calendar, DollarSign, GitCommit, AlertCircle, RefreshCw } from "lucide-react";
+import { Calendar, DollarSign, GitCommit, AlertCircle, RefreshCw, Eye } from "lucide-react";
 import Link from "next/link";
 
 interface StatsConfig {
@@ -14,6 +14,7 @@ interface StatsConfig {
   project_info: {
     github_repo: string;
     gitlab_project_id: string;
+    hackmd_recruit_url: string;
     start_date: string;
     event_date: string;
   };
@@ -43,6 +44,11 @@ interface StatsData {
     isLoading: boolean;
     error: string | null;
   };
+  hackmd: {
+    views: number;
+    isLoading: boolean;
+    error: string | null;
+  };
 }
 
 export default function StatsPage() {
@@ -68,6 +74,11 @@ export default function StatsPage() {
     },
     gitlab: {
       issues: 0,
+      isLoading: true,
+      error: null,
+    },
+    hackmd: {
+      views: 0,
       isLoading: true,
       error: null,
     },
@@ -219,6 +230,60 @@ export default function StatsPage() {
     fetchGitLabIssues();
   }, [config]);
 
+  // 獲取 HackMD 瀏覽次數
+  useEffect(() => {
+    const fetchHackMDViews = async () => {
+      try {
+        setStats(prev => ({ ...prev, hackmd: { ...prev.hackmd, isLoading: true, error: null } }));
+        
+        // 嘗試使用 CORS 代理或直接抓取（可能會因為 CORS 限制失敗）
+        // 使用 allorigins.win 作為 CORS 代理
+        const proxyUrl = 'https://api.allorigins.win/get?url=';
+        const targetUrl = encodeURIComponent('https://hackmd.io/@SITCON/2026-recruit');
+        
+        const response = await fetch(`${proxyUrl}${targetUrl}`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const html = data.contents;
+        
+        // 使用正則表達式解析瀏覽次數，從 JavaScript 變數中提取
+        // HackMD 將瀏覽次數存在 publishProps 的 viewCount 中
+        const viewCountMatch = html.match(/"viewCount":(\d+)/);
+        
+        let views = 0;
+        if (viewCountMatch && viewCountMatch[1]) {
+          views = parseInt(viewCountMatch[1], 10);
+        }
+
+        setStats(prev => ({
+          ...prev,
+          hackmd: {
+            views,
+            isLoading: false,
+            error: null,
+          }
+        }));
+      } catch (error) {
+        console.error('Error fetching HackMD views:', error);
+        // 如果抓取失敗，顯示提示信息
+        setStats(prev => ({
+          ...prev,
+          hackmd: {
+            views: 0,
+            isLoading: false,
+            error: 'CORS 限制，無法自動抓取數據',
+          }
+        }));
+      }
+    };
+
+    fetchHackMDViews();
+  }, []);
+
   const refreshData = () => {
     window.location.reload();
   };
@@ -258,7 +323,7 @@ export default function StatsPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
         {/* 倒數天數 */}
         <div className="stats-card">
           <div className="flex items-center gap-3 mb-6">
@@ -414,6 +479,47 @@ export default function StatsPage() {
               className="text-orange-400 hover:text-orange-300 text-sm underline"
             >
               查看議題
+            </Link>
+          </div>
+        </div>
+
+        {/* HackMD 瀏覽次數 */}
+        <div className="stats-card">
+          <div className="flex items-center gap-3 mb-6">
+            <Eye className="w-6 h-6 text-cyan-400" />
+            <h2 className="text-xl font-semibold">招募頁面瀏覽</h2>
+          </div>
+          
+          <div className="text-center">
+            {stats.hackmd.isLoading ? (
+              <div className="flex items-center justify-center gap-2 text-text-muted">
+                <RefreshCw className="w-4 h-4 animate-spin" />
+                載入中...
+              </div>
+            ) : stats.hackmd.error ? (
+              <div className="text-red-400 space-y-2">
+                <AlertCircle className="w-8 h-8 mx-auto" />
+                <div className="text-sm">載入失敗</div>
+                <div className="text-xs text-text-muted">{stats.hackmd.error}</div>
+              </div>
+            ) : (
+              <div>
+                <div className="text-4xl lg:text-6xl font-bold text-cyan-400 mb-2">
+                  {stats.hackmd.views.toLocaleString()}
+                </div>
+                <div className="text-text-muted">次瀏覽</div>
+              </div>
+            )}
+          </div>
+          
+          <div className="mt-4 text-center">
+            <Link
+              href="https://hackmd.io/@SITCON/2026-recruit"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cyan-400 hover:text-cyan-300 text-sm underline"
+            >
+              查看招募頁面
             </Link>
           </div>
         </div>
