@@ -262,9 +262,8 @@ export default function StatsPage() {
       try {
         setStats(prev => ({ ...prev, hackmd: { ...prev.hackmd, isLoading: true, error: null } }));
         
-        // 嘗試使用 CORS 代理或直接抓取（可能會因為 CORS 限制失敗）
-        // 使用 allorigins.win 作為 CORS 代理
-        const proxyUrl = 'https://api.allorigins.win/get?url=';
+        // 嘗試使用 CORS 代理抓取 HackMD 頁面
+        const proxyUrl = 'https://corsproxy.io/?url=';
         const targetUrl = encodeURIComponent('https://hackmd.io/@SITCON/2026-recruit');
         
         const response = await fetch(`${proxyUrl}${targetUrl}`);
@@ -273,16 +272,24 @@ export default function StatsPage() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data = await response.json();
-        const html = data.contents;
+        // 檢查響應內容類型，直接當作 HTML 處理
+        const html = await response.text();
         
-        // 使用正則表達式解析瀏覽次數，從 JavaScript 變數中提取
-        // HackMD 將瀏覽次數存在 publishProps 的 viewCount 中
-        const viewCountMatch = html.match(/"viewCount":(\d+)/);
+        // 使用正則表達式解析瀏覽次數，從 window.publishProps 的 JSON 中提取
+        // HackMD 將瀏覽次數存在 window.publishProps 的 viewCount 中
+        const publishPropsMatch = html.match(/window\.publishProps\s*=\s*JSON\.parse\(`([^`]+)`\)/);
         
         let views = 0;
-        if (viewCountMatch && viewCountMatch[1]) {
-          views = parseInt(viewCountMatch[1], 10);
+        if (publishPropsMatch && publishPropsMatch[1]) {
+          try {
+            // 解析 JSON 字符串中的 viewCount
+            const viewCountMatch = publishPropsMatch[1].match(/"viewCount":(\d+)/);
+            if (viewCountMatch && viewCountMatch[1]) {
+              views = parseInt(viewCountMatch[1], 10);
+            }
+          } catch (error) {
+            console.error('Error parsing publishProps JSON:', error);
+          }
         }
 
         setStats(prev => ({
