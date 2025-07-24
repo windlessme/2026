@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Calendar, MapPin, Users, Mail, Info, X, Dices, ExternalLink } from "lucide-react";
+import { Calendar, MapPin, Users, Mail, Info, X, Dices, ExternalLink, Handshake } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
@@ -190,7 +190,17 @@ export default function Home() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center animate-fade-in-up animation-delay-600 px-4">
-            
+            <Link
+              href="https://i.sitcon.org/2026cfs-form/"
+              target="_blank"
+              rel="noopener noreferrer"
+              prefetch={false}
+              className="liquid-glass-btn primary large"
+              aria-label="索取贊助徵求書 - 開啟新視窗"
+            >
+              <Handshake />
+              索取贊助徵求書
+            </Link>
 
             <Link
               href="https://groups.google.com/g/sitcon-general/"

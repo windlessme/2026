@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Calendar, DollarSign, GitCommit, AlertCircle, RefreshCw, Eye } from "lucide-react";
+import { Calendar, DollarSign, GitCommit, AlertCircle, RefreshCw, Eye, FileText } from "lucide-react";
 import Link from "next/link";
 
 interface StatsConfig {
@@ -9,6 +9,11 @@ interface StatsConfig {
     current_amount: number;
     target_amount: number;
     currency: string;
+    last_updated: string;
+  };
+  cfp: {
+    current_submissions: number;
+    target_submissions: number;
     last_updated: string;
   };
   project_info: {
@@ -32,6 +37,12 @@ interface StatsData {
     target: number;
     percentage: number;
     currency: string;
+    lastUpdated: string;
+  };
+  cfp: {
+    current: number;
+    target: number;
+    percentage: number;
     lastUpdated: string;
   };
   github: {
@@ -67,6 +78,12 @@ export default function StatsPage() {
       currency: "TWD",
       lastUpdated: "",
     },
+    cfp: {
+      current: 0,
+      target: 0,
+      percentage: 0,
+      lastUpdated: "",
+    },
     github: {
       commits: 0,
       isLoading: true,
@@ -92,6 +109,9 @@ export default function StatsPage() {
         setConfig(configData);
         // 更新贊助資料
         const sponsorshipPercentage = (configData.sponsorship.current_amount / configData.sponsorship.target_amount) * 100;
+        // 更新 CFP 資料
+        const cfpPercentage = (configData.cfp.current_submissions / configData.cfp.target_submissions) * 100;
+        
         setStats(prev => ({
           ...prev,
           sponsorship: {
@@ -100,6 +120,12 @@ export default function StatsPage() {
             percentage: sponsorshipPercentage,
             currency: configData.sponsorship.currency,
             lastUpdated: configData.sponsorship.last_updated,
+          },
+          cfp: {
+            current: configData.cfp.current_submissions,
+            target: configData.cfp.target_submissions,
+            percentage: cfpPercentage,
+            lastUpdated: configData.cfp.last_updated,
           }
         }));
       })
@@ -323,7 +349,7 @@ export default function StatsPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
         {/* 倒數天數 */}
         <div className="stats-card">
           <div className="flex items-center gap-3 mb-6">
@@ -367,13 +393,13 @@ export default function StatsPage() {
         {/* 贊助金額 */}
         <div className="stats-card">
           <div className="flex items-center gap-3 mb-6">
-            <DollarSign className="w-6 h-6 text-green-400" />
+            <DollarSign className="w-6 h-6 text-yellow-400" />
             <h2 className="text-xl font-semibold">贊助進度</h2>
           </div>
           
           <div className="space-y-4">
             <div className="text-center">
-              <div className="text-4xl lg:text-6xl font-bold text-green-400 mb-2">
+              <div className="text-4xl lg:text-6xl font-bold text-yellow-400 mb-2">
                 {stats.sponsorship.current.toLocaleString()} {stats.sponsorship.currency}
               </div>
               <div className="text-text-muted text-sm">
@@ -384,12 +410,12 @@ export default function StatsPage() {
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-text-secondary">達成率</span>
-                <span className="text-green-400 font-semibold">{stats.sponsorship.percentage.toFixed(1)}%</span>
+                <span className="text-yellow-400 font-semibold">{stats.sponsorship.percentage.toFixed(1)}%</span>
               </div>
               
               <div className="w-full bg-zinc-800 rounded-full h-3">
                 <div
-                  className="h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full transition-all duration-1000 ease-out"
+                  className="h-full bg-gradient-to-r from-yellow-500 to-yellow-400 rounded-full transition-all duration-1000 ease-out"
                   style={{ width: `${Math.min(100, stats.sponsorship.percentage)}%` }}
                 />
               </div>
@@ -401,10 +427,47 @@ export default function StatsPage() {
           </div>
         </div>
 
+        {/* CFP 稿件統計 */}
+        <div className="stats-card">
+          <div className="flex items-center gap-3 mb-6">
+            <FileText className="w-6 h-6 text-purple-400" />
+            <h2 className="text-xl font-semibold">稿件徵收</h2>
+          </div>
+          
+          <div className="space-y-4">
+            <div className="text-center">
+              <div className="text-4xl lg:text-6xl font-bold text-purple-400 mb-2">
+                {stats.cfp.current.toLocaleString()} 篇
+              </div>
+              <div className="text-text-muted text-sm">
+                目標: {stats.cfp.target.toLocaleString()} 篇
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-text-secondary">完成率</span>
+                <span className="text-purple-400 font-semibold">{stats.cfp.percentage.toFixed(1)}%</span>
+              </div>
+              
+              <div className="w-full bg-zinc-800 rounded-full h-3">
+                <div
+                  className="h-full bg-gradient-to-r from-purple-500 to-purple-400 rounded-full transition-all duration-1000 ease-out"
+                  style={{ width: `${Math.min(100, stats.cfp.percentage)}%` }}
+                />
+              </div>
+              
+              <div className="text-xs text-text-secondary text-right">
+                最後更新: {stats.cfp.lastUpdated}
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* GitHub Commits */}
         <div className="stats-card">
           <div className="flex items-center gap-3 mb-6">
-            <GitCommit className="w-6 h-6 text-purple-400" />
+            <GitCommit className="w-6 h-6 text-green-400" />
             <h2 className="text-xl font-semibold">官網 GitHub Commits</h2>
           </div>
           
@@ -422,7 +485,7 @@ export default function StatsPage() {
               </div>
             ) : (
               <div>
-                <div className="text-4xl lg:text-6xl font-bold text-purple-400 mb-2">
+                <div className="text-4xl lg:text-6xl font-bold text-green-400 mb-2">
                   {stats.github.commits}
                 </div>
                 <div className="text-text-muted">次</div>
@@ -435,12 +498,14 @@ export default function StatsPage() {
               href={`https://github.com/${config.project_info.github_repo}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-purple-400 hover:text-purple-300 text-sm underline"
+              className="text-green-400 hover:text-green-300 text-sm underline"
             >
               查看專案
             </Link>
           </div>
         </div>
+
+        
 
         {/* GitLab Issues */}
         <div className="stats-card">
@@ -482,6 +547,8 @@ export default function StatsPage() {
             </Link>
           </div>
         </div>
+
+        
 
         {/* HackMD 瀏覽次數 */}
         <div className="stats-card">
@@ -527,7 +594,8 @@ export default function StatsPage() {
 
       {/* Footer Info */}
       <div className="mt-12 text-center text-text-muted text-sm">
-        <p>數據僅供參考，基本上除了贊助進度外應該是實時更新才對^^ 但不排除被 429</p>
+        <p>數據僅供參考，基本上除了贊助進度和稿件統計外應該是實時更新才對^^ 但不排除被 429</p>
+        <p className="mt-1">手動更新項目的配置文件位置: <code className="bg-zinc-800 px-2 py-1 rounded text-xs">public/data/stats-config.json</code></p>
       </div>
     </div>
   );
