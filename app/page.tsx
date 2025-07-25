@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Calendar, MapPin, Users, Mail, Info, X, Dices, ExternalLink, Handshake } from "lucide-react";
+import { Calendar, MapPin, Users, Mail, Info, X, Handshake } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
@@ -13,6 +13,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { useState, useEffect } from "react";
 import RecentEvents from "./components/RecentEvents";
+import TimeMachine from "./components/TimeMachine";
 
 export default function Home() {
   // 在頁面載入時輸出 SITCON 超大圖標到主控台
@@ -52,9 +53,6 @@ export default function Home() {
   
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const [isSlotMachineSpinning, setIsSlotMachineSpinning] = useState(false);
-  const [selectedYear, setSelectedYear] = useState("2025");
-  const [slotMachineDisplay, setSlotMachineDisplay] = useState("2025");
   const [currentTime, setCurrentTime] = useState(new Date());
 
   // 更新時間
@@ -119,40 +117,7 @@ export default function Home() {
     { name: "Telegram", url: "https://sitcon.org/tg", icon: faTelegram },
   ];
 
-  const spinSlotMachine = () => {
-    if (isSlotMachineSpinning) return;
 
-    setIsSlotMachineSpinning(true);
-
-    const spinDuration = 2000; // 2秒
-    // 根據設備調整動畫頻率，手機使用較慢的頻率
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-    const spinInterval = isMobile ? 100 : 50; // 手機150ms，桌面100ms
-    const totalSpins = spinDuration / spinInterval;
-    let currentSpin = 0;
-
-    const spinEffect = setInterval(() => {
-      const randomYear = years[Math.floor(Math.random() * years.length)].year;
-      setSlotMachineDisplay(randomYear);
-      currentSpin++;
-
-      if (currentSpin >= totalSpins) {
-        clearInterval(spinEffect);
-        // 最終結果
-        const finalYear = years[Math.floor(Math.random() * years.length)].year;
-        setSelectedYear(finalYear);
-        setSlotMachineDisplay(finalYear);
-        setIsSlotMachineSpinning(false);
-      }
-    }, spinInterval);
-  };
-
-  const goToSelectedYear = () => {
-    const yearData = years.find((y) => y.year === selectedYear);
-    if (yearData) {
-      window.open(yearData.url, "_blank");
-    }
-  };
 
   return (
     <div className="bg-background text-foreground transition-colors duration-300">
@@ -378,45 +343,7 @@ export default function Home() {
                 </div>
               </div>
               
-              <div>
-                <h3 className="text-base md:text-lg font-semibold text-foreground mb-3">年會時光機</h3>
-                <div className="bg-card-background rounded-lg p-4 space-y-4">
-                  <p className="text-sm text-text-muted text-center">想回顧哪一年的 SITCON？來抽抽看吧！</p>
-
-                  <div className="flex items-center justify-center">
-                    <div className="bg-card-background rounded-lg px-6 py-4 border-2 border-card-border">
-                      <div
-                        className={`text-3xl font-bold text-center w-[80px] font-mono transition-all slot-machine-display ${
-                          isSlotMachineSpinning ? "text-yellow-400 blur-sm" : "text-foreground"
-                        }`}
-                      >
-                        {slotMachineDisplay}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <button
-                      onClick={spinSlotMachine}
-                      disabled={isSlotMachineSpinning}
-                      className={`liquid-glass-btn flex-1 ${isSlotMachineSpinning ? "" : "primary"}`}
-                      aria-label={isSlotMachineSpinning ? "正在轉動中" : "隨機抽取年份"}
-                    >
-                      <Dices />
-                      {isSlotMachineSpinning ? "轉動中..." : "隨機抽取"}
-                    </button>
-
-                    <button
-                      onClick={goToSelectedYear}
-                      className="liquid-glass-btn primary flex-1"
-                      aria-label={`前往 ${selectedYear} 年會網站`}
-                    >
-                      <ExternalLink />
-                      前往 {selectedYear}
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <TimeMachine />
             </div>
           </div>
         </div>
