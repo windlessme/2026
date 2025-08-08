@@ -99,6 +99,7 @@ type EventStatus = "upcoming" | "ongoing" | "completed";
 export default function RecentEvents() {
   const [recentEvents, setRecentEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
   useEffect(() => {
     setLoading(true);
     fetch(ICS_URL)
@@ -179,6 +180,27 @@ export default function RecentEvents() {
     }
   };
 
+  // 規則：
+  // - 即將舉行、進行中：一律顯示（不受 5 筆限制）
+  // - 已結束：僅在未達 5 筆時補滿至 5 筆
+  const eventsWithStatus = recentEvents.map((event) => ({
+    event,
+    status: calculateEventStatus(event.date, event.time, event.duration),
+  }));
+
+  const nonCompletedEvents = eventsWithStatus.filter(
+    ({ status }) => status === "upcoming" || status === "ongoing"
+  );
+  const completedEvents = eventsWithStatus.filter(({ status }) => status === "completed");
+
+  const limitedVisibleEvents = [
+    ...nonCompletedEvents,
+    ...completedEvents.slice(0, Math.max(0, 5 - nonCompletedEvents.length)),
+  ];
+
+  const visibleEvents = showAll ? eventsWithStatus : limitedVisibleEvents;
+  const hasMoreToShow = !showAll && visibleEvents.length < eventsWithStatus.length;
+
   return (
     <div className="flex justify-center animate-fade-in-up animation-delay-1200 px-4">
       <div className="timeline-card rounded-lg p-4 md:p-6 space-y-4 w-full max-w-4xl">
@@ -191,80 +213,88 @@ export default function RecentEvents() {
         </div>
 
         <div className="space-y-3">
-          {recentEvents.map((event) => {
-            const status = calculateEventStatus(event.date, event.time, event.duration);
-            return (
-              <div
-                key={event.id}
-                className={`bg-card-background backdrop-blur-sm rounded-lg p-4 border border-card-border hover:border-card-border transition-all duration-300 ${getBorderStyle(status)}`}
-              >
-                <div className="space-y-3">
-                  {/* Title and Status Badge */}
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-foreground text-sm md:text-base leading-tight text-left">
-                        {event.title}
-                      </h4>
-                    </div>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${getStatusStyle(status)}`}
-                    >
-                      {getStatusText(status)}
+          {visibleEvents.map(({ event, status }) => (
+            <div
+              key={event.id}
+              className={`bg-card-background backdrop-blur-sm rounded-lg p-4 border border-card-border hover:border-card-border transition-all duration-300 ${getBorderStyle(status)}`}
+            >
+              <div className="space-y-3">
+                {/* Title and Status Badge */}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-foreground text-sm md:text-base leading-tight text-left">
+                      {event.title}
+                    </h4>
+                  </div>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${getStatusStyle(status)}`}
+                  >
+                    {getStatusText(status)}
+                  </span>
+                </div>
+
+                {/* Description */}
+                <div className="text-left">
+                  <p className="text-text-muted text-xs md:text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: event.description }} />
+                </div>
+
+                {/* Date, Time, Location - Mobile Optimized */}
+                <div className="space-y-2 sm:space-y-0 sm:flex sm:flex-wrap sm:gap-4">
+                  <div className="flex items-center gap-2 text-xs text-text-secondary">
+                    <Calendar className="w-3 h-3 flex-shrink-0" />
+                    <span>
+                      {(() => {
+                        const date = new Date(event.date);
+                        const year = date.getFullYear();
+                        const month = date.getMonth() + 1;
+                        const day = date.getDate();
+                        return `${year} 年 ${month} 月 ${day} 日`;
+                      })()}
                     </span>
                   </div>
-
-                  {/* Description */}
-                  <div className="text-left">
-                    <p className="text-text-muted text-xs md:text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: event.description }} />
+                  <div className="flex items-center gap-2 text-xs text-text-secondary">
+                    <Clock className="w-3 h-3 flex-shrink-0" />
+                    <span>{event.time}</span>
                   </div>
-
-                  {/* Date, Time, Location - Mobile Optimized */}
-                  <div className="space-y-2 sm:space-y-0 sm:flex sm:flex-wrap sm:gap-4">
-                    <div className="flex items-center gap-2 text-xs text-text-secondary">
-                      <Calendar className="w-3 h-3 flex-shrink-0" />
-                      <span>
-                        {(() => {
-                          const date = new Date(event.date);
-                          const year = date.getFullYear();
-                          const month = date.getMonth() + 1;
-                          const day = date.getDate();
-                          return `${year} 年 ${month} 月 ${day} 日`;
-                        })()}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-text-secondary">
-                      <Clock className="w-3 h-3 flex-shrink-0" />
-                      <span>{event.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-text-secondary">
-                      <MapPin className="w-3 h-3 flex-shrink-0" />
-                      <span>{event.location}</span>
-                    </div>
+                  <div className="flex items-center gap-2 text-xs text-text-secondary">
+                    <MapPin className="w-3 h-3 flex-shrink-0" />
+                    <span>{event.location}</span>
                   </div>
-
-                  {/* Action Button */}
-                  {event.link && event.link !== "#" && status !== "completed" && (
-                    <div className="flex justify-end pt-1">
-                      <Link
-                        href={event.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        prefetch={false}
-                        className="liquid-glass-btn secondary small"
-                        aria-label={`前往 ${event.title}`}
-                      >
-                        <ExternalLink className="w-3 h-3" />
-                        <span className="hidden sm:inline">前往</span>
-                      </Link>
-                    </div>
-                  )}
                 </div>
+
+                {/* Action Button */}
+                {event.link && event.link !== "#" && status !== "completed" && (
+                  <div className="flex justify-end pt-1">
+                    <Link
+                      href={event.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      prefetch={false}
+                      className="liquid-glass-btn secondary small"
+                      aria-label={`前往 ${event.title}`}
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      <span className="hidden sm:inline">前往</span>
+                    </Link>
+                  </div>
+                )}
               </div>
-            );
-          })}
+            </div>
+          ))}
           {loading && (
             <div className="flex justify-center py-6">
               <span className="animate-spin rounded-full border-4 border-gray-300 border-t-blue-500 h-8 w-8 inline-block" />
+            </div>
+          )}
+          {(hasMoreToShow || showAll) && (
+            <div className="flex justify-center pt-1">
+              <button
+                onClick={() => setShowAll((prev) => !prev)}
+                className="liquid-glass-btn secondary small"
+                aria-label={showAll ? "顯示較少" : "顯示更多"}
+              >
+                {showAll ? "顯示較少" : "顯示更多"}
+              </button>
             </div>
           )}
         </div>
