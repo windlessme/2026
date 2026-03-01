@@ -216,7 +216,6 @@ const initialAd = weightedAds[0] ?? null;
 	}
 
 	function handleAdClick(selectedAd: ModalAd) {
-		console.log("ad clicked", selectedAd.name);
 		if (import.meta.env.PROD) gtmPush("ad_click", { ad_sponsor: selectedAd.name });
 	}
 
