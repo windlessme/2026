@@ -372,9 +372,29 @@ const posters = Array.isArray(postersData) ? postersData : [];
 					shareBtn.addEventListener("click", async () => {
 						if (navigator.share) {
 							try {
+								const speakers = data.speakers.map(speaker => speaker.name).join(", ");
+								const date = new Date(Number(data.startTime)).toLocaleDateString("zh-TW", {
+									year: "numeric",
+									month: "2-digit",
+									day: "2-digit",
+									timeZone: "Asia/Taipei"
+								});
+								const startTime = new Date(Number(data.startTime)).toLocaleTimeString("en-US", {
+									hour: "2-digit",
+									minute: "2-digit",
+									hour12: false,
+									timeZone: "Asia/Taipei"
+								});
+								const endTime = new Date(Number(data.endTime)).toLocaleTimeString("en-US", {
+									hour: "2-digit",
+									minute: "2-digit",
+									hour12: false,
+									timeZone: "Asia/Taipei"
+								});
+								const text = `${String(data.type).charAt(0).toUpperCase() + String(data.type).slice(1)} - ${data.name} | ${speakers}\n${date} ${startTime} - ${endTime} @ 中央研究院人文社會科學館 ${data.venue}\n\n${data.description.replace(/<[^>]*>?/g, "")}`;
 								await navigator.share({
 									title: data.name || "",
-									text: data.description || "",
+									text: text || "",
 									url: window.location.href
 								});
 								showShareSuccess();
