@@ -445,32 +445,11 @@ const posters = Array.isArray(postersData) ? postersData : [];
 					if (adImageEl) adImageEl.style.display = "none";
 					// Update advertisement content
 					const adTitle = leftPanel.querySelector(".ad-title");
-					const adCompany = leftPanel.querySelector(".ad-company-title");
-					const adPositions = leftPanel.querySelector(".ad-positions");
 					const adDesc = leftPanel.querySelector(".ad-description");
 
 					if (adTitle) {
 						adTitle.textContent = data.advertisement.title || "";
 						adTitle.style.display = data.advertisement.title ? "block" : "none";
-					}
-
-					if (adCompany && data.advertisement.company) {
-						adCompany.textContent = `${data.lang === "en" ? "Join" : "加入"} ${data.advertisement.company}`;
-					}
-
-					if (adPositions && data.advertisement.positions) {
-						adPositions.innerHTML = "";
-						data.advertisement.positions.forEach(pos => {
-							const card = document.createElement("a");
-							card.href = pos.link || "#";
-							if (pos.link) {
-								card.target = "_blank";
-								card.rel = "noopener noreferrer";
-							}
-							card.className = "ad-position-card";
-							card.textContent = pos.title;
-							adPositions.appendChild(card);
-						});
 					}
 
 					if (adDesc && data.advertisement.description) {
