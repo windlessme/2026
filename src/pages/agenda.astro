@@ -6,6 +6,9 @@ import AgendaTimeline from "@/components/agenda/AgendaTimeline.astro";
 import CircularGallery from "@/components/agenda/CircularGallery.astro";
 import SessionModal from "@/components/agenda/SessionModal.astro";
 import ShareJamModal from "@/components/agenda/ShareJamModal.astro";
+import CalendarDays from "@lucide/astro/icons/calendar-days";
+import Link from "@lucide/astro/icons/link";
+import Info from "@lucide/astro/icons/info";
 import agendaData from "@/../public/sessions-web.json";
 import postersData from "@/data/posters.json";
 import { normalizeAgendaSessionsFromFile } from "@/utils/agenda";
@@ -69,15 +72,15 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 				</p>
 				<div class="mcp-features">
 					<div class="mcp-feature-item">
-						<span class="mcp-icon">📅</span>
+						<CalendarDays size={16} />
 						<span>{lang === "en" ? "Agenda Arrangement" : "議程安排"}</span>
 					</div>
 					<div class="mcp-feature-item">
-						<span class="mcp-icon">🔗</span>
+						<Link size={16} />
 						<span>{lang === "en" ? "Share Link" : "分享連結"}</span>
 					</div>
 					<div class="mcp-feature-item">
-						<span class="mcp-icon">ℹ️</span>
+						<Info size={16} />
 						<span>{lang === "en" ? "Conference Info" : "年會資訊"}</span>
 					</div>
 				</div>
@@ -769,15 +772,14 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 	}
 
 	.mcp-container {
-		max-width: 56.25rem;
-		width: 100%;
+		max-width: 50rem;
 		text-align: center;
 		align-items: start;
 		display: flex;
 		flex-direction: column;
 		background-color: rgba(231, 216, 172, 0.53);
-		padding: 2.5rem 4rem;
-		border-radius: 2rem;
+		padding: 2rem 4rem;
+		border-radius: 1rem;
 	}
 
 	.mcp-title {
@@ -815,10 +817,6 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 		background-color: rgba(255, 255, 255, 0.6);
 		padding: 0.3rem 0.6rem;
 		border-radius: 2rem;
-	}
-
-	.mcp-icon {
-		font-size: 1rem;
 	}
 
 	.mcp-actions {
