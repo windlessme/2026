@@ -22,7 +22,7 @@
 
 - MCP URL：<span class="copy-mcp-url" data-lang="zh" style="cursor: pointer; text-decoration: underline;">https://mcp.sitcon.org/mcp</span>
 
-- 圖示：<a href="https://sitcon.org/branding/assets/logos/logo.svg" target="_blank" rel="noopener noreferrer">使用SITCON的Logo</a>（隨便放）
+- 圖示：<a href="https://sitcon.org/branding/assets/logos/logo.svg" target="_blank" rel="noopener noreferrer">使用 SITCON 的Logo</a>（隨便放）
 
 - 驗證：無驗證
 
@@ -30,7 +30,7 @@
 
 ## VS Code
 
-### 1. 開啟VS Code，按「Ctrl+Shift+P」開啟指令面板，輸入「MCP」，選擇「MCP: Add server」
+### 1. 開啟 VS Code，按「Ctrl+Shift+P」開啟指令面板，輸入「MCP」，選擇「MCP: Add server」
 
 ![](/2026/img/mcp/V1.webp)
 
