@@ -1,0 +1,762 @@
+{
+	"nav": {
+		"info": "活動資訊",
+		"agenda": "議程表",
+		"venue": "會場地圖",
+		"team": "團隊成員",
+		"about": "關於",
+		"openMenu": "開啟選單"
+	},
+	"landing": {
+		"location": ["中央研究院", "人文社會科學館"],
+		"date": "2026/03/28",
+		"cta": "我要報名"
+	},
+	"dialogue": {
+		"headline": "時代的劇本已被打破，劃一的旋律變得七零八落<br />在這混沌的時代，平衡能否被我們重新尋回？",
+		"paragraph1": "身處 2026，作為資訊人與學生的我們，正身在時代變革的風口浪尖。AI 的崛起挑戰了傳統的開發模式，定義資訊人價值的技術壁壘正逐漸崩塌。當創造的權力民主化，個體技術不再能作為我們的護城河時，「協作」成了我們最重要的課題。我們正迎向一場尋求與 AI、同儕、跨域夥伴協奏平衡的盛大混沌。但，如果「亂」不是阻礙，而是新平衡的起點呢？",
+		"paragraph2": "在即興音樂的 JamSession 中，演奏不再有指揮，當 Jam 的節拍對不上，就讓我們一起創造新的節拍。當 Jam 的合聲不完美，這正是我們這個世代，兼容並蓄、豪邁不羈、百家爭鳴的聲音。在 SITCON 2026，我們邀請你一起加入這場 Jam。讓我們駕馭混沌，在紛亂中找到節奏，在協作中尋求共鳴。",
+		"paragraph3": "學生計算機年會（Students’ Information Technology Conference）自 2012 年發起，以學生為本、由學生自發舉辦，長期投身學生資訊教育與推廣開源精神，希望引領更多學子踏入資訊的殿堂，更冀望所有對資訊有興趣的學生，能夠在年會裏齊聚一堂，彼此激盪、傳承、啟發，達到「學以致用、教學相長」的實際展現。"
+	},
+	"speaker": {
+		"title1": "年會",
+		"title2": "邀請講者",
+		"cta": "查看議程表"
+	},
+	"demoShow": {
+		"subtitle": "2026 全新",
+		"title": "Demo 展",
+		"cta": "查看議程表",
+		"description": "Demo 展投稿以現場專案演示（如網頁遊戲、互動應用、機器人等可以現場互動或操作的作品）為核心，輔以靜態海報與短影音呈現學生個人或團隊的專案。"
+	},
+	"coc": {
+		"title": "行為準則",
+		"paragraph1": "SITCON 非常歡迎<br class=\"mobile-br\" />所有年齡、身分、背景的與會者！",
+		"paragraph2": "為了讓大家都能愉快的參加 SITCON，<br />請所有參與者遵循行為準則<br class=\"mobile-br\" />共創一個友善的環境。"
+	},
+	"discuss": {
+		"title": "參與討論",
+		"messages": ["一起在郵件論壇討論籌備！", "填寫跳坑表單，在開始籌備時會寄信通知你，絕不錯過任何消息！", "到 GitLab 查看今年的籌備歷程！"],
+		"buttons": {
+			"reserve": "預約跳坑",
+			"forum": "郵件論壇",
+			"records": "籌備紀錄"
+		}
+	},
+	"ticket": {
+		"title": "索票方式",
+		"student": {
+			"title": "學生票",
+			"englishTitle": "STUDENT",
+			"description": ["第一波索票：2026/01/25 20:00～2026/02/07 23:59", "第二波索票：2026/02/23 20:00～2026/03/01 23:59", "學生保留名額，僅限符合資格學生，資格不符將會取消。"],
+			"verticalTitle": "學生票",
+			"url": "https://tickets.sitcon.org/sitcon2026"
+		},
+		"oscvpass": {
+			"title": "開源貢獻票",
+			"englishTitle": "OSCVPASS",
+			"description": [
+				"資格限制：對開源專案有貢獻者。",
+				"在 2026/01/17 23:59 前申請且通過者，有機會可以獲得 SITCON 2026 開源貢獻票邀請碼。申請表單、申請資格及更詳細的申請說明，請參考<a href=https://ocf.tw/p/oscvpass/>開源貢獻者快速通關</a>。",
+				"關於歷年來 OSCVPass 申請通過者的專案列表，請參考 <a href=https://oscvpass.ocf.tw/>OSCVPass 專案介紹</a>。"
+			],
+			"verticalTitle": "開源貢獻票",
+			"url": "https://ocf.tw/p/oscvpass/"
+		},
+		"general": {
+			"title": "一般票",
+			"englishTitle": "GENERAL",
+			"description": ["第一波索票：2026/01/25 20:00～2026/02/07 23:59", "第二波索票：2026/02/23 20:00～2026/03/01 23:59"],
+			"verticalTitle": "一般票",
+			"url": "https://tickets.sitcon.org/sitcon2026"
+		},
+		"longDistance": {
+			"title": "遠道而來票",
+			"englishTitle": "LONG DISTANCE",
+			"description": [
+				"資格限制：住在偏鄉或離島、海外地區的學生。",
+				"先到先審制，報名者需在 2026/01/17 23:59 前填寫<a href=https://forms.gle/2rr5WYuuLQ6WgVkP7>申請表單</a>。",
+				"申請資格及更詳細的申請說明，請參考 <a href=https://hackmd.io/lYvvY7y_RaCr4ilKdq-XTQ>SITCON 2026 遠道而來票</a>。"
+			],
+			"verticalTitle": "遠道而來票",
+			"url": "https://forms.gle/2rr5WYuuLQ6WgVkP7"
+		},
+		"buttons": {
+			"getTicket": "立即索票",
+			"addCalendar": "加入行事曆"
+		},
+		"location": "中央研究院 人文社會科學館",
+		"referral": {
+			"title": "邀請朋友參加享好禮",
+			"description1": "SITCON 2026 邀請你一起，把開源精神分享給更多人。",
+			"description2": "只要把你的專屬推薦碼分享給朋友，他們成功報名，你就能累積推薦次數、參加抽獎，還有機會成為「推薦碼人氣王」！",
+			"description3": "推薦越多，機會越多；邀請朋友，也替自己多拿一份紀念。"
+		}
+	},
+	"joinUs": {
+		"title1": "加入我們",
+		"title2": "引領未來",
+		"description": "自 2013 年以來，SITCON 始終秉持著「不向與會者收費」的初心，<br />致力於推廣學生資訊教育。我們鼓勵參與者跳脫思想框架、發掘潛在的可能性，<br />並為學子們提供寶貴的學習與交流機會，陪伴無數學生踏入資訊領域的殿堂。<br />如果您也認同 SITCON 的理念，歡迎以實際行動支持資訊教育的種子散播至臺灣的每個角落。",
+		"stats": ["> 累積逾 14,000 名與會者", "> 超過 500 位學生講者", "> 舉辦逾 500 場聚會和講座、10 場夏令營", "> 扶植近 1,400 名熱愛資訊的志工"],
+		"buttons": {
+			"sponsorRequest": "贊助徵求",
+			"personalSponsor": "個人贊助"
+		}
+	},
+	"sponsor": {
+		"main": "主辦單位",
+		"cohost": "共同主辦",
+		"organizer": "協辦單位",
+		"sponsorNavigator": "領航級",
+		"sponsorDeepCultivation": "深耕級",
+		"sponsorVisionary": "前瞻級",
+		"sponsorNewSprout": "新芽級",
+		"personalSponsor": "個人贊助",
+		"personalSponsorThanks": "感謝所有熱情的個人贊助者！",
+		"mediaPartners": "媒體夥伴",
+		"supporters": "特別感謝",
+		"visitWebsite": "前往官網",
+		"sponsorLevel": "贊助等級",
+		"sponsorName": "贊助商名稱",
+		"sponsorDesc": "這裡會是贊助商的詳細介紹文案"
+	},
+	"venue": {
+		"title": "會場地圖",
+		"selectFloor": "請選擇樓層",
+		"backToFloor": "返回樓層選擇",
+		"emergency": "緊急逃生指引"
+	},
+	"agenda": {
+		"title": "議程表",
+		"filterAll": "全部議程",
+		"filterFavorites": "收藏議程",
+		"shareJamTitle": "你的專屬 Jam",
+		"shareJamPlaceholder": "輸入匿名",
+		"shareJamCopy": "複製連結",
+		"shareJamCopied": "已複製！",
+		"curatedTitleSuffix": "嚴選議程",
+		"legendUndefined": "開放式議程",
+		"legendSponsored": "合作議程",
+		"mcpDesc": "連線至 MCP Server，安排您的專屬議程、管理行程並與他人分享。",
+		"mcpFeatureAgenda": "議程安排",
+		"mcpFeatureShare": "分享連結",
+		"mcpFeatureInfo": "年會資訊",
+		"mcpTutorial": "使用教學",
+		"mcpCopyUrl": "複製 Server 網址",
+		"mcpCopied": "已複製！",
+		"galleryTitle": "Demo 展",
+		"sessionTypeUndefined": "開放式議程",
+		"sessionTypeSponsored": "合作議程",
+		"sessionAskQuestion": "提問",
+		"sessionCollabNotes": "共筆",
+		"sessionPresentation": "簡報",
+		"curatedLabel": "的精選議程"
+	},
+	"teamPage": {
+		"title": "團隊成員",
+		"description": "SITCON 年會每年皆是許多志工奉獻時間與精神所舉辦，沒有大家的付出，就不可能會有如此內容豐富且高品質的年會， 希望大家在參加之餘，也不要忘記背後工作人員的付出。<br>若你對參與 SITCON 年會的籌備有興趣，歡迎填寫跳坑表單或是關注 SITCON 的郵件論壇，明年的籌備開始時，你就會收到相關的資訊！",
+		"formButton": "跳坑表單",
+		"forumButton": "郵件論壇",
+		"exploreMode": "探索模式",
+		"listMode": "列表模式"
+	},
+	"academiaSinica": {
+		"instruction": "裝潢中水泥未乾，請勿進入，敬請期待！攤位都還沒確定，就不要說了水泥未乾你還要進入卡在裡面然後在那裡抱怨。"
+	},
+	"info": {
+		"mainHeading": "活動資訊",
+		"mainDetails": ["2026/03/28", "中央研究院 人文社會科學館", "台北市南港區研究院路 2 段 128 號"],
+		"mainButton": "交通指引",
+		"intoAcademiaSinica": "進入中研院",
+		"activitiesHeading": "年會活動",
+		"transport": {
+			"title": "交通指引",
+			"tabs": {
+				"shuttle": "大會接駁車",
+				"public": "大眾運輸工具",
+				"drive": "自行開車 / 機車"
+			},
+			"shuttle": {
+				"from": "捷運南港展覽館站 2A 出口",
+				"to": "中研院 人文社會科學館",
+				"location": "地點：台北捷運站南港展覽館 2A 出口（當天會有人舉牌引導）",
+				"time": "接駁車發車時間：7:45~10:00",
+				"interval": "班距：15~20 分鐘一班"
+			},
+			"public": {
+				"youbike": {
+					"title": "YouBike",
+					"description": "中研院附近的 YouBike 2.0 站牌",
+					"stations": ["中研院人文社會科學館", "中研院綜合體育館東側", "研究院舊莊街口"]
+				},
+				"bus": {
+					"title": "公車",
+					"routes": [
+						{
+							"from": "捷運南港站",
+							"description": "搭火車/高鐵到南港火車站/高鐵南港站，從南港捷運站 2 號出口搭公車",
+							"to": "中研院",
+							"buses": ["212 直", "270"]
+						},
+						{
+							"from": "南港展覽館",
+							"description": "搭捷運到捷運南港展覽館站，從 5 號出口搭公車",
+							"to": "中研院",
+							"buses": ["205", "212", "276", "306", "306 區"]
+						}
+					]
+				}
+			},
+			"drive": {
+				"car": {
+					"title": "自行開車",
+					"description": "中研院內設有停車格，車輛進入院區持證件向大門警衛換證後可駛入院區，計費方式請參考<a href='https://dga.sinica.edu.tw/posts/78705'>中央研究院院區車輛通行停放管理施行要點</a>。"
+				},
+				"motorcycle": {
+					"title": "機車",
+					"description": "機車禁止進入院區，在<a href=https://maps.app.goo.gl/ZqKjZFgAS8SYPSF39>大門右側</a>、<a href=https://maps.app.goo.gl/TnCduCULx6VRcX9v9>大門對面</a>與<a href=https://maps.app.goo.gl/z6Ygy3A7hgfC7D9K7>胡適公園</a>旁均設有機車停車場，供員工和來賓停放不予收費（不負保管責任）。"
+				},
+				"referencesTitle": "參考資料",
+				"references": [
+					{
+						"name": "中央研究院院區車輛通行停放管理施行要點",
+						"url": "https://dga.sinica.edu.tw/posts/78705"
+					},
+					{
+						"name": "中研院區停車 Q&A",
+						"url": "https://dga.sinica.edu.tw/pages/1442"
+					}
+				]
+			}
+		},
+		"sections": [
+			{
+				"title": "年會議程",
+				"activities": [
+					{
+						"title": "Keynote 主題演講",
+						"body": "會帶著大家直擊今年的年會核心！我們特別邀請了講者，將複雜的年會主題拆解得淺顯易懂。透過講者的眼睛，你不只能看懂 SITCON 今年想傳達的重點，更能在這場演講中跟著講者的節奏，一起對各種有趣的想法腦力激盪，挖掘出更深層的思考！",
+						"image": {
+							"url": "/2026/img/info/Keynote.webp",
+							"alt": "SITCON Keynote 主題演講"
+						}
+					},
+					{
+						"title": "論壇",
+						"body": "這是場由一位主持人與三位與談人交織而成的深度對談！透過主持人巧妙的引導，不同背景的嘉賓將針對年會主題展開一場精彩對話。你將聽到多方觀點在現場交鋒，帶領大家跳脫框架、從不同立場重新審視今年的核心議題，並在多種經驗的碰撞中，一起拼湊出更完整的技術視野！",
+						"image": {
+							"url": "/2026/img/info/Forum.webp",
+							"alt": "SITCON 論壇"
+						}
+					},
+					{
+						"title": "議程",
+						"body": "這裡匯集了來自各路學生的精彩投稿！不論是想聽場內容紮實、完整拆解技術精髓的 Presentation，或是偏好節奏明快、在短時間內萃取精華的 Espresso，你都能在這裡找到驚喜。除此之外，還有充滿彈性的開放式議程，讓不同背景的觀點自由交織。歡迎你來到現場，親身體驗學生講者們帶來的實踐經驗與無限創意！",
+						"image": {
+							"url": "/2026/img/info/Agenda.webp",
+							"alt": "SITCON 議程"
+						}
+					},
+					{
+						"title": "Demo 展",
+						"body": "繼去年熱烈迴響的基礎上，今年的「Demo 展」華麗升級！這是一個議程之外的特別展區，不僅提供學生展示專案或研究成果的舞台，還能透過現場演示與對談，讓與會者能輕鬆探索多元領域的知識，開啟更多交流與啟發的契機。\n\n活動將於 2026 年 3 月 28 日年會當天，在 4 樓北側攤位展出，呈現來自全台優秀學生的作品。無論你是關注技術創新、專案分享、互動設計，還是新穎的研究發現，都可以在這裡找到讓你耳目一新的主題。\n\n此外，各專案的展出者將於不同時段親臨現場，與大家交流討論。這是個絕佳的機會來提問、學習，並認識來自各地的厲害夥伴們，熱愛探索新知的你，千萬別錯過。",
+						"image": {
+							"url": "/2026/img/info/Demo.webp",
+							"alt": "SITCON Demo 展"
+						}
+					}
+				]
+			},
+			{
+				"title": "我是第一次來，想認識新朋友",
+				"activities": [
+					{
+						"title": "指南針計畫",
+						"body": "你也期待在年會中結交更多志趣相投的夥伴嗎? 我們誠摯地邀請你參與指南針計畫！\n\n指南針計畫為大家提供彼此交流的機會，旨在幫助你找到志同道合的夥伴，一同探討共同感興趣的主題。不論你是擁有豐富經驗的老手，還是對科技充滿好奇心的新手，都能在這裡找到共鳴。\n\n我們會根據各位提供的資料，為你匹配合適的夥伴組成小組，並鼓勵大家主動與配對到的夥伴們交流。為確保彼此都能擁有良好體驗，報名後請務必與組員保持聯繫並積極參與互動，讓每位期待交流的夥伴都能真正相遇。在年會期間，你可以和小組成員一起參加現場多樣化的活動，也能在午餐時進行一場輕鬆的聚會，無論是分享彼此經驗、交流不同觀點，還是圍繞年會中的議程深入討論，都將是一段充滿收穫的經歷。\n\n無論你是初來乍到還是對資訊領域有一定程度的了解，每個人都能在這裡找到屬於自己的位置，攜手創造一個開放、互相交流學習的環境。期待你的熱情參與，讓 SITCON 2026 更加精彩！",
+						"image": {
+							"url": "/2026/img/info/Compass.webp",
+							"alt": "SITCON 指南針計畫"
+						}
+					},
+					{
+						"title": "導遊團",
+						"body": "紛雜混沌之景坐落眼前，人潮交錯的樂章裡，或許你仍在迷茫，會場裡的歡聲笑語如錯落的音符，節拍未定。那麼你還在等什麼！快加入導遊團吧！讓指揮家們引領帶你在 SITCON 的未知中尋方向，找到屬於你的旋律與歸屬。\n\n在導遊團集合地可以看到拿著 SITCON 旗子的導遊，跟隨 SITCON 導遊的步伐，帶領你前往社群攤位、走訪靜態海報展，讓您更瞭解 SITCON 的各個面向以及運作模式。\n\n導遊團共有上午兩團及下午兩團，時長約 40 分鐘，之後將會公布。\n\n<table>\n<tr><th>團名與負責導遊</th><th>集合地點</th><th>時間</th></tr>\n<tr><td>XX 樂團（導遊：--　）</td><td rowspan=\"2\">北側中走廊</td><td>10:00-10:40</td></tr>\n<tr><td>XX 樂團（導遊：--　）</td><td>10:30-11:00</td></tr>\n<tr><td>XX 樂團（導遊：--　）</td><td></td><td>14:00-14:10</td></tr>\n</table>趕快來參加導遊團，與新朋友一同揭開年會的精彩面紗！",
+						"image": {
+							"url": "/2026/img/info/Guide.webp",
+							"alt": "SITCON 導遊團導覽活動"
+						}
+					}
+				]
+			},
+			{
+				"title": "想在會場裡玩點什麼",
+				"activities": [
+					{
+						"title": "大地遊戲",
+						"body": "沒有議程的時候不知道要做什麼嗎？想跟現場攤位互動卻又不知道從什麼話題開始？別擔心！快點打開 OPass 參加大地遊戲吧！\n\n今年的大地遊戲結合 SITCON 2026 年會主題「Jam the Chaos」。在遊戲中，你將透過解鎖關卡，挑戰記憶序列遊戲，掌握節奏、破解關卡，累積完成數量，登上排行榜，就有機會獲得 SITCON 2026 紀念品攤位的折價券！\n\n<b>【如何解鎖新關卡？】</b>\n\n<b>🤝 與贊助商互動：</b>與贊助商交流，你將可以解鎖新關卡，讓你挑戰更高難度，衝刺排行榜！ \n\n <b>🎤 參加年會活動並探索會場：</b>你可以四處探索，到其他活動所在場地打卡，參加各種精彩活動，每個活動和新地點都能解鎖新關卡～\n\n<b>🔍 認識新朋友：</b>與其他會眾互動，每次新相遇都能解鎖新關卡。\n\n完成越多關卡、排名越高，中獎機率越大！快點拿起手機，隨著節奏律動吧！",
+						"image": {
+							"url": "/2026/img/info/Game.webp",
+							"alt": "SITCON 大地遊戲"
+						}
+					},
+					{
+						"title": "白板大戰",
+						"body": "在這個觀點交織、創意無限的時代，讓我們拿起白板筆，將你的想法加入這渾沌的世界，展開一場精彩的思想對決！\n\n誠摯邀請你來到三樓的白板區，與大家共同參與這場無煙無硝的「白板大戰」。一起 Jam the code，一起辯論並捍衛你所信奉的教派 (x)，這裡將是你展示創意、碰撞觀點的大平台。\n\n在輕鬆愉快的氛圍中，讓我們以白板為武器，發揮無限創意，向不同的觀點發起挑戰，創造更多的火花！快來揮灑你的想法，讓這個白板世界更加渾沌吧！",
+						"image": {
+							"url": "/2026/img/info/Whiteboard.webp",
+							"alt": "SITCON 白板大戰"
+						}
+					}
+				]
+			},
+			{
+				"title": "有話想說？",
+				"activities": [
+					{
+						"title": "閃電講",
+						"body": "有自己的精彩內容想和大家分享，卻來不及投稿嗎？那麼，歡迎參加 SITCON 2026 閃電講！閃電講將提供八位手腳最快的會眾五分鐘的時間與與會者們暢所欲言的分享你的專案或想法！\n\n在年會當天上午 10:00 開始至下午 15:30，歡迎前往白板區的指定白板投稿參與。投稿的方式十分簡單！一但開放投稿，你就可以到白板區選擇一個空的順位，然後在白板上寫下你的演講標題和投稿者的名字（例如：「關於我是如何成為風的 by Windful」），但名額只有八個，且每人限投一次，要搶要快！完成投稿後，請掃描白板區旁的表單，補充更多投稿資訊，例如標題、投稿者名稱及主題大綱。建議你可以事先準備好這些內容，以確保過程順利！\n\n若你成功成為講者，請於下午 16:40 準時到 R0 3F 的右側集合，並攜帶你的演講設備，屆時會有議程組的夥伴在現場協助。同時，為了保持活動的多樣性和趣味性，因此我們不接受過於商業化的投稿。若你的演講內容超時，若商業內容超過十秒，畫面將會被直接切斷！\n\n邀請你透過這場腎上腺素爆發的活動，讓你在 SITCON 年會上與更多人交流與分享！",
+						"image": {
+							"url": "/2026/img/info/Lightning.webp",
+							"alt": "SITCON 閃電講"
+						}
+					}
+				]
+			}
+		]
+	},
+	"footer": [
+		{
+			"title": "頁面導覽",
+			"links": [
+				{
+					"name": "年會活動（含交通方式）",
+					"url": "/2026/info/"
+				},
+				{
+					"name": "議程表",
+					"url": "#"
+				},
+				{
+					"name": "會場地圖",
+					"url": "#"
+				},
+				{
+					"name": "活動報名",
+					"url": "https://tickets.sitcon.org/sitcon2026"
+				},
+				{
+					"name": "SITCON 團隊",
+					"url": "/2026/team/"
+				},
+				{
+					"name": "合作夥伴",
+					"url": "#"
+				},
+				{
+					"name": "資源下載",
+					"url": "#"
+				}
+			]
+		},
+		{
+			"title": "SITCON 子計畫",
+			"links": [
+				{
+					"name": "贊助徵求書",
+					"url": "https://sitcon.org/2026/cfs/"
+				},
+				{
+					"name": "Call for Paper",
+					"url": "https://sitcon.org/2026/cfp/"
+				},
+				{
+					"name": "Hour of Code",
+					"url": "https://sitcon.org/hoc/"
+				},
+				{
+					"name": "SITCON Camp",
+					"url": "https://sitcon.camp"
+				},
+				{
+					"name": "SITCON Hackathon",
+					"url": "https://hackathon.sitcon.org"
+				},
+				{
+					"name": "SITCON Podcast",
+					"url": "https://sitcon.org/podcast/"
+				},
+				{
+					"name": "好駭客",
+					"url": "https://sitcon.org/hacker/"
+				}
+			]
+		},
+		{
+			"title": "聯絡資訊",
+			"links": [
+				{
+					"name": "聯絡窗口\ncontact@sitcon.org",
+					"url": "mailto:contact@sitcon.org"
+				},
+				{
+					"name": "票務資訊\nticket@sitcon.org",
+					"url": "mailto:ticket@sitcon.org"
+				}
+			]
+		},
+		{
+			"title": "歷年網站",
+			"gridLayout": true,
+			"links": [
+				{
+					"name": "2025",
+					"url": "https://sitcon.org/2025"
+				},
+				{
+					"name": "2024",
+					"url": "https://sitcon.org/2024"
+				},
+				{
+					"name": "2023",
+					"url": "https://sitcon.org/2023"
+				},
+				{
+					"name": "2022",
+					"url": "https://sitcon.org/2022"
+				},
+				{
+					"name": "2021",
+					"url": "https://sitcon.org/2021"
+				},
+				{
+					"name": "2020",
+					"url": "https://sitcon.org/2020"
+				},
+				{
+					"name": "2019",
+					"url": "https://sitcon.org/2019"
+				},
+				{
+					"name": "2018",
+					"url": "https://sitcon.org/2018"
+				},
+				{
+					"name": "2017",
+					"url": "https://sitcon.org/2017"
+				},
+				{
+					"name": "2016",
+					"url": "https://sitcon.org/2016"
+				},
+				{
+					"name": "2015",
+					"url": "https://sitcon.org/2015"
+				},
+				{
+					"name": "2014",
+					"url": "https://sitcon.org/2014"
+				},
+				{
+					"name": "2013",
+					"url": "https://sitcon.org/2013"
+				}
+			]
+		}
+	],
+	"team": {
+		"general": {
+			"name": "總召組",
+			"description": "統籌整個年會的核心團隊，負責協調各組運作、制定年會方向與政策。我們是年會的領航者，確保整體活動順利進行並達成目標。"
+		},
+		"administration": {
+			"name": "行政組",
+			"description": "處理年會所有行政事務，包含文書處理、會議紀錄與內部溝通協調。我們是團隊運作的潤滑劑，確保各項流程順暢進行。"
+		},
+		"agenda": {
+			"name": "議程組",
+			"description": "負責年會所有的議程規劃與講師邀請，是年會內容的核心產出者。我們需要閱讀大量的技術投稿，並從中篩選出最適合年會的議題，確保會眾能聽到最優質的內容。"
+		},
+		"operations": {
+			"name": "場務組",
+			"description": "年會當天的現場守護神，負責動線規劃、設備架設與突發狀況處理。我們是活動順利進行的幕後功臣，需要強大的應變能力來面對各種挑戰。"
+		},
+		"design": {
+			"name": "設計組",
+			"description": "負責年會的主視覺與周邊設計，用色彩與線條描繪出 SITCON 的模樣。我們追求視覺上的極致，致力於將抽象的概念具象化，帶給大家最完美的視覺饗宴。"
+		},
+		"finance": {
+			"name": "財務組",
+			"description": "掌管年會的財政大權，確保每一分贊助與預算都能發揮最大效益。我們需要細心與耐心，處理繁雜的報帳與預算編列，是活動背後最堅實的後盾。"
+		},
+		"recording": {
+			"name": "紀錄組",
+			"description": "用鏡頭捕捉年會的每個精彩瞬間，負責活動攝影與影片紀錄。我們是年會回憶的守護者，將每一刻的感動永久保存。"
+		},
+		"production": {
+			"name": "製播組",
+			"description": "負責年會的影音設備與直播系統，確保議程順利呈現給所有參與者。我們是技術與藝術的結合，讓每場演講都能完美傳達。"
+		},
+		"development": {
+			"name": "開發組",
+			"description": "致力於用程式碼構築年會的數位基石，維護官網與 App 的穩定運作。我們是一群熱愛技術的開發者，將天馬行空的設計轉化為實際的互動體驗，歡迎來這裡交流切磋！"
+		},
+		"editorial": {
+			"name": "編輯組",
+			"description": "負責年會所有文字內容的產出與校對，包含官網文案、宣傳素材與新聞稿撰寫。我們用文字傳達 SITCON 的精神，讓每個訊息都能精準觸及目標受眾。"
+		},
+		"marketing": {
+			"name": "行銷組",
+			"description": "負責年會的對外宣傳與社群經營，透過各種管道讓更多人認識 SITCON。我們是年會的代言人，用創意與熱情將活動推廣給全世界。"
+		}
+	},
+	"role": {
+		"chief": "總召",
+		"deputy_chief": "副召",
+		"head": "組長",
+		"deputy": "副組長",
+		"member": "組員",
+		"treasurer": "出納",
+		"agenda": "議程助理",
+		"agenda_lead": "議程股長",
+		"ops_mobility_lead": "機動股長",
+		"ops_registration_lead": "報到股長",
+		"ops_catering_lead": "餐飲股長",
+		"ops_logistics_lead": "物流股長",
+		"ops_mobility": "機動股",
+		"ops_registration": "報到股",
+		"ops_catering": "餐飲股",
+		"ops_logistics": "物流股",
+		"marketing_helper": "小精靈"
+	},
+	"referral": {
+		"mainHeading": "推薦碼計畫",
+		"heroTitle": "推坑朋友一起參加 SITCON 吧！",
+		"heroSubtitle": "邀請朋友一起參加，你也能拿好禮",
+		"howTo": {
+			"steps": [
+				{
+					"title": "取得你的推薦碼",
+					"description": "只要成功報名 SITCON 2026，系統就會自動幫你產生一組專屬推薦碼。你可以在個人報名頁面隨時查看。"
+				},
+				{
+					"title": "分享給朋友",
+					"description": "把推薦碼分享給還沒報名的朋友、同學或社群夥伴，方式不限。"
+				},
+				{
+					"title": "朋友完成報名",
+					"description": "對方在報名時輸入你的推薦碼，並完成報名後，即算一次成功推薦。"
+				}
+			],
+			"tips": {
+				"items": ["同一組推薦碼可以被多人使用", "系統會自動累積你的成功推薦次數"]
+			}
+		},
+		"rewards": {
+			"title": "推薦豪禮等你拿！",
+			"lottery": {
+				"title": "每推薦一人，就多一次抽獎機會",
+				"description": "每成功推薦一位新報名者，你就能獲得一次抽獎資格。推薦越多次，中獎機會越高！得獎名單將於 3/15 前公布並以 Email 通知，同時將公開於下方。",
+				"table": {
+					"headers": ["獎項", "獎品", "名額", "統計截止時間", "得獎名單"],
+					"rows": [
+						["超人氣大獎", "SITCON 限定抱枕套", "2 名", "1/30 23:59", ""],
+						["經典收藏", "歷年年會紀念 T-Shirt", "3 名", "2/28 23:59", ""]
+					]
+				}
+			},
+			"topReferrers": {
+				"title": "推薦碼人氣王",
+				"description": "成功推薦次數最多的前五名，將獲得專屬榮譽與 SITCON 2026 紀念好禮，並於 SITCON 2026 年會現場公開名單與領獎！",
+				"table": {
+					"headers": ["獎項", "獎勵內容", "名額"],
+					"rows": [["人氣王專屬好禮", "SITCON 2026 精美紀念品", "5 名"]]
+				},
+				"deadlines": ["推薦次數統計截止：3/1 23:59", "得獎名單公告：3/15 23:59 前（將以 Email 通知）"],
+				"rules": ["依成功推薦次數排序，取前五名。", "若推薦次數相同，則以「首次成功推薦時間較早者」優先。", "人氣王獎項需於年會現場領取，詳細領獎流程將另行公告。"]
+			}
+		},
+		"fairness": {
+			"title": "公平性與注意事項",
+			"description": "為確保活動公平，主辦單位將：",
+			"items": ["排除重複、異常或不實報名產生的推薦紀錄", "若發現影響公平性的行為，保留取消資格的權利", "所有推薦與抽獎紀錄，皆以系統資料為準"],
+			"disclaimer": "主辦單位保留活動內容、獎項與規則之最終解釋與調整權利。"
+		}
+	},
+	"about": {
+		"title": "關於 SITCON",
+		"description": "SITCON 是由學生組成、投身資訊教育與推廣開源精神的社群。也是一個由學生主辦的資訊研討會，給學生們一個發表交流技術的舞台。",
+		"community": {
+			"title": "13 年來全東亞最大的學生社群",
+			"data": [
+				{
+					"label": "名學生講者",
+					"count": 500
+				},
+				{
+					"label": "場聚會和講座",
+					"count": 500
+				},
+				{
+					"label": "場夏令營",
+					"count": 10
+				},
+				{
+					"label": "名年會參與者",
+					"count": 14000
+				},
+				{
+					"label": "名熱愛資訊的志工",
+					"count": 1400
+				}
+			]
+		},
+		"recap": {
+			"title": "回顧 2025 年",
+			"stats": [
+				{
+					"number": "1300",
+					"label": "人次會場參與"
+				},
+				{
+					"number": "200",
+					"label": "所海內外學校"
+				},
+				{
+					"number": "70%",
+					"label": "大專院校或研究所背景"
+				},
+				{
+					"number": "1/3",
+					"label": "活躍於資訊社群"
+				}
+			],
+			"charts": [
+				{
+					"title": "與會者身份分佈",
+					"data": [
+						{
+							"value": 679,
+							"name": "大學生"
+						},
+						{
+							"value": 291,
+							"name": "高中 / 職生"
+						},
+						{
+							"value": 117,
+							"name": "研究生"
+						},
+						{
+							"value": 87,
+							"name": "社會人士"
+						},
+						{
+							"value": 25,
+							"name": "國中生"
+						},
+						{
+							"value": 15,
+							"name": "五專生"
+						},
+						{
+							"value": 6,
+							"name": "其他"
+						},
+						{
+							"value": 3,
+							"name": "老師 / 教授"
+						},
+						{
+							"value": 1,
+							"name": "國小生"
+						}
+					]
+				},
+				{
+					"title": "軟體開發程度分佈",
+					"data": [
+						{
+							"value": 476,
+							"name": "中等"
+						},
+						{
+							"value": 276,
+							"name": "初學"
+						},
+						{
+							"value": 185,
+							"name": "熟練"
+						},
+						{
+							"value": 182,
+							"name": "入門"
+						},
+						{
+							"value": 54,
+							"name": "我沒有接觸過程式"
+						},
+						{
+							"value": 51,
+							"name": "進階"
+						}
+					]
+				}
+			]
+		},
+		"media": {
+			"title": "媒體報導",
+			"items": [
+				{
+					"image": "yahooNews",
+					"alt": "Yahoo 新聞報導：大談AI與科技教育發展 SITCON 2024年會圓滿落幕",
+					"url": "https://tw.news.yahoo.com/%E5%A4%A7%E8%AB%87ai%E8%88%87%E7%A7%91%E6%8A%80%E6%95%99%E8%82%B2%E7%99%BC%E5%B1%95-sitcon-2024%E5%B9%B4%E6%9C%83%E5%9C%93%E6%BB%BF%E8%90%BD%E5%B9%95-134127533.html"
+				},
+				{
+					"image": "youratorNews",
+					"alt": "Yourator 報導：SITCON 學生計算機年會",
+					"url": "https://www.yourator.co/articles/215"
+				},
+				{
+					"image": "moneyUdnNews",
+					"alt": "經濟日報報導：SITCON 2025",
+					"url": "https://money.udn.com/money/story/5723/9018057"
+				},
+				{
+					"image": "ettodayNews",
+					"alt": "新頭殼報導：SITCON 學生計算機年會",
+					"url": "https://newstaiwan.net/2024/03/09/155739/"
+				}
+			]
+		},
+		"history": {
+			"title": "我們做過的事",
+			"data": [
+				{
+					"image": "sitcon_hk",
+					"title": "東亞最大學生資訊年會",
+					"description": "啟發香港 SITCON x HK、重慶學生開源年會的成立，並向各地學生社團與資訊團體提供支援；每年皆有一半以上新參與者加入，參與者畢業後遍佈臺、美、日、荷各國資訊業界，且常態回流支持。"
+				},
+				{
+					"image": "groups",
+					"title": "北中南聚會",
+					"description": "持續與各地方社團聯手舉辦聚會，提供學生們資訊交流的管道。其中也不乏與臺灣大學、淡江大學等學校合作，而匯聚了來自各處的資訊領域佼佼者。"
+				},
+				{
+					"image": "edu",
+					"title": "SITCON Hour of Code",
+					"description": "自 2014 年起與教育部合作，於全臺各地定期舉辦「Hour of Code」，促使數百名 4 ~ 16 歲兒童與學子萌生了對資訊領域的好奇心。"
+				},
+				{
+					"image": "hackathon",
+					"title": "SITCON 黑客松",
+					"description": "我們在 2014、2015 年舉辦 HackGen，並在 2024 年將活動規模全面升級，舉辦 SITCON 黑客松，期待參與者們能於黑客松中學習發想、規劃並最終實作，讓社會與企業看見具有潛能的學生團隊。"
+				},
+				{
+					"image": "camp",
+					"title": "SITCON 夏令營",
+					"description": "自 2014 年開始，SITCON 每年 7 月皆會舉辦夏令營，讓有志於資訊領域的學生能夠輕鬆入門並激發對開源精神的熱情。學員與志工皆由學生組成，不僅僅是主線課程，還有開源演講、社群博覽會以及視界咖啡館，讓學生不只是學習，更有許多交流、激盪想法的機會。"
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,783 @@
+{
+	"nav": {
+		"info": "Event Info",
+		"agenda": "Agenda",
+		"venue": "Venue Map",
+		"team": "Team",
+		"about": "About SITCON",
+		"openMenu": "Open Menu"
+	},
+	"landing": {
+		"location": ["Academia Sinica", "Humanities and Social Sciences Building"],
+		"date": "2026/03/28",
+		"cta": "Register Now"
+	},
+	"dialogue": {
+		"headline": "The script of our era has been shattered, and the once-unified melody now falls apart.<br />In this age of chaos, can we rediscover balance together?",
+		"paragraph1": "Standing in 2026, as students and practitioners of information technology, we find ourselves at the forefront of a transformative era. The rise of AI challenges traditional development paradigms, and the technical barriers that once defined our value are gradually eroding. As the power of creation becomes democratized and individual technical prowess can no longer serve as a moat, \"collaboration\" emerges as our most critical challenge. We are heading into a grand chaos that seeks balance between AI, peers, and cross-disciplinary partners. But what if disorder is not an obstacle, but the starting point of a new equilibrium?",
+		"paragraph2": "In an improvised music jam session, there is no conductor. When the beats don’t align, we create a new rhythm together. When the harmony is imperfect, that imperfection becomes the voice of our generation—inclusive, bold, unrestrained, and diverse. At SITCON 2026, we invite you to join this jam. Let us navigate chaos, find rhythm amid disorder, and seek resonance through collaboration.",
+		"paragraph3": "The Students’ Information Technology Conference (SITCON), founded in 2012, is a student-centered, student-initiated conference. It has long been dedicated to advancing student IT education and promoting open-source culture. SITCON aims to guide more students into the world of information technology, while also bringing together all students interested in IT to exchange ideas, pass on knowledge, and inspire one another—realizing the spirit of learning by doing and teaching through sharing."
+	},
+	"speaker": {
+		"title1": "Conference",
+		"title2": "Invited Speakers",
+		"cta": "View Agenda"
+	},
+	"demoShow": {
+		"subtitle": "Brand New in 2026",
+		"title": "Demo Show",
+		"cta": "View Agenda",
+		"description": "Demo Show submissions focus on live project demonstrations—such as web games, interactive applications, robots, and other hands-on works—supplemented by static posters and short videos to showcase individual or team projects."
+	},
+	"coc": {
+		"title": "Code of Conduct",
+		"paragraph1": "SITCON warmly welcomes<br class=\"mobile-br\" />participants of all ages, identities, and backgrounds!",
+		"paragraph2": "To ensure everyone can enjoy SITCON,<br />we ask all participants to follow the Code of Conduct<br class=\"mobile-br\" />and help create a friendly and inclusive environment."
+	},
+	"discuss": {
+		"title": "Join the Discussion",
+		"messages": [
+			"Join the mailing list and discuss the preparation together!",
+			"Fill out the interest form and receive notifications when preparation begins—never miss an update!",
+			"Check out this year’s preparation process on GitLab!"
+		],
+		"buttons": {
+			"reserve": "Join the Crew",
+			"forum": "Mailing List",
+			"records": "Preparation Records"
+		}
+	},
+	"ticket": {
+		"title": "Ticket Information",
+		"student": {
+			"title": "Student Ticket",
+			"englishTitle": "STUDENT",
+			"description": ["First round: 2026/01/25 20:00 – 2026/02/07 23:59", "Second round: 2026/02/23 20:00 – 2026/03/01 23:59", "For students only. Invalid eligibility will result in cancellation."],
+			"verticalTitle": "Student Ticket",
+			"url": "https://tickets.sitcon.org/sitcon2026"
+		},
+		"oscvpass": {
+			"title": "Open Source Contributor Ticket",
+			"englishTitle": "OSCVPASS",
+			"description": [
+				"Eligibility: Contributors to open-source projects.",
+				"Applicants who apply and pass before 2026/01/17 23:59 may receive an invitation code for the SITCON 2026 Open Source Contributor Ticket. Please refer to <a href=https://ocf.tw/p/oscvpass/>Open Source Contributor Fast Track</a> for details.",
+				"For a list of projects from past OSCVPass recipients, see <a href=https://oscvpass.ocf.tw/>OSCVPass Project Overview</a>."
+			],
+			"verticalTitle": "Open Source Contributor Ticket",
+			"url": "https://ocf.tw/p/oscvpass/"
+		},
+		"general": {
+			"title": "General Ticket",
+			"englishTitle": "GENERAL",
+			"description": ["First round: 2026/01/25 20:00 – 2026/02/07 23:59", "Second round: 2026/02/23 20:00 – 2026/03/01 23:59"],
+			"verticalTitle": "General Ticket",
+			"url": "https://tickets.sitcon.org/sitcon2026"
+		},
+		"longDistance": {
+			"title": "Long Distance Ticket",
+			"englishTitle": "LONG DISTANCE",
+			"description": [
+				"Eligibility: Students from rural areas, offshore islands, or overseas.",
+				"Applications are reviewed on a rolling basis. Please submit the <a href=https://forms.gle/2rr5WYuuLQ6WgVkP7>application form</a> by 2026/01/17 23:59.",
+				"For eligibility and detailed instructions, see <a href=https://hackmd.io/lYvvY7y_RaCr4ilKdq-XTQ>SITCON 2026 Long Distance Ticket</a>."
+			],
+			"verticalTitle": "Long Distance Ticket",
+			"url": "https://forms.gle/2rr5WYuuLQ6WgVkP7"
+		},
+		"buttons": {
+			"getTicket": "Get Tickets",
+			"addCalendar": "Add to Calendar"
+		},
+		"location": "Academia Sinica",
+		"referral": {
+			"title": "Invite Friends & Win Rewards",
+			"description1": "Join SITCON 2026 in spreading the open-source spirit to more people.",
+			"description2": "Share your exclusive referral code with friends! If they successfully register, you'll accumulate referrals, enter the lottery, and have a chance to become the 'Most Popular Referrer'!",
+			"description3": "The more you refer, the more chances to win. Invite friends and earn yourself an extra souvenir."
+		}
+	},
+	"joinUs": {
+		"title1": "Join Us",
+		"title2": "Shape the Future",
+		"description": "Since 2013, SITCON has upheld its founding principle of free admission,<br />dedicated to promoting student IT education. We encourage participants to break free from conventional thinking, explore hidden possibilities,<br />and provide students with valuable opportunities to learn and connect. Over the years, we have accompanied countless students into the world of information technology.<br />If you share SITCON’s vision, we welcome your support in spreading the seeds of IT education across Taiwan.",
+		"stats": ["> Over 14,000 total participants", "> More than 500 student speakers", "> Over 500 meetups and talks, plus 10 summer camps", "> Nearly 1,400 passionate volunteers supported"],
+		"buttons": {
+			"sponsorRequest": "Sponsorship Prospectus",
+			"personalSponsor": "Personal Sponsorship"
+		}
+	},
+	"sponsor": {
+		"main": "Presenter",
+		"cohost": "Co-Host",
+		"organizer": "Organizer",
+		"sponsorNavigator": "Navigator",
+		"sponsorDeepCultivation": "Cultivator",
+		"sponsorVisionary": "Visionary",
+		"sponsorNewSprout": "Sprout",
+		"personalSponsor": "Personal Sponsor",
+		"personalSponsorThanks": "Special thanks to all our passionate personal sponsors!",
+		"mediaPartners": "Media Partners",
+		"supporters": "Special Thanks",
+		"visitWebsite": "Visit Website",
+		"sponsorLevel": "Sponsorship Level",
+		"sponsorName": "Sponsor Name",
+		"sponsorDesc": "Detailed sponsor description goes here."
+	},
+	"venue": {
+		"title": "Venue Map",
+		"selectFloor": "Select Floor",
+		"backToFloor": "Back to Floor Selection",
+		"emergency": "Emergency Evacuation Guide"
+	},
+	"agenda": {
+		"title": "Agenda",
+		"filterAll": "All Agenda",
+		"filterFavorites": "Favorites",
+		"shareJamTitle": "Your Exclusive Jam",
+		"shareJamPlaceholder": "Enter your name",
+		"shareJamCopy": "Copy link",
+		"shareJamCopied": "Copied!",
+		"curatedTitleSuffix": "Picks",
+		"legendUndefined": "Undefined",
+		"legendSponsored": "Sponsored",
+		"mcpDesc": "Connect to our MCP server to customize your agenda, manage schedule, and share it with others effortlessly.",
+		"mcpFeatureAgenda": "Agenda Arrangement",
+		"mcpFeatureShare": "Share Link",
+		"mcpFeatureInfo": "Conference Info",
+		"mcpTutorial": "Tutorial",
+		"mcpCopyUrl": "Copy Server URL",
+		"mcpCopied": "Copied!",
+		"galleryTitle": "Demo Gallery",
+		"sessionTypeUndefined": "Undefined",
+		"sessionTypeSponsored": "Sponsored",
+		"sessionAskQuestion": "Ask Question",
+		"sessionCollabNotes": "Collaborative Notes",
+		"sessionPresentation": "Presentation",
+		"curatedLabel": "Picks"
+	},
+	"teamPage": {
+		"title": "Team Members",
+		"description": "SITCON is made possible every year by volunteers who dedicate their time and energy. Without their contributions, this rich and high-quality conference would not exist.<br>If you are interested in joining the preparation team, feel free to fill out the interest form or follow the SITCON mailing list. You’ll receive updates when next year’s preparation begins!",
+		"formButton": "Join the Crew",
+		"forumButton": "Mailing List",
+		"exploreMode": "Explore Mode",
+		"listMode": "List Mode"
+	},
+	"academiaSinica": {
+		"instruction": "Construction in progress. Please stay tuned!"
+	},
+	"info": {
+		"mainHeading": "Information",
+		"mainDetails": ["2026/03/28", "Humanities and Social Sciences Building, Academia Sinica", "No. 128, Sec. 2, Academia Rd., Nankang, Taipei 11529, Taiwan"],
+		"mainButton": "Transportation",
+		"intoAcademiaSinica": "Enter Academia Sinica",
+		"activitiesHeading": "Conference Activities",
+		"transport": {
+			"title": "Transportation",
+			"tabs": {
+				"shuttle": "Shuttle Bus",
+				"public": "Public Transport",
+				"drive": "Driving / Motorcycling"
+			},
+			"shuttle": {
+				"from": "Exit 2A, MRT Taipei Nangang Exhibition Center",
+				"to": "Humanities and Social Sciences Building, Academia Sinica",
+				"location": "Location: Exit 2A, MRT Taipei Nangang Exhibition Center (Staff will be holding signs to guide you)",
+				"time": "Departure Time: 7:45~10:00",
+				"interval": "Interval: Every 15~20 minutes"
+			},
+			"public": {
+				"youbike": {
+					"title": "YouBike",
+					"description": "YouBike 2.0 stations near Academia Sinica",
+					"stations": ["Humanities and Social Sciences Building, Academia Sinica", "East Side of Gymnasium, Academia Sinica", "Academia & Jiuzhuang St. Intersection"]
+				},
+				"bus": {
+					"title": "Bus",
+					"routes": [
+						{
+							"from": "MRT Nangang Station",
+							"description": "Take train/HSR to Nangang Station, then take the bus from MRT Exit 2.",
+							"to": "Academia Sinica",
+							"buses": ["212 Express", "270"]
+						},
+						{
+							"from": "Nangang Exhibition Center",
+							"description": "Take MRT to Nangang Exhibition Center Station, then take the bus from Exit 5.",
+							"to": "Academia Sinica",
+							"buses": ["205", "212", "276", "306", "306 Zone"]
+						}
+					]
+				}
+			},
+			"drive": {
+				"car": {
+					"title": "Car",
+					"description": "Parking spaces are available within Academia Sinica. Visitors can exchange ID for a pass at the main gate security. For parking fees, please refer to <a href='https://dga.sinica.edu.tw/posts/78705'>Academia Sinica Car Parking Regulations</a>."
+				},
+				"motorcycle": {
+					"title": "Motorcycle",
+					"description": "Motorcycles are prohibited from entering the campus. Free parking (no custody provided) is available at <a href=https://maps.app.goo.gl/ZqKjZFgAS8SYPSF39>the right side of the main gate</a>, <a href=https://maps.app.goo.gl/TnCduCULx6VRcX9v9>across from the main gate</a>, and near <a href=https://maps.app.goo.gl/z6Ygy3A7hgfC7D9K7>Hu-Shih Park</a>."
+				},
+				"referencesTitle": "References",
+				"references": [
+					{
+						"name": "Academia Sinica Car Parking Regulations",
+						"url": "https://dga.sinica.edu.tw/posts/78705"
+					},
+					{
+						"name": "Academia Sinica Parking Q&A",
+						"url": "https://dga.sinica.edu.tw/pages/1442"
+					}
+				]
+			}
+		},
+		"sections": [
+			{
+				"title": "Conference Program",
+				"activities": [
+					{
+						"title": "Keynote",
+						"body": "This session takes you straight to the heart of this year’s conference theme! We’ve invited a speaker to break down the key ideas behind the theme in a clear and accessible way. Through the speaker’s perspective, you’ll not only understand what SITCON wants to convey this year, but also follow the rhythm of the talk to brainstorm around interesting ideas and uncover deeper insights together!",
+						"image": {
+							"url": "/2026/img/info/Keynote.webp",
+							"alt": "SITCON Keynote",
+							"position": "right"
+						}
+					},
+					{
+						"title": "Panel",
+						"body": "This is a deep and engaging discussion featuring one moderator and three panelists! Guided by the moderator’s thoughtful facilitation, guests from diverse backgrounds will explore this year’s theme from different angles. You’ll hear multiple perspectives collide on stage, helping you step outside the box, re-examine the core topics from new viewpoints, and piece together a broader and richer technical vision through shared experiences.",
+						"image": {
+							"url": "/2026/img/info/Forum.webp",
+							"alt": "SITCON Panel",
+							"position": "left"
+						}
+					},
+					{
+						"title": "Sessions",
+						"body": "Here you’ll find a collection of excellent talks submitted by students from all over! Whether you prefer in-depth Presentations that thoroughly unpack technical concepts, or fast-paced Espresso sessions that deliver key takeaways in a short time, there’s plenty to discover. On top of that, there are flexible open-format sessions where ideas from different backgrounds can freely interweave. Come experience the hands-on knowledge and creativity brought by student speakers on-site!",
+						"image": {
+							"url": "/2026/img/info/Agenda.webp",
+							"alt": "SITCON Sessions",
+							"position": "right"
+						}
+					},
+					{
+						"title": "Demo Showcase",
+						"body": "Building on last year’s enthusiastic response, the Demo Showcase returns with an exciting upgrade! This special exhibition area goes beyond the regular program, providing a stage for students to present their projects and research成果 through live demos and conversations. It’s a great opportunity for attendees to explore diverse topics in a relaxed way and spark new inspiration.\n\nThe showcase will take place on March 28, 2026 (conference day), at the booths on the north side of the 4th floor, featuring outstanding student work from across Taiwan. Whether you’re interested in technical innovation, project sharing, interactive design, or cutting-edge research discoveries, you’re sure to find topics that surprise and inspire you.\n\nIn addition, project exhibitors will be present at different time slots to chat and discuss with attendees. This is a perfect chance to ask questions, learn, and meet amazing peers from around the country—if you love exploring new knowledge, don’t miss it!",
+						"image": {
+							"url": "/2026/img/info/Demo.webp",
+							"alt": "SITCON Demo Showcase",
+							"position": "left"
+						}
+					}
+				]
+			},
+			{
+				"title": "First Time Here & Want to Make Friends",
+				"activities": [
+					{
+						"title": "Compass Project",
+						"body": "Looking forward to meeting like-minded partners at the conference? We sincerely invite you to join the Compass Project!\n\nThe Compass Project provides an opportunity for exchange, aiming to help you find partners with shared interests to explore topics together. Whether you are an experienced veteran or a curious newcomer, you can find resonance here.\n\nBased on the information you provide, we will match you with suitable partners to form groups and encourage active interaction. To ensure a good experience for everyone, please stay in touch and engage with your group members after signing up, so that every participant expecting interaction can truly meet others. During the conference, you can participate in various activities with your group members or have a relaxed meetup during lunch. Whether sharing experiences, exchanging viewpoints, or discussing conference agenda topics, it will be a rewarding experience.\n\nEveryone, regardless of their level of expertise, can find their place here and work together to create an open environment for mutual exchange and learning. We look forward to your enthusiastic participation, making SITCON 2026 even more wonderful!",
+						"image": {
+							"url": "/2026/img/info/Compass.webp",
+							"alt": "SITCON Compass Project",
+							"position": "right"
+						}
+					},
+					{
+						"title": "Guided Tours",
+						"body": "Facing a chaotic scene with intertwined melodies of crowds, perhaps you are still lost. The laughter in the venue is like scattered notes with unset beats. What are you waiting for? Join the Guided Tour! Let the conductors lead you through the unknown of SITCON to find your own melody and belonging.\n\nYou can find guides holding SITCON flags at the meeting point. Follow the SITCON guides to visit community booths and the poster exhibition, helping you understand the various aspects and operations of SITCON.\n\nThere are two tours in the morning and two in the afternoon, each lasting about 40 minutes. Details will be announced later.\n\n<table>\n<tr><th>Tour Name & Guide</th><th>Meeting Point</th><th>Time</th></tr>\n<tr><td>XX Band (Guide: -- )</td><td rowspan=\"2\">North Corridor</td><td>10:00-10:40</td></tr>\n<tr><td>XX Band (Guide: -- )</td><td>10:30-11:00</td></tr>\n<tr><td>XX Band (Guide: -- )</td><td></td><td>14:00-14:10</td></tr>\n</table>\n\nCome and join the guided tour to unveil the excitement of the conference with new friends!",
+						"image": {
+							"url": "/2026/img/info/Guide.webp",
+							"alt": "SITCON Guided Tours",
+							"position": "left"
+						}
+					}
+				]
+			},
+			{
+				"title": "Want to Play Something at the Venue",
+				"activities": [
+					{
+						"title": "Reality Game",
+						"body": "Don't know what to do between sessions? Want to interact with booths but don't know how to start? Don't worry! Open OPass and join the Reality Game!\n\nThis year's Reality Game combines the SITCON 2026 theme 'Jam the Chaos'. In the game, you will unlock levels, challenge memory sequence games, master the rhythm, solve puzzles, accumulate completions, and climb the leaderboard for a chance to win coupons for the SITCON 2026 souvenir booth!\n\n<b>【How to Unlock New Levels?】</b>\n\n<b>🤝 Interact with Sponsors:</b> Communicate with sponsors to unlock new levels, verify higher difficulty challenges, and sprint up the leaderboard! \n\n <b>🎤 Join Activities & Explore Venue:</b> Explore the venue, check in at activity locations, and participate in exciting events. Each activity and new location unlocks a new level~\n\n<b>🔍 Meet New Friends:</b> Interact with other attendees; every new encounter unlocks a new level.\n\nThe more levels you complete and the higher you rank, the greater your chances of winning! Pick up your phone and groove with the rhythm!",
+						"image": {
+							"url": "/2026/img/info/Game.webp",
+							"alt": "SITCON Reality Game",
+							"position": "left"
+						}
+					},
+					{
+						"title": "Whiteboard War",
+						"body": "In this era of intertwined viewpoints and infinite creativity, pick up a whiteboard marker, add your thoughts to this chaotic world, and start a wonderful battle of ideas!\n\nWe sincerely invite you to the whiteboard area on the 3rd floor to join this smokeless 'Whiteboard War'. Jam the code together, debate and defend the sect you believe in (x). This will be a grand platform for you to showcase creativity and clash viewpoints.\n\nIn a relaxed atmosphere, let's use whiteboards as weapons, unleash infinite creativity, challenge different viewpoints, and create more sparks! Come and splash your ideas to make this whiteboard world even more chaotic!",
+						"image": {
+							"url": "/2026/img/info/Whiteboard.webp",
+							"alt": "SITCON Whiteboard War",
+							"position": "right"
+						}
+					}
+				]
+			},
+			{
+				"title": "Have Something to Say?",
+				"activities": [
+					{
+						"title": "Lightning Talks",
+						"body": "Do you have something exciting to share but missed the submission deadline? Welcome to participate in SITCON 2026 Lightning Talks! Lightning Talks provide eight slots for the quickest attendees to share their projects or ideas in five minutes!\n\nOn the day of the conference from 10:00 AM to 3:30 PM, you are welcome to submit your proposal at the designated whiteboard area. The submission method is simple! Once submission opens, choose an empty slot on the whiteboard and write down your talk title and name (e.g., 'How I Became the Wind by Windful'). There are only eight slots, and each person is limited to one submission, so be quick! After submitting, please scan the form next to the whiteboard to provide more information, such as title, speaker name, and outline. We suggest preparing this content in advance to ensure a smooth process!\n\nIf you successfully become a speaker, please gather at the right side of R0 on the 3rd floor at 4:40 PM sharp with your presentation equipment. Agenda team members will be there to assist you. To maintain diversity and fun, we do not accept overly commercial submissions. If your talk exceeds the time limit or contains commercial content for more than ten seconds, the screen will be cut off directly!\n\nWe invite you to this adrenaline-pumping activity to communicate and share with more people at SITCON!",
+						"image": {
+							"url": "/2026/img/info/Lightning.webp",
+							"alt": "SITCON Lightning Talks",
+							"position": "left"
+						}
+					}
+				]
+			}
+		]
+	},
+	"footer": [
+		{
+			"title": "Sitemap",
+			"links": [
+				{
+					"name": "Conference Activities (incl. Transport)",
+					"url": "/2026/en/info/"
+				},
+				{
+					"name": "Agenda",
+					"url": "#"
+				},
+				{
+					"name": "Venue Map",
+					"url": "#"
+				},
+				{
+					"name": "Registration",
+					"url": "https://tickets.sitcon.org/sitcon2026"
+				},
+				{
+					"name": "SITCON Team",
+					"url": "/2026/en/team/"
+				},
+				{
+					"name": "Partners",
+					"url": "#"
+				},
+				{
+					"name": "Resources",
+					"url": "#"
+				}
+			]
+		},
+		{
+			"title": "SITCON Projects",
+			"links": [
+				{
+					"name": "Sponsorship Prospectus",
+					"url": "https://sitcon.org/2026/cfs/en/"
+				},
+				{
+					"name": "Call for Paper",
+					"url": "https://sitcon.org/2026/cfp/"
+				},
+				{
+					"name": "Hour of Code",
+					"url": "https://sitcon.org/hoc/"
+				},
+				{
+					"name": "SITCON Camp",
+					"url": "https://sitcon.camp"
+				},
+				{
+					"name": "SITCON Hackathon",
+					"url": "https://hackathon.sitcon.org"
+				},
+				{
+					"name": "SITCON Podcast",
+					"url": "https://sitcon.org/podcast/"
+				},
+				{
+					"name": "Hackers",
+					"url": "https://sitcon.org/hacker/"
+				}
+			]
+		},
+		{
+			"title": "Contact",
+			"links": [
+				{
+					"name": "Contact Window\ncontact@sitcon.org",
+					"url": "mailto:contact@sitcon.org"
+				},
+				{
+					"name": "Ticketing\nticket@sitcon.org",
+					"url": "mailto:ticket@sitcon.org"
+				}
+			]
+		},
+		{
+			"title": "Past Websites",
+			"gridLayout": true,
+			"links": [
+				{
+					"name": "2025",
+					"url": "https://sitcon.org/2025"
+				},
+				{
+					"name": "2024",
+					"url": "https://sitcon.org/2024"
+				},
+				{
+					"name": "2023",
+					"url": "https://sitcon.org/2023"
+				},
+				{
+					"name": "2022",
+					"url": "https://sitcon.org/2022"
+				},
+				{
+					"name": "2021",
+					"url": "https://sitcon.org/2021"
+				},
+				{
+					"name": "2020",
+					"url": "https://sitcon.org/2020"
+				},
+				{
+					"name": "2019",
+					"url": "https://sitcon.org/2019"
+				},
+				{
+					"name": "2018",
+					"url": "https://sitcon.org/2018"
+				},
+				{
+					"name": "2017",
+					"url": "https://sitcon.org/2017"
+				},
+				{
+					"name": "2016",
+					"url": "https://sitcon.org/2016"
+				},
+				{
+					"name": "2015",
+					"url": "https://sitcon.org/2015"
+				},
+				{
+					"name": "2014",
+					"url": "https://sitcon.org/2014"
+				},
+				{
+					"name": "2013",
+					"url": "https://sitcon.org/2013"
+				}
+			]
+		}
+	],
+	"team": {
+		"general": {
+			"name": "General Coordinator Team",
+			"description": "The core team coordinating the entire conference, responsible for orchestrating operations across all teams and defining the conference's direction and policies. We are the navigators, ensuring the event runs smoothly and achieves its goals."
+		},
+		"administration": {
+			"name": "Administration Team",
+			"description": "Handles all administrative affairs, including documentation, meeting minutes, and internal communication. We are the lubricant of the team, ensuring smooth processes."
+		},
+		"agenda": {
+			"name": "Agenda Team",
+			"description": "Responsible for agenda planning and speaker invitations, the core content producers of the conference. We review a large number of technical submissions and select the most suitable topics to ensuring attendees hear high-quality content."
+		},
+		"operations": {
+			"name": "Operations Team",
+			"description": "The guardians of the venue on the day of the conference, responsible for flow planning, equipment setup, and handling emergencies. We are the unsung heroes behind the smooth running of the event, requiring strong adaptability to face various challenges."
+		},
+		"design": {
+			"name": "Design Team",
+			"description": "Responsible for the key visual and merchandise design, depicting SITCON with colors and lines. We pursue visual excellence, striving to visualize abstract concepts and bring everyone a perfect visual feast."
+		},
+		"finance": {
+			"name": "Finance Team",
+			"description": "Controls the financial power of the conference, ensuring every penny of sponsorship and budget is used effectively. We need meticulousness and patience to handle complex accounting and budgeting, serving as the solid backing for the event."
+		},
+		"recording": {
+			"name": "Photography Team",
+			"description": "Captures every wonderful moment of the conference promoting event photography and video recording. We are the guardians of memories, preserving every touching moment forever."
+		},
+		"production": {
+			"name": "Production Team",
+			"description": "Responsible for audio-visual equipment and live streaming systems, ensuring agendas are presented smoothly to all participants. We are the combination of technology and art, allowing every speech to be perfectly conveyed."
+		},
+		"development": {
+			"name": "Development Team",
+			"description": "Dedicated to building the digital foundation of the conference with code, maintaining the stable operation of the official website and App. We are a group of developers who love technology, transforming imaginative designs into actual interactive experiences. Welcome to exchange and learn here!"
+		},
+		"editorial": {
+			"name": "Editorial Team",
+			"description": "Responsible for the production and proofreading of all text content, including website copy, promotional materials, and press releases. We convey the spirit of SITCON through words, ensuring every message accurately reaches the target audience."
+		},
+		"marketing": {
+			"name": "Marketing Team",
+			"description": "Responsible for external promotion and community management, letting more people know about SITCON through various channels. We are the spokespersons of the conference, promoting the event to the world with creativity and passion."
+		}
+	},
+	"role": {
+		"chief": "Chief Organizer",
+		"deputy_chief": "Deputy Chief Organizer",
+		"head": "Team Lead",
+		"deputy": "Deputy Lead",
+		"member": "Member",
+		"treasurer": "Treasurer",
+		"agenda": "Agenda Section Lead",
+		"agenda_lead": "Agenda Section",
+		"ops_mobility_lead": "Mobility Lead",
+		"ops_registration_lead": "Registration Lead",
+		"ops_catering_lead": "Catering Lead",
+		"ops_logistics_lead": "Logistics Lead",
+		"ops_mobility": "Mobility Team",
+		"ops_registration": "Registration Team",
+		"ops_catering": "Catering Team",
+		"ops_logistics": "Logistics Team",
+		"marketing_helper": "Marketing Assistant"
+	},
+	"referral": {
+		"mainHeading": "Referral Program",
+		"heroTitle": "Invite Friends to SITCON!",
+		"heroSubtitle": "Invite friends to join, and you can win prizes too",
+		"howTo": {
+			"steps": [
+				{
+					"title": "Get Your Referral Code",
+					"description": "Once you successfully register for SITCON 2026, the system will automatically generate a unique referral code for you. You can check it anytime on your personal registration page."
+				},
+				{
+					"title": "Share with Friends",
+					"description": "Share your referral code with friends, classmates, or community partners who haven't registered yet, in any way you like."
+				},
+				{
+					"title": "Friend Completes Registration",
+					"description": "When they enter your referral code during registration and complete the process, it counts as one successful referral."
+				}
+			],
+			"tips": {
+				"items": ["The same referral code can be used by multiple people", "The system will automatically accumulate your successful referral counts"]
+			}
+		},
+		"rewards": {
+			"title": "Referral Rewards Await!",
+			"lottery": {
+				"title": "One Lottery Entry per Referral",
+				"description": "For every new registrant you successfully refer, you get one entry into the lottery. The more you refer, the higher your chances of winning!",
+				"table": {
+					"headers": ["Prize Category", "Prize", "Quota", "Draw Date"],
+					"rows": [
+						["Popularity Grand Prize", "SITCON Exclusive Pillow Cover", "2 Winners", "1/30"],
+						["Classic Collection", "Past Conference Souvenir T-Shirt", "3 Winners", "2/28"]
+					]
+				}
+			},
+			"topReferrers": {
+				"title": "Top Referrer",
+				"description": "The top five referrers with the most successful referrals will receive exclusive honors and SITCON 2026 commemorative gifts, and will be publicly recognized and awarded at the SITCON 2026 conference!",
+				"table": {
+					"headers": ["Prize Category", "Reward Content", "Quota"],
+					"rows": [["Top Referrer Gift", "SITCON 2026 Exquisite Souvenir", "5 Winners"]]
+				},
+				"deadlines": ["Referral Count Cut-off: 3/1", "Winner Announcement: 3/15 (Notified via Email)"],
+				"rules": [
+					"Ranked by number of successful referrals, top five will be selected.",
+					"If referral counts are the same, the one with the earlier 'first successful referral time' takes precedence.",
+					"Top Referrer awards must be claimed at the conference venue; detailed claiming process will be announced separately."
+				]
+			}
+		},
+		"fairness": {
+			"title": "Fairness and Notices",
+			"description": "To ensure fairness, the organizer will:",
+			"items": [
+				"Exclude referral records generated from duplicate, abnormal, or false registrations",
+				"Reserve the right to cancel eligibility if behavior affecting fairness is found",
+				"All referral and lottery records are based on system data"
+			],
+			"disclaimer": "The organizer reserves the right of final interpretation and adjustment of event content, prizes, and rules."
+		}
+	},
+	"about": {
+		"title": "About SITCON",
+		"description": "SITCON is a student-driven community dedicated to IT education and promoting the open source spirit. It is a student-organized conference that provides a stage for students to present and exchange technical knowledge.",
+		"community": {
+			"title": "The Largest Student Community in East Asia for 13 Years",
+			"data": [
+				{
+					"label": "student speakers",
+					"count": 500
+				},
+				{
+					"label": "meetups and talks",
+					"count": 500
+				},
+				{
+					"label": "summer camps",
+					"count": 10
+				},
+				{
+					"label": "conference attendees",
+					"count": 14000
+				},
+				{
+					"label": "passionate volunteers",
+					"count": 1400
+				}
+			]
+		},
+		"recap": {
+			"title": "SITCON 2025 in Review",
+			"stats": [
+				{
+					"number": "1300",
+					"label": "in-person attendees"
+				},
+				{
+					"number": "200",
+					"label": "schools from home and abroad"
+				},
+				{
+					"number": "70%",
+					"label": "college or graduate students"
+				},
+				{
+					"number": "1/3",
+					"label": "active in tech communities"
+				}
+			],
+			"charts": [
+				{
+					"title": "Attendee Identity Distribution",
+					"data": [
+						{
+							"value": 679,
+							"name": "University Students"
+						},
+						{
+							"value": 291,
+							"name": "High School Students"
+						},
+						{
+							"value": 117,
+							"name": "Graduate Students"
+						},
+						{
+							"value": 87,
+							"name": "Working Professionals"
+						},
+						{
+							"value": 25,
+							"name": "Middle School Students"
+						},
+						{
+							"value": 15,
+							"name": "5-Year College Students"
+						},
+						{
+							"value": 6,
+							"name": "Others"
+						},
+						{
+							"value": 3,
+							"name": "Teachers / Professors"
+						},
+						{
+							"value": 1,
+							"name": "Elementary Students"
+						}
+					]
+				},
+				{
+					"title": "Software Development Level Distribution",
+					"data": [
+						{
+							"value": 476,
+							"name": "Intermediate"
+						},
+						{
+							"value": 276,
+							"name": "Beginner"
+						},
+						{
+							"value": 185,
+							"name": "Proficient"
+						},
+						{
+							"value": 182,
+							"name": "Entry-level"
+						},
+						{
+							"value": 54,
+							"name": "No programming experience"
+						},
+						{
+							"value": 51,
+							"name": "Advanced"
+						}
+					]
+				}
+			]
+		},
+		"media": {
+			"title": "Media Coverage",
+			"items": [
+				{
+					"image": "yahooNews",
+					"alt": "Yahoo News: SITCON 2024 Conference Concludes Successfully",
+					"url": "https://tw.news.yahoo.com/%E5%A4%A7%E8%AB%87ai%E8%88%87%E7%A7%91%E6%8A%80%E6%95%99%E8%82%B2%E7%99%BC%E5%B1%95-sitcon-2024%E5%B9%B4%E6%9C%83%E5%9C%93%E6%BB%BF%E8%90%BD%E5%B9%95-134127533.html"
+				},
+				{
+					"image": "youratorNews",
+					"alt": "Yourator: SITCON Student Computing Conference",
+					"url": "https://www.yourator.co/articles/215"
+				},
+				{
+					"image": "moneyUdnNews",
+					"alt": "Economic Daily News: SITCON 2025",
+					"url": "https://money.udn.com/money/story/5723/9018057"
+				},
+				{
+					"image": "ettodayNews",
+					"alt": "Newtalk News: SITCON Student Computing Conference",
+					"url": "https://newstaiwan.net/2024/03/09/155739/"
+				}
+			]
+		},
+		"history": {
+			"title": "What We've Done",
+			"data": [
+				{
+					"image": "sitcon_hk",
+					"title": "Largest Student IT Conference in East Asia",
+					"description": "Inspired the founding of SITCON x HK in Hong Kong and the Student Open Source Conference in Chongqing, and provides support to student groups and IT communities worldwide. More than half of new participants join each year, and alumni now work across the IT industry in Taiwan, the US, Japan, and the Netherlands, with many returning to support the community."
+				},
+				{
+					"image": "groups",
+					"title": "Meetups Across Taiwan",
+					"description": "Continuously co-hosting meetups with local communities across Taiwan to provide channels for students to exchange knowledge. These events have partnered with universities such as National Taiwan University and Tamkang University, bringing together outstanding talents from the IT field."
+				},
+				{
+					"image": "edu",
+					"title": "SITCON Hour of Code",
+					"description": "Since 2014, in collaboration with the Ministry of Education, we have regularly held Hour of Code events across Taiwan, sparking curiosity about the IT field in hundreds of children and students aged 4 to 16."
+				},
+				{
+					"image": "hackathon",
+					"title": "SITCON Hackathon",
+					"description": "We held HackGen in 2014 and 2015, and in 2024 upgraded the event to the SITCON Hackathon. We aim for participants to learn ideation, planning, and implementation, helping society and businesses discover talented student teams."
+				},
+				{
+					"image": "camp",
+					"title": "SITCON Summer Camp",
+					"description": "Since 2014, SITCON has held a summer camp every July, making it easy for students interested in IT to get started and ignite their passion for open source. Both campers and volunteers are students. In addition to the main curriculum, there are open source talks, a community expo, and a World Café, giving students opportunities to not only learn but also exchange ideas and spark inspiration."
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,156 @@
+:root {
+	--max-width: 1400px;
+	--content-max-width: 1200px;
+	--black: #000000;
+	--coffee: #3c2d0e;
+	--silence-white: #f2f2f2;
+	--copper: #431b0a;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	word-break: break-word;
+	-webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
+	font: inherit;
+}
+
+html {
+	scroll-behavior: smooth;
+	scroll-padding-top: 5rem;
+}
+
+body {
+	background-color: #ac782b;
+	color: var(--silence-white);
+	font-family: "GenKiGothicTW", sans-serif;
+	font-optical-sizing: auto;
+	font-size: 17px;
+	color: #fff;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "GenKiMinTW", serif;
+	text-wrap: balance;
+	line-height: 1.2;
+}
+
+code,
+pre {
+	font-family: "JetBrainsMono", monospace;
+}
+
+h1 {
+	font-size: 3rem;
+}
+
+h2 {
+	font-size: 5rem;
+}
+
+p {
+	line-height: 1.5;
+	margin-bottom: 1rem;
+	word-break: break-word;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+@media (max-width: 600px) {
+	body {
+		font-size: 16px;
+	}
+
+	h2 {
+		font-size: 2.5rem;
+	}
+}
+
+/* i11y */
+.skip-link {
+	position: absolute;
+	top: -40px;
+	left: 0;
+	background: #000;
+	color: var(--silence-white);
+	padding: 8px 16px;
+	text-decoration: none;
+	z-index: 10000;
+	font-weight: bold;
+}
+
+.skip-link:focus {
+	top: 0;
+}
+
+/* ==========================================
+   Text Reveal Animation Styles
+   使用方式：
+   - 標題：class="text-reveal-title"
+   - 段落：class="text-reveal-paragraph"
+   ========================================== */
+
+.text-reveal-title,
+.text-reveal-paragraph {
+	overflow: hidden;
+}
+
+.text-reveal-wrapper {
+	display: block;
+}
+
+.text-reveal-line {
+	overflow: hidden;
+	display: block;
+	line-height: inherit;
+}
+
+.text-reveal-content {
+	display: inline-block;
+	will-change: transform, opacity;
+}
+
+/* 保持原有的文字樣式 */
+.text-reveal-title .text-reveal-content {
+	line-height: inherit;
+}
+
+.text-reveal-paragraph .text-reveal-content {
+	line-height: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}

@@ -1,0 +1,37 @@
+---
+import Layout from "@/layout/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import Speaker from "@/components/index/Speaker.astro";
+import DemoShow from "@/components/index/DemoShow.astro";
+import Hero from "@/components/index/Hero.astro";
+import GetTicket from "@/components/index/GetTicket.astro";
+import JoinUs from "@/components/index/JoinUs.astro";
+import Sponsor from "@/components/index/Sponsor.astro";
+import Discuss from "@/components/index/Discuss.astro";
+import Coc from "@/components/index/Coc.astro";
+const lang = Astro.props.lang ?? "zh";
+const isProd = import.meta.env.PROD;
+---
+
+<Layout lang={lang}>
+	<Hero lang={lang} />
+	{!isProd && <Speaker lang={lang} />}
+	<DemoShow lang={lang} />
+	<GetTicket lang={lang} />
+	<JoinUs lang={lang} />
+	<Sponsor lang={lang} />
+	<Discuss lang={lang} />
+	<Coc lang={lang} />
+	<Footer />
+</Layout>
+
+<style>
+	main {
+		/* min-height: 100vh; */
+		padding: 5rem 2rem 2rem;
+	}
+	h1 {
+		margin-top: 5rem;
+		/* height: 500vh; */
+	}
+</style>

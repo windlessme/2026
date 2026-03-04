@@ -1,0 +1,472 @@
+---
+import { X } from "@lucide/astro";
+const { id = "member-info-modal" } = Astro.props;
+---
+
+<div id={id} class="member-info">
+	<div class="header">
+		<button class="close-btn" aria-label="關閉">
+			<X size={24} strokeWidth={3} />
+		</button>
+	</div>
+	<h1 id="member-name"></h1>
+	<p id="member-position"></p>
+	<div class="avatar">
+		<div class="avatar-container" id="member-avatar-container">
+			<!-- 根據 mode 動態生成層級 -->
+		</div>
+	</div>
+	<p id="member-description"></p>
+	<div class="social">
+		<button id="member-social-btn" data-url="">Link</button>
+	</div>
+</div>
+
+<script>
+	const KNOWN_SITES = {
+		"instagram.com": "Instagram",
+		"github.com": "GitHub",
+		"facebook.com": "Facebook",
+		"youtube.com": "YouTube",
+		"twitter.com": "Twitter",
+		"x.com": "X",
+		"linkedin.com": "LinkedIn",
+		"plurk.com": "Plurk",
+		"medium.com": "Medium"
+	};
+
+	const normalizeUrl = (url: string) => {
+		if (!url || url.trim() === "") return "";
+		url = url.trim();
+		if (url.startsWith("http://") || url.startsWith("https://")) {
+			return url;
+		}
+		return `https://${url}`;
+	};
+
+	const getSocialText = (url: string) => {
+		try {
+			const urlObj = new URL(url);
+			const hostname = urlObj.hostname;
+			let siteName = "";
+			for (const [domain, name] of Object.entries(KNOWN_SITES)) {
+				if (hostname === domain || hostname.endsWith("." + domain)) {
+					siteName = name;
+					break;
+				}
+			}
+			return siteName ? `前往 ${siteName}` : `前往 ${hostname.replace(/^www\./, "")}`;
+		} catch (e) {
+			return `前往 ${url}`;
+		}
+	};
+
+	// Unified Click Event Listener
+	document.addEventListener("keydown", e => {
+		if (e.key === "Enter" || e.key === " ") {
+			const target = e.target as HTMLElement;
+			const trigger = target.closest(".person-trigger") as HTMLElement | null;
+			if (trigger) {
+				e.preventDefault();
+				trigger.click();
+			}
+		}
+	});
+
+	document.addEventListener("click", e => {
+		const target = e.target as HTMLElement;
+
+		// Open modal logic
+		const trigger = target.closest(".person-trigger") as HTMLElement | null;
+		if (trigger) {
+			const { name, position, link, team, description, mode, color } = trigger.dataset;
+
+			const modal = document.getElementById("member-info-modal");
+			if (modal) {
+				// Update Text
+				const nameEl = modal.querySelector("#member-name");
+				const posEl = modal.querySelector("#member-position");
+				const descEl = modal.querySelector("#member-description");
+
+				if (nameEl) nameEl.textContent = name || "";
+				if (posEl) posEl.textContent = `${team} ● ${position}` || "";
+				if (descEl) {
+					// 將 \n 轉換成 <br> 以支援換行
+					const descText = (description || "").replace(/\\n/g, "\n").replace(/\n/g, "<br>");
+					descEl.innerHTML = descText;
+				}
+
+				// Update Avatar - 根據 mode 生成不同結構
+				const avatarContainer = modal.querySelector("#member-avatar-container") as HTMLElement | null;
+				if (avatarContainer && name) {
+					const backImgUrl = `/2026/img/avatar/back/${name}.webp`;
+					const frontImgUrl = `/2026/img/avatar/front/${name}.webp`;
+
+					// 清空容器
+					avatarContainer.innerHTML = "";
+
+					if (mode === "nobg") {
+						// 只有後層
+						avatarContainer.innerHTML = `
+							<div class="avatar-layer avatar-back">
+								<img class="avatar-img" src="${backImgUrl}" alt="${name}" />
+							</div>
+						`;
+					} else if (mode === "color") {
+						// 只有前層 + 顏色背景
+						avatarContainer.innerHTML = `
+							<div class="avatar-layer avatar-bg" style="background-color: #${color};"></div>
+							<div class="avatar-layer avatar-front">
+								<img class="avatar-img" src="${frontImgUrl}" alt="${name}" />
+							</div>
+						`;
+					} else {
+						// 默認：雙層
+						avatarContainer.innerHTML = `
+							<div class="avatar-layer avatar-back">
+								<img class="avatar-img" src="${backImgUrl}" alt="${name}" />
+							</div>
+							<div class="avatar-layer avatar-front">
+								<img class="avatar-img" src="${frontImgUrl}" alt="${name}" />
+							</div>
+						`;
+					}
+
+					// 初始化 3D 效果
+					init3DEffectForModal(avatarContainer);
+				}
+
+				// Update Social Button
+				const socialBtn = modal.querySelector("#member-social-btn") as HTMLElement | null;
+				if (socialBtn) {
+					const normalizedLink = normalizeUrl(link || "");
+					socialBtn.setAttribute("data-url", normalizedLink);
+					socialBtn.textContent = getSocialText(normalizedLink);
+					socialBtn.style.display = normalizedLink ? "inline-block" : "none";
+					socialBtn.setAttribute("aria-label", socialBtn.textContent || "");
+				}
+
+				modal.classList.add("show");
+			}
+			return;
+		}
+
+		// Close modal logic
+		const closeBtn = target.closest(".member-info .close-btn");
+		if (closeBtn) {
+			const modal = closeBtn.closest(".member-info") as HTMLElement | null;
+			if (modal) {
+				modal.classList.remove("show");
+			}
+			return;
+		}
+
+		// Social Button Click Logic
+		const socialBtn = target.closest("#member-social-btn");
+		if (socialBtn) {
+			const url = socialBtn.getAttribute("data-url");
+			if (url) window.open(url, "_blank");
+			return;
+		}
+	});
+
+	// ESC key to close modal
+	document.addEventListener("keydown", e => {
+		if (e.key === "Escape") {
+			const modal = document.getElementById("member-info-modal");
+			if (modal && modal.classList.contains("show")) {
+				modal.classList.remove("show");
+			}
+		}
+	});
+
+	// 3D 視差效果（用於 popup）- 全螢幕追蹤
+	let currentModalMouseHandler: ((e: MouseEvent) => void) | null = null;
+
+	const init3DEffectForModal = (container: HTMLElement) => {
+		const layers = container.querySelectorAll(".avatar-layer");
+
+		// 移除舊的全域監聽器（如果有）
+		if (currentModalMouseHandler) {
+			document.removeEventListener("mousemove", currentModalMouseHandler);
+		}
+
+		const handleMouseMove = (e: MouseEvent) => {
+			// 計算滑鼠相對於螢幕中心的位置
+			const screenCenterX = window.innerWidth / 2;
+			const screenCenterY = window.innerHeight / 2;
+
+			const mouseX = e.clientX;
+			const mouseY = e.clientY;
+
+			// 相對於螢幕中心的偏移量（標準化到 -1 到 1）
+			const offsetX = (mouseX - screenCenterX) / screenCenterX;
+			const offsetY = (mouseY - screenCenterY) / screenCenterY;
+
+			layers.forEach(layer => {
+				const isBack = layer.classList.contains("avatar-back");
+				const isBg = layer.classList.contains("avatar-bg");
+
+				// 後層（back）移動速度更快，製造 3D 效果
+				let speedMultiplier = 1;
+				if (isBack) {
+					speedMultiplier = 1.8;
+				} else if (isBg) {
+					speedMultiplier = 0; // 背景不動
+				}
+
+				const maxOffset = 5; // 最大偏移量（像素）
+				const translateX = offsetX * maxOffset * speedMultiplier;
+				const translateY = offsetY * maxOffset * speedMultiplier;
+
+				(layer as HTMLElement).style.transform = `scale(1.125) translate(${translateX}px, ${translateY}px)`;
+			});
+		};
+
+		currentModalMouseHandler = handleMouseMove;
+
+		// 全螢幕追蹤滑鼠
+		document.addEventListener("mousemove", handleMouseMove);
+	};
+
+	// 關閉 modal 時清除監聽器
+	const cleanup3DEffectForModal = () => {
+		if (currentModalMouseHandler) {
+			document.removeEventListener("mousemove", currentModalMouseHandler);
+			currentModalMouseHandler = null;
+		}
+	};
+
+	// 監聽 modal 關閉
+	const modalObserver = new MutationObserver(mutations => {
+		mutations.forEach(mutation => {
+			if (mutation.type === "attributes" && mutation.attributeName === "class") {
+				const modal = mutation.target as HTMLElement;
+				if (!modal.classList.contains("show")) {
+					cleanup3DEffectForModal();
+				}
+			}
+		});
+	});
+
+	const memberModal = document.getElementById("member-info-modal");
+	if (memberModal) {
+		modalObserver.observe(memberModal, { attributes: true });
+	}
+</script>
+
+<style>
+	.member-info {
+		color: black;
+		background-color: white;
+		width: 40rem;
+		width: clamp(30rem, 30vw, 40rem);
+		height: 100vh;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		padding: 4rem;
+		box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+		z-index: 101;
+		overflow-y: auto;
+
+		/* Animation styles */
+		transform: translateX(-105%);
+		transition:
+			transform 0.3s ease,
+			visibility 0s 0.3s;
+		visibility: hidden;
+	}
+
+	.member-info.show {
+		transform: translateX(0);
+		visibility: visible;
+		transition:
+			transform 0.4s ease,
+			visibility 0s 0s;
+	}
+
+	.header {
+		padding-bottom: 1.5rem;
+	}
+
+	.close-btn {
+		border-radius: 62rem;
+		justify-content: center;
+		align-items: center;
+		width: 3rem;
+		height: 3rem;
+		position: absolute;
+		top: 3rem;
+		right: 3rem;
+		font-size: 2rem;
+		font-weight: 700;
+		background-color: black;
+		color: white;
+		cursor: pointer;
+		display: flex;
+		border: none;
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease;
+	}
+
+	.close-btn:hover {
+		transform: translateY(-0.25rem);
+		box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+	}
+
+	svg {
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+
+	h1 {
+		font-size: 5.25rem;
+	}
+
+	.member-position {
+		font-family: "GenKiMinTW";
+		font-weight: 700;
+		padding: 1.5rem 0;
+		line-height: 1.5;
+	}
+
+	.avatar,
+	.social {
+		justify-self: end;
+	}
+
+	.social {
+		margin-top: 3rem;
+		align-self: flex-end;
+	}
+
+	.avatar-container {
+		position: relative;
+		width: 10rem;
+		height: 10rem;
+		border-radius: 1rem;
+		overflow: hidden;
+	}
+
+	.avatar-layer {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		transform: scale(1.125);
+		transition: transform 0.1s ease-out;
+		will-change: transform;
+	}
+
+	.avatar-bg {
+		z-index: 0;
+	}
+
+	.avatar-back {
+		z-index: 1;
+	}
+
+	.avatar-front {
+		z-index: 2;
+	}
+
+	.avatar-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	#member-social-btn {
+		padding: 0.5rem 1rem;
+		background-color: #000;
+		color: #fff;
+		border: none;
+		border-radius: 0.3rem;
+		cursor: pointer;
+		font-size: 1rem;
+		font-weight: 700;
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease;
+	}
+
+	#member-social-btn:hover {
+		transform: translateY(-0.25rem);
+		box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+	}
+
+	p {
+		max-width: 20rem;
+		padding-top: 3.75rem;
+		font-weight: 700;
+		line-height: 1.5;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.member-info {
+			transition: none;
+		}
+
+		.member-info.show {
+			transition: none;
+		}
+
+		.close-btn {
+			transition: none;
+		}
+
+		#member-social-btn {
+			transition: none;
+		}
+
+		.avatar-layer {
+			transition: none;
+		}
+	}
+
+	@media (max-width: 40rem) {
+		.close-btn {
+			top: 2rem;
+			right: 2rem;
+			width: 2rem;
+			height: 2rem;
+			font-size: 1.5rem;
+		}
+
+		svg {
+			width: 1rem;
+			height: 1rem;
+		}
+
+		.member-info {
+			width: calc(100vw - 4rem);
+			height: calc(100vh - 4rem);
+			align-self: center;
+			justify-self: center;
+			position: fixed;
+			padding: 2.5rem;
+		}
+
+		.header {
+			padding-bottom: 2.5rem;
+		}
+
+		h1 {
+			font-size: 3.5rem;
+		}
+
+		.avatar,
+		.social {
+			justify-self: center;
+		}
+
+		p {
+			width: 100%;
+		}
+	}
+</style>

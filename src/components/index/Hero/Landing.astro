@@ -1,0 +1,333 @@
+---
+import { useTranslations, type Lang } from "@/utils/i18n";
+
+interface Props {
+	lang?: Lang;
+}
+
+const lang = Astro.props.lang ?? "zh";
+const t = useTranslations(lang).landing;
+---
+
+<header>
+	<!-- 主標題 (左側) -->
+	<h1>
+		<span class="line-1">Jam</span>
+		<span class="line-2">the</span>
+		<span class="line-3">Chaos</span>
+	</h1>
+
+	<div class="bottom">
+		<!-- 左下角報名按鈕 -->
+		<div class="cta-container" id="cta-container">
+			<a href="https://tickets.sitcon.org/sitcon2026" target="_blank">
+				<div class="cta-text-layer">
+					<span class="cta-text">{t.cta}</span>
+					<span class="arrow">›</span>
+				</div>
+			</a>
+			<div class="cta-handle" id="cta-handle">
+				<div class="cta-icon">
+					<img src="/2026/img/Hero/stone-note.svg" alt="Arrow Right Icon" draggable="false" />
+				</div>
+			</div>
+		</div>
+
+		<!-- 右下角資訊 -->
+		<div class="info-wrapper">
+			<div class="location">{t.location[0]}<br />{t.location[1]}</div>
+			{t.date}
+		</div>
+	</div>
+</header>
+
+<style>
+	header {
+		position: relative;
+		min-height: 100vh;
+		min-height: 100svh;
+		font-family: "GenKiMinTW", serif;
+		animation: fadeIn 2s ease-out forwards;
+		color: white;
+		padding: 8rem 2rem 2rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		max-width: 1920px;
+		margin: 0 auto;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	h1 {
+		line-height: clamp(3rem, 10vw, 5rem);
+		text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+		text-transform: uppercase;
+		font-family: "Playfair Display", serif;
+		font-weight: normal;
+	}
+
+	h1 span {
+		margin: 1rem;
+		display: block;
+	}
+
+	.line-1 {
+		margin-left: 0;
+		font-size: clamp(4rem, 12vw, 7rem);
+	}
+	.line-2 {
+		margin-left: clamp(1rem, 4vw, 2rem);
+		font-size: clamp(2.2rem, 6vw, 3rem);
+	}
+	.line-3 {
+		margin-left: clamp(4rem, 12vw, 4rem);
+		font-size: clamp(3.5rem, 10vw, 6rem);
+	}
+
+	/* 右下角資訊 */
+	.info-wrapper {
+		font-size: 1.8rem;
+		letter-spacing: 0.4em;
+		text-align: right;
+		text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+	}
+
+	.location {
+		font-size: clamp(1.2rem, 2.5vw, 3rem);
+		line-height: 1.4;
+		letter-spacing: 0.5em;
+		margin: 0 -0.15em 0.5rem 0;
+	}
+
+	:global(.lang-en) .location {
+		letter-spacing: 0.1em;
+		margin-right: 0;
+	}
+
+	.cta-container {
+		position: relative;
+		display: flex;
+		align-items: center;
+		width: 280px;
+		height: 64px;
+		background: rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(12px);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 1.2rem;
+		overflow: hidden;
+		cursor: pointer;
+		user-select: none;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		text-decoration: none;
+		margin-bottom: 1rem;
+	}
+	.cta-container:hover {
+		background: rgba(255, 255, 255, 0.15);
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+	}
+	.cta-text-layer {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.8rem;
+		color: white;
+		z-index: 1;
+		padding-left: 48px;
+		transition: opacity 0.3s ease;
+		font-family: "GenKiGothicTW", serif;
+	}
+	.cta-text-layer a {
+		text-decoration: none;
+		color: inherit;
+	}
+	.cta-text {
+		font-size: 1.25rem;
+		letter-spacing: 0.1em;
+		font-weight: 500;
+	}
+
+	.arrow {
+		font-size: 1.5rem;
+	}
+
+	.cta-handle {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 64px;
+		height: 64px;
+		background: rgba(255, 255, 255, 0.2);
+		border-radius: 0.8rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 2;
+		cursor: grab;
+		touch-action: none;
+	}
+	.cta-handle:active {
+		cursor: grabbing;
+	}
+	.cta-icon {
+		color: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		padding: 8px;
+	}
+	.cta-icon img {
+		width: auto;
+		height: 100%;
+		max-width: 100%;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		header {
+			animation: none;
+			opacity: 1;
+		}
+
+		.cta-container {
+			transition: none;
+		}
+
+		.cta-text-layer {
+			transition: none;
+		}
+	}
+</style>
+
+<script>
+	const initLandingCta = () => {
+		const container = document.getElementById("cta-container") as HTMLElement | null;
+		const handle = document.getElementById("cta-handle") as HTMLElement | null;
+		if (!container || !handle) return () => {};
+		if (container.dataset.ctaInit === "true") return () => {};
+		container.dataset.ctaInit = "true";
+
+		let isDragging = false;
+		let hasMoved = false;
+		let startX = 0;
+		let currentX = 0;
+		let redirectTimeout: number | null = null;
+
+		const getX = (e: MouseEvent | TouchEvent) => {
+			return "touches" in e ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX;
+		};
+
+		const onStart = (e: MouseEvent | TouchEvent) => {
+			isDragging = true;
+			hasMoved = false;
+			startX = getX(e) - currentX;
+			handle.style.transition = "none";
+		};
+
+		const onMove = (e: MouseEvent | TouchEvent) => {
+			if (!isDragging) return;
+			if (e.type === "touchmove") {
+				(e as TouchEvent).preventDefault();
+			}
+			const x = getX(e) - startX;
+			if (Math.abs(x - currentX) > 5) {
+				hasMoved = true;
+			}
+			const maxDrag = container.offsetWidth - handle.offsetWidth - 0;
+			currentX = Math.max(0, Math.min(x, maxDrag));
+			handle.style.transform = `translateX(${currentX}px)`;
+
+			const opacity = 1 - currentX / maxDrag;
+			const textLayer = container.querySelector(".cta-text-layer") as HTMLElement;
+			if (textLayer) textLayer.style.opacity = opacity.toString();
+		};
+
+		const onEnd = () => {
+			if (!isDragging) return;
+			isDragging = false;
+			handle.style.transition = "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)";
+
+			const maxDrag = container.offsetWidth - handle.offsetWidth - 0;
+			if (currentX > maxDrag * 0.8) {
+				currentX = maxDrag;
+				handle.style.transform = `translateX(${currentX}px)`;
+				const textLayer = container.querySelector(".cta-text-layer") as HTMLElement;
+				if (textLayer) textLayer.style.opacity = "0";
+
+				redirectTimeout = window.setTimeout(() => {
+					window.location.href = "https://tickets.sitcon.org/sitcon2026";
+				}, 300);
+			} else {
+				currentX = 0;
+				handle.style.transform = `translateX(0px)`;
+				const textLayer = container.querySelector(".cta-text-layer") as HTMLElement;
+				if (textLayer) textLayer.style.opacity = "1";
+			}
+		};
+
+		const onClick = (e: Event) => {
+			if (hasMoved) {
+				e.preventDefault();
+			}
+		};
+
+		container.addEventListener("click", onClick);
+
+		handle.addEventListener("mousedown", onStart as any);
+		window.addEventListener("mousemove", onMove as any);
+		window.addEventListener("mouseup", onEnd);
+
+		handle.addEventListener("touchstart", onStart as any, { passive: true });
+		window.addEventListener("touchmove", onMove as any, { passive: false });
+		window.addEventListener("touchend", onEnd);
+
+		return () => {
+			if (redirectTimeout !== null) {
+				clearTimeout(redirectTimeout);
+			}
+			container.removeEventListener("click", onClick);
+			handle.removeEventListener("mousedown", onStart as any);
+			window.removeEventListener("mousemove", onMove as any);
+			window.removeEventListener("mouseup", onEnd);
+			handle.removeEventListener("touchstart", onStart as any);
+			window.removeEventListener("touchmove", onMove as any);
+			window.removeEventListener("touchend", onEnd);
+			container.dataset.ctaInit = "false";
+		};
+	};
+
+	let cleanup: (() => void) | null = null;
+	const mount = () => {
+		cleanup?.();
+		cleanup = initLandingCta();
+	};
+
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", mount, { once: true });
+	} else {
+		mount();
+	}
+
+	const pageLoadHandler = () => mount();
+	const beforeSwapHandler = () => {
+		cleanup?.();
+		document.removeEventListener("astro:page-load", pageLoadHandler);
+		document.removeEventListener("astro:before-swap", beforeSwapHandler);
+	};
+
+	document.addEventListener("astro:page-load", pageLoadHandler);
+	document.addEventListener("astro:before-swap", beforeSwapHandler);
+</script>

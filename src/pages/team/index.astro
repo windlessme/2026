@@ -1,0 +1,244 @@
+---
+import Layout from "@/layout/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import GridTeam from "@/components/page/GridTeam.astro";
+import MemberInfo from "@/components/page/MemberInfo.astro";
+import { Grip } from "@lucide/astro";
+
+import team_data_raw from "@/data/team.json";
+import { useTranslations, type Lang } from "@/utils/i18n";
+
+import "@/components/page/team.css";
+
+interface Props {
+	lang?: Lang;
+}
+
+const lang = Astro.props.lang ?? "zh";
+const i18n = useTranslations(lang);
+const TEAM_METADATA = i18n.team;
+const ROLE_MAP = i18n.role;
+const t = i18n.teamPage;
+const prefix = lang === "en" ? "/2026/en" : "/2026";
+
+const teamsMap = new Map();
+
+team_data_raw.forEach(person => {
+	person.teams.forEach(team => {
+		if (!teamsMap.has(team.name)) {
+			teamsMap.set(team.name, {
+				id: team.name,
+				name: (TEAM_METADATA as Record<string, { name: string; description: string }>)[team.name]?.name || team.name,
+				description: (TEAM_METADATA as Record<string, { name: string; description: string }>)[team.name]?.description || "",
+				member: []
+			});
+		}
+		teamsMap.get(team.name).member.push({
+			name: person.name,
+			role: team.role,
+			position: (ROLE_MAP as Record<string, string>)[team.role] || team.role,
+			avatar_url: `/2026/img/avatar/back/${person.name}.webp`,
+			link: person.link,
+			description: person.description,
+			mode: person.mode,
+			color: person.color
+		});
+	});
+});
+
+const ROLE_PRIORITY = [
+	"chief",
+	"deputy_chief",
+	"head",
+	"deputy",
+	"treasurer",
+	"agenda",
+	"ops_mobility_lead",
+	"ops_registration_lead",
+	"ops_catering_lead",
+	"ops_logistics_lead",
+	"member",
+	"ops_mobility",
+	"ops_registration",
+	"ops_catering",
+	"ops_logistics",
+	"marketing_helper"
+];
+
+const TEAM_PRIORITY = [
+	"general", // 總召組
+	"administration", // 行政組
+	"agenda", // 議程組
+	"operations", // 場務組
+	"design", // 設計組
+	"finance", // 財務組
+	"recording", // 紀錄組
+	"production", // 製播組
+	"development", // 開發組
+	"editorial", // 編輯組
+	"marketing" // 行銷組
+];
+
+const team_data = Array.from(teamsMap.values())
+	.sort((a: any, b: any) => {
+		const getTeamPriority = (id: string) => {
+			const index = TEAM_PRIORITY.indexOf(id);
+			return index === -1 ? 999 : index;
+		};
+		return getTeamPriority(a.id) - getTeamPriority(b.id);
+	})
+	.map((team: any) => {
+		team.member.sort((a: any, b: any) => {
+			const getPriority = (role: string) => {
+				const index = ROLE_PRIORITY.indexOf(role);
+				return index === -1 ? 999 : index;
+			};
+			return getPriority(a.role) - getPriority(b.role);
+		});
+		return team;
+	});
+
+const form_url = "https://forms.gle/5CCnNvFY3n7GqoyV9";
+const forum_url = "https://groups.google.com/g/sitcon-general/";
+---
+
+<Layout title={lang === "en" ? "Team - SITCON 2026" : "團隊成員 - SITCON 2026"} lang={lang}>
+	<main>
+		<div class="top">
+			<div class="top-left">
+				<h1 class="text-reveal-title">{t.title}</h1>
+				<p class="top-text text-reveal-paragraph" set:html={t.description} />
+			</div>
+			<div class="top-right">
+				<div class="top-right-btn-group">
+					<a href={form_url} target="_blank" class="top-right-btn">{t.formButton}</a>
+					<a href={forum_url} target="_blank" class="top-right-btn">{t.forumButton}</a>
+				</div>
+			</div>
+		</div>
+		{team_data.map((team, index) => <GridTeam index={index} member={team.member} name={team.name} description={team.description} />)}
+
+		<!-- anchor -->
+		<div class="anchor">
+			<a class="anchor-switch anchor-btn" href={`${prefix}/team/explore/`} aria-label={lang === "en" ? "Switch to explore mode" : "切換至探索模式"}>
+				<div class="anchor-box" id="switch-icon">
+					<Grip size={18} />
+				</div>
+				<div class="anchor-box" id="switch-text">
+					<span class="anchor-text-span">{t.exploreMode}</span>
+				</div>
+			</a>
+			{
+				team_data.map((team, index) => {
+					return (
+						<a class="anchor-btn anchor-box" href={`#team-${index}`} aria-label={`${lang === "en" ? "Go to" : "前往"} ${team.name}`}>
+							<span class="anchor-indicator" />
+							<span class="anchor-text-span">{team.name}</span>
+						</a>
+					);
+				})
+			}
+		</div>
+		<div class="nav-mask-bottom"></div>
+	</main>
+	<MemberInfo />
+	<Footer />
+</Layout>
+
+<script>
+	const observerOptions = {
+		root: null,
+		rootMargin: "-20% 0px -60% 0px",
+		threshold: 0
+	};
+
+	const observer = new IntersectionObserver(entries => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				const id = entry.target.getAttribute("id");
+				if (id) {
+					document.querySelectorAll(".anchor-btn").forEach(btn => {
+						btn.classList.remove("active");
+						if (btn.getAttribute("href") === `#${id}`) {
+							btn.classList.add("active");
+						}
+					});
+				}
+			}
+		});
+	}, observerOptions);
+
+	document.querySelectorAll('[id^="team-"]').forEach(section => {
+		observer.observe(section);
+	});
+
+	window.addEventListener("beforeunload", () => {
+		observer.disconnect();
+	});
+</script>
+
+<style>
+	.top {
+		padding: 5.5rem 0;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.top-text {
+		font-size: 1rem;
+
+		max-width: 34rem;
+	}
+
+	.top-right {
+		align-content: end;
+	}
+
+	.top-right-btn-group {
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
+	}
+
+	.top-right-btn:hover {
+		background-color: #ffdc8a;
+		transform: translateY(0.25rem);
+		box-shadow: 0 0.25rem 0.5rem rgba(255, 209, 114, 0.3);
+	}
+
+	.top-right-btn {
+		display: inline-block;
+		border: none;
+		height: 3.375rem;
+		background-color: #e8bb5f;
+		color: #2b2e3a;
+		padding: 1rem 2rem;
+		border-radius: 62rem;
+		text-decoration: none;
+		font-size: 1.25rem;
+		font-weight: bold;
+		transition: all 0.3s ease;
+		box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+		text-align: center;
+		cursor: pointer;
+	}
+
+	main {
+		padding: 5rem 2rem 0;
+		max-width: var(--max-width);
+		margin: 0 auto;
+	}
+
+	.anchor {
+		margin-block: 2rem 0;
+	}
+
+	@media (max-width: 40rem) {
+		.top {
+			flex-direction: column;
+			gap: 2rem;
+		}
+		main {
+		}
+	}
+</style>

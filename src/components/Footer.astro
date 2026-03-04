@@ -1,0 +1,142 @@
+---
+import en from "@/i18n/en.json";
+import zhHant from "@/i18n/zh.json";
+
+const t = Astro.currentLocale === "en" ? en : zhHant;
+
+const socialLinks = [
+	{ name: "Facebook", url: "fb" },
+	{ name: "Threads", url: "threads" },
+	{ name: "Youtube", url: "youtube" },
+	{ name: "Instagram", url: "ig" },
+	{ name: "Flickr", url: "flickr" },
+	{ name: "Telegram", url: "telegram" }
+];
+---
+
+<footer>
+	<div class="social-wrapper">
+		<div class="social">
+			{socialLinks.map(link => <a href={`https://sitcon.org/${link.url}`}>{link.name}</a>)}
+		</div>
+	</div>
+	<div class="info">
+		{
+			t.footer.map((info: { title: string; gridLayout?: boolean; links: { url: string; name: string }[] }) => (
+				<div class="info-item">
+					<h3>{info.title}</h3>
+					<div class={`info-item-links ${info.gridLayout ? "grid-layout" : ""}`}>
+						{info.links.map((line: { url: string; name: string }) => !line.url.startsWith("#") && <a href={line.url}>{line.name}</a>)}
+					</div>
+				</div>
+			))
+		}
+	</div>
+	<img src="/2026/img/SITCON-hero.svg" alt="SITCON 2026" class="largeLogo" />
+</footer>
+
+<style>
+	footer {
+		background-color: #ffd172;
+		color: #2b2e3a;
+		overflow-y: hidden;
+		position: relative;
+		z-index: 100;
+	}
+
+	.social-wrapper {
+		background-color: #f1b12e;
+	}
+
+	.social {
+		max-width: var(--max-width);
+		margin: 0 auto;
+		padding: 1rem 2rem;
+		display: flex;
+		justify-content: space-between;
+		gap: 1.5rem 3rem;
+		font-family: "JetBrainsMono", monospace;
+		flex-wrap: wrap;
+		line-height: 1;
+	}
+
+	.social a {
+		transition: all 0.3s ease;
+		text-transform: uppercase;
+	}
+
+	.social a:hover {
+		text-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
+		transform: scale(1.05);
+	}
+
+	.info {
+		max-width: var(--max-width);
+		margin: 0 auto;
+		padding: 2.5rem 2rem 0;
+		display: grid;
+		grid-template-columns: repeat(4, auto);
+		gap: 1.5rem;
+	}
+
+	.info-item {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		white-space: pre-line;
+		line-height: 1.5;
+	}
+
+	.info-item-links {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.info-item-links a {
+		transition: all 0.3s ease;
+		font-family: "GenKiMinTW", sans-serif;
+	}
+
+	.info-item-links a:hover {
+		opacity: 0.5;
+	}
+
+	.info-item-links.grid-layout {
+		display: grid;
+		grid-template-columns: repeat(3, auto);
+		gap: 1.5rem;
+	}
+
+	.largeLogo {
+		display: flex;
+		max-width: var(--max-width);
+		width: 100%;
+		display: block;
+		margin: 0 auto;
+		padding: 0rem 2rem;
+		transform: translateY(2.7%);
+	}
+
+	@media (max-width: 60rem) {
+		.info {
+			grid-template-columns: repeat(2, auto);
+		}
+	}
+
+	@media (max-width: 40rem) {
+		.info {
+			grid-template-columns: repeat(1, auto);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.social a {
+			transition: none;
+		}
+
+		.info-item-links a {
+			transition: none;
+		}
+	}
+</style>

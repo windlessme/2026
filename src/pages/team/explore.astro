@@ -1,0 +1,755 @@
+---
+import Layout from "@/layout/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import MemberInfo from "@/components/page/MemberInfo.astro";
+import GridPerson from "@/components/page/GridPerson.astro";
+import { List } from "@lucide/astro";
+
+import team_data_raw from "@/data/team.json";
+import { useTranslations, type Lang } from "@/utils/i18n";
+
+import "@/components/page/team.css";
+
+interface Props {
+	lang?: Lang;
+}
+
+const lang = Astro.props.lang ?? "zh";
+const i18n = useTranslations(lang);
+const TEAM_METADATA = i18n.team;
+const ROLE_MAP = i18n.role;
+const t = i18n.teamPage;
+const prefix = lang === "en" ? "/2026/en" : "/2026";
+
+const teamsMap = new Map();
+
+team_data_raw.forEach(person => {
+	person.teams.forEach(team => {
+		if (!teamsMap.has(team.name)) {
+			teamsMap.set(team.name, {
+				id: team.name,
+				name: (TEAM_METADATA as Record<string, { name: string; description: string }>)[team.name]?.name || team.name,
+				description: (TEAM_METADATA as Record<string, { name: string; description: string }>)[team.name]?.description || "",
+				member: []
+			});
+		}
+		teamsMap.get(team.name).member.push({
+			name: person.name,
+			position: (ROLE_MAP as Record<string, string>)[team.role] || team.role,
+			avatar_url: `/2026/img/avatar/back/${person.name}.webp`,
+			link: person.link,
+			description: person.description,
+			mode: person.mode,
+			color: person.color
+		});
+	});
+});
+
+const team_data = Array.from(teamsMap.values()).map((team: any) => {
+	// ensure head is first
+	team.member.sort((a: any, b: any) => {
+		if (a.position === ROLE_MAP.head && b.position !== ROLE_MAP.head) return -1;
+		if (a.position !== ROLE_MAP.head && b.position === ROLE_MAP.head) return 1;
+		return 0;
+	});
+	return team;
+});
+
+// 為每個組別生成成員列表（跨組成員會在多個組別出現）
+const all_people: any[] = [];
+
+team_data.forEach((team, teamIndex) => {
+	team.member.forEach((member: any) => {
+		all_people.push({
+			...member,
+			teamIndex: teamIndex,
+			teamName: team.name
+		});
+	});
+});
+
+// 去重：同一個人在同一個組別只出現一次（用 name + teamIndex 作為 key）
+const uniqueKey = (name: string, teamIndex: number) => `${name}-${teamIndex}`;
+const seenKeys = new Set<string>();
+const unique_people = all_people.filter(person => {
+	const key = uniqueKey(person.name, person.teamIndex);
+	if (seenKeys.has(key)) return false;
+	seenKeys.add(key);
+	return true;
+});
+---
+
+<Layout title={lang === "en" ? "Team - SITCON 2026" : "團隊成員 - SITCON 2026"} lang={lang}>
+	<main>
+		<div class="explore-container">
+			<div id="explore-universe">
+				{
+					unique_people.map((person: any) => (
+						<GridPerson
+							name={person.name}
+							avatar_url={person.avatar_url}
+							position={person.position}
+							link={person.link}
+							description={person.description}
+							teamIndex={person.teamIndex}
+							team={person.teamName}
+							mode={person.mode}
+							color={person.color}
+							shape="circle"
+							showText={false}
+							className="explore-item"
+							style=""
+						/>
+					))
+				}
+			</div>
+		</div>
+
+		<div class="nav-mask"></div>
+		<div class="nav-mask-bottom"></div>
+
+		<!-- anchor -->
+		<div class="anchor">
+			<a class="anchor-switch anchor-btn" href={`${prefix}/team/`} aria-label={lang === "en" ? "Switch to list mode" : "切換至列表模式"}>
+				<div class="anchor-box" id="switch-icon">
+					<List size={18} />
+				</div>
+				<div class="anchor-box" id="switch-text">
+					<span class="anchor-text-span">{t.listMode}</span>
+				</div>
+			</a>
+			{
+				team_data.map((team, index) => {
+					return (
+						<div class={`anchor-btn anchor-box`} data-index={index} aria-label={team.name} role="button" tabindex="0">
+							<span class="anchor-indicator" />
+							<span class="anchor-text-span">{team.name}</span>
+						</div>
+					);
+				})
+			}
+		</div>
+	</main>
+	<MemberInfo />
+	<Footer />
+</Layout>
+
+<script>
+	import { gsap } from "gsap";
+
+	// Pan and Zoom Logic
+	// 拖曳相關參數 - 可在此調整
+	const DRAG_SPEED = 2; // 拖曳速度倍率 (預設 1.5，數值越大拖越快)
+	const SMOOTH_FACTOR = 0.08; // 潤滑度/平滑度 (0.01~1.0，數值越小越滑/慣性越強，預設 0.08)
+
+	// Logical State (Target) - 目標位置
+	let targetPanX = 0;
+	let targetPanY = 0;
+	let targetScale = 1;
+
+	// Visual State (Rendered) - 實際渲染位置 (隨目標位置平滑移動)
+	let currentPanX = 0;
+	let currentPanY = 0;
+	let currentScale = 1;
+
+	// World dimensions (set by initExplore)
+	let worldWidth = 0;
+	let worldHeight = 0;
+
+	const initPanZoom = () => {
+		const container = document.querySelector(".explore-container") as HTMLElement;
+		const universe = document.getElementById("explore-universe") as HTMLElement;
+		if (!container || !universe) return;
+
+		let isDragging = false;
+		let isPinching = false;
+		let startX = 0;
+		let startY = 0;
+		let dragStartPanX = 0;
+		let dragStartPanY = 0;
+		let pinchStartDist = 0;
+
+		const clampPan = () => {
+			const viewW = container.offsetWidth;
+			const viewH = container.offsetHeight;
+			const contentW = worldWidth * targetScale;
+			const contentH = worldHeight * targetScale;
+
+			// Logic to keep content within viewport, or viewport within content
+			const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+			const padding = 2.5 * rem;
+
+			const minX = Math.min(padding, viewW - contentW - padding);
+			const maxX = Math.max(padding, viewW - contentW - padding);
+			const minY = Math.min(padding, viewH - contentH - padding);
+			const maxY = Math.max(padding, viewH - contentH - padding);
+
+			targetPanX = Math.min(Math.max(targetPanX, minX), maxX);
+			targetPanY = Math.min(Math.max(targetPanY, minY), maxY);
+		};
+
+		// Smooth Animation Loop
+		gsap.ticker.add(() => {
+			const dX = targetPanX - currentPanX;
+			const dY = targetPanY - currentPanY;
+			const dS = targetScale - currentScale;
+
+			// Optimization: stop updating if very close
+			if (Math.abs(dX) < 0.1 && Math.abs(dY) < 0.1 && Math.abs(dS) < 0.001) {
+				return;
+			}
+
+			currentPanX += dX * SMOOTH_FACTOR;
+			currentPanY += dY * SMOOTH_FACTOR;
+			currentScale += dS * SMOOTH_FACTOR;
+
+			gsap.set(universe, {
+				x: currentPanX,
+				y: currentPanY,
+				scale: currentScale
+			});
+		});
+
+		// Panning
+		container.addEventListener("mousedown", e => {
+			// Disable drag if clicking on an explore item
+			if ((e.target as HTMLElement).closest(".explore-item")) {
+				return;
+			}
+			isDragging = true;
+			startX = e.clientX;
+			startY = e.clientY;
+			dragStartPanX = targetPanX;
+			dragStartPanY = targetPanY;
+			container.style.cursor = "grabbing";
+		});
+
+		window.addEventListener("mousemove", e => {
+			if (!isDragging) return;
+			e.preventDefault();
+			const dx = (e.clientX - startX) * DRAG_SPEED;
+			const dy = (e.clientY - startY) * DRAG_SPEED;
+			targetPanX = dragStartPanX + dx;
+			targetPanY = dragStartPanY + dy;
+
+			clampPan();
+		});
+
+		window.addEventListener("mouseup", () => {
+			isDragging = false;
+			container.style.cursor = "grab";
+		});
+
+		// Touch Panning & Zooming
+		container.addEventListener(
+			"touchstart",
+			e => {
+				// Handle 2-finger pinch
+				if (e.touches.length === 2) {
+					isDragging = false;
+					isPinching = true;
+					const t1 = e.touches[0];
+					const t2 = e.touches[1];
+					pinchStartDist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+					return;
+				}
+
+				if ((e.target as HTMLElement).closest(".explore-item")) {
+					return;
+				}
+				isDragging = true;
+				startX = e.touches[0].clientX;
+				startY = e.touches[0].clientY;
+				dragStartPanX = targetPanX;
+				dragStartPanY = targetPanY;
+			},
+			{ passive: false }
+		);
+
+		window.addEventListener(
+			"touchmove",
+			e => {
+				// Handle Pinch Zoom
+				if (isPinching && e.touches.length === 2) {
+					e.preventDefault();
+					const t1 = e.touches[0];
+					const t2 = e.touches[1];
+					const currentDist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+
+					if (pinchStartDist < 0.1) return; // Avoid unstable calcs
+
+					const zoomFactor = currentDist / pinchStartDist;
+
+					// If changes are too small, ignore to avoid jitter
+					if (Math.abs(zoomFactor - 1) < 0.005) return;
+
+					const oldScale = targetScale;
+					let newScale = oldScale * zoomFactor;
+
+					// Clamp scale
+					newScale = Math.max(0.5, Math.min(newScale, 3));
+
+					// Update pinchStartDist for next frame (incremental)
+					pinchStartDist = currentDist;
+
+					if (newScale === oldScale) return;
+
+					// Zoom center logic
+					const rect = container.getBoundingClientRect();
+					const cx = (t1.clientX + t2.clientX) / 2 - rect.left;
+					const cy = (t1.clientY + t2.clientY) / 2 - rect.top;
+
+					targetPanX = cx - ((cx - targetPanX) / oldScale) * newScale;
+					targetPanY = cy - ((cy - targetPanY) / oldScale) * newScale;
+					targetScale = newScale;
+
+					clampPan();
+					return;
+				}
+
+				if (!isDragging) return;
+				if (e.touches.length > 1) return; // Ignore multi-touch
+				e.preventDefault();
+				const dx = (e.touches[0].clientX - startX) * DRAG_SPEED;
+				const dy = (e.touches[0].clientY - startY) * DRAG_SPEED;
+				targetPanX = dragStartPanX + dx;
+				targetPanY = dragStartPanY + dy;
+
+				clampPan();
+			},
+			{ passive: false }
+		);
+
+		window.addEventListener("touchend", e => {
+			if (e.touches.length === 0) {
+				isDragging = false;
+				isPinching = false;
+			} else if (e.touches.length === 1) {
+				// If we were pinching and lifted one finger, stop everything to avoid jump
+				isPinching = false;
+				isDragging = false; // Require lift-off to restart drag
+			}
+		});
+
+		// Zooming
+		container.addEventListener(
+			"wheel",
+			e => {
+				e.preventDefault();
+				const zoomSensitivity = 0.001;
+				const delta = -e.deltaY * zoomSensitivity;
+				const oldScale = targetScale;
+				let newScale = targetScale + delta;
+
+				// Clamp scale
+				newScale = Math.max(0.5, Math.min(newScale, 3));
+
+				if (newScale === oldScale) return;
+
+				// Zoom towards mouse pointer
+				const rect = container.getBoundingClientRect();
+				const mouseX = e.clientX - rect.left;
+				const mouseY = e.clientY - rect.top;
+
+				// Calculate point under mouse in world space (relative to universe origin at current pan/scale)
+				targetPanX = mouseX - ((mouseX - targetPanX) / oldScale) * newScale;
+				targetPanY = mouseY - ((mouseY - targetPanY) / oldScale) * newScale;
+
+				targetScale = newScale;
+				clampPan();
+			},
+			{ passive: false }
+		);
+	};
+
+	let resizeTimeout: number | null = null;
+
+	const handleResize = () => {
+		const container = document.querySelector(".explore-container") as HTMLElement | null;
+		if (!container) return;
+
+		if (resizeTimeout !== null) {
+			window.clearTimeout(resizeTimeout);
+		}
+
+		resizeTimeout = window.setTimeout(() => {
+			layoutItems(currentActiveIndex, false);
+		}, 100);
+	};
+
+	window.addEventListener("resize", handleResize);
+	window.addEventListener("orientationchange", handleResize);
+
+	const layoutItems = (targetIndex: string | null = null, animate = false) => {
+		const container = document.querySelector(".explore-container") as HTMLElement;
+		if (!container) return;
+
+		// 先取消所有 explore-item 上正在進行的動畫，避免快速切換時動畫衝突
+		const allItems = gsap.utils.toArray(".explore-item") as HTMLElement[];
+		gsap.killTweensOf(allItems);
+
+		const width = container.offsetWidth;
+		const height = container.offsetHeight;
+
+		// Initial constraints
+		let imageSize = 180;
+		let imageGap = 64;
+
+		if (width <= 640) {
+			imageSize = 128;
+			imageGap = 20;
+		} else if (width <= 900) {
+			imageSize = 160;
+			imageGap = 48;
+		}
+
+		const minDistance = imageSize + imageGap;
+
+		// Grid configuration
+		const colWidth = imageSize + imageGap;
+		const maxCols = Math.max(1, Math.floor((width - imageSize) / colWidth) + 1);
+		const totalGridW = (maxCols - 1) * colWidth + imageSize;
+		const offsetX = Math.max(0, (width - totalGridW) / 2);
+
+		const rowHeight = imageSize + imageGap;
+		const maxRows = Math.max(1, Math.floor((height - imageSize) / rowHeight) + 1);
+
+		const centerCol = Math.floor(maxCols / 2);
+		const centerRow = Math.floor(maxRows / 2);
+
+		// Track used space to expand world
+		let contentMaxX = width;
+		let contentMaxY = height;
+
+		// Get items and shuffle them for randomness
+		let items = gsap.utils.toArray(".explore-item") as HTMLElement[];
+		console.log(`Total items found: ${items.length}, filtering for index: ${targetIndex}`);
+
+		// Filter items if targetIndex is set
+		if (targetIndex !== null) {
+			items = items.filter(item => String(item.dataset.teamIndex) === String(targetIndex));
+			console.log(`Filtered items: ${items.length}`);
+		}
+
+		items.sort(() => Math.random() - 0.5);
+
+		const placed: { centerX: number; centerY: number }[] = [];
+
+		// Hide filtered out items - 使用 gsap.set 確保即時生效，避免動畫衝突
+		allItems.forEach(item => {
+			const shouldShow = targetIndex === null || String(item.dataset.teamIndex) === String(targetIndex);
+			if (!shouldShow) {
+				gsap.set(item, { autoAlpha: 0, pointerEvents: "none" });
+			}
+		});
+
+		items.forEach(item => {
+			let x = 0;
+			let y = 0;
+			let tries = 0;
+			let success = false;
+			const maxTries = 100;
+
+			// Reset basic style if not animating
+			if (!animate) {
+				gsap.set(item, {
+					position: "absolute",
+					left: 0,
+					top: 0,
+					margin: 0
+				});
+			}
+
+			// 1. Try Random Placement
+			while (!success && tries < maxTries) {
+				let col, row;
+
+				// Random: Anywhere in view
+				col = Math.floor(Math.random() * maxCols);
+				row = Math.floor(Math.random() * maxRows);
+
+				x = offsetX + col * colWidth;
+
+				let staggerY = 0;
+				if (col % 2 !== 0) staggerY = rowHeight * 0.5;
+				y = row * rowHeight + staggerY;
+
+				if (x < 0) x = 0;
+				if (y < 0) y = 0;
+
+				const centerX = x + imageSize / 2;
+				const centerY = y + imageSize / 2;
+
+				const overlap = placed.some(p => {
+					const dx = centerX - p.centerX;
+					const dy = centerY - p.centerY;
+					return Math.sqrt(dx * dx + dy * dy) < minDistance;
+				});
+
+				if (!overlap) {
+					success = true;
+					placed.push({ centerX, centerY });
+				}
+				tries++;
+			}
+
+			// 2. Fallback: Guaranteed Spiral Search (Expanding outwards)
+			if (!success) {
+				let radius = 0;
+				while (!success) {
+					// Generate ring coordinates
+					const candidates: { c: number; r: number }[] = [];
+					const minD = -radius;
+					const maxD = radius;
+
+					for (let dc = minD; dc <= maxD; dc++) {
+						for (let dr = minD; dr <= maxD; dr++) {
+							// Only check the perimeter (ring) unless radius is 0
+							if (radius > 0 && Math.abs(dc) !== radius && Math.abs(dr) !== radius) continue;
+
+							const c = centerCol + dc;
+							const r = centerRow + dr;
+
+							// Only allow positive expansion (right/down)
+							if (c >= 0 && r >= 0) {
+								candidates.push({ c, r });
+							}
+						}
+					}
+
+					// Shuffle ring to maintain some randomness in direction
+					candidates.sort(() => Math.random() - 0.5);
+
+					for (const cand of candidates) {
+						const col = cand.c;
+						const row = cand.r;
+
+						x = offsetX + col * colWidth;
+
+						let staggerY = 0;
+						if (col % 2 !== 0) staggerY = rowHeight * 0.5;
+						y = row * rowHeight + staggerY;
+
+						const centerX = x + imageSize / 2;
+						const centerY = y + imageSize / 2;
+
+						const overlap = placed.some(p => {
+							const dx = centerX - p.centerX;
+							const dy = centerY - p.centerY;
+							return Math.sqrt(dx * dx + dy * dy) < minDistance;
+						});
+
+						if (!overlap) {
+							success = true;
+							placed.push({ centerX, centerY });
+							break;
+						}
+					}
+
+					radius++;
+					if (radius > 100) {
+						// Extreme safety break
+						break;
+					}
+				}
+			}
+
+			if (success) {
+				// Update world boundaries
+				const rightEdge = x + imageSize + imageGap;
+				const bottomEdge = y + imageSize + imageGap;
+				if (rightEdge > contentMaxX) contentMaxX = rightEdge;
+				if (bottomEdge > contentMaxY) contentMaxY = bottomEdge;
+
+				if (animate) {
+					gsap.to(item, {
+						x,
+						y,
+						autoAlpha: 1,
+						duration: 0.5,
+						ease: "power2.out",
+						overwrite: "auto",
+						pointerEvents: "auto"
+					});
+				} else {
+					gsap.set(item, {
+						x,
+						y,
+						autoAlpha: 1,
+						pointerEvents: "auto"
+					});
+				}
+			} else {
+				console.warn("Failed to place item even with expansion:", item);
+				gsap.set(item, { x: -9999, y: -9999, opacity: 0, pointerEvents: "none" });
+			}
+		});
+
+		// Update global world dimensions for panning
+		worldWidth = contentMaxX;
+		worldHeight = contentMaxY;
+	};
+
+	// Initialize
+	layoutItems(null, false);
+	gsap.fromTo(
+		".explore-item",
+		{ autoAlpha: 0 },
+		{
+			autoAlpha: 1,
+			duration: 0.6,
+			stagger: 0.03,
+			ease: "power2.out"
+		}
+	);
+	initPanZoom();
+
+	// Function to center and zoom to filtered items
+	const centerToItems = (items: HTMLElement[]) => {
+		if (items.length === 0) return;
+
+		const container = document.querySelector(".explore-container") as HTMLElement;
+		if (!container) return;
+
+		// Calculate bounding box of all visible items
+		let minX = Infinity,
+			minY = Infinity;
+		let maxX = -Infinity,
+			maxY = -Infinity;
+
+		items.forEach(item => {
+			const x = gsap.getProperty(item, "x") as number;
+			const y = gsap.getProperty(item, "y") as number;
+			const width = item.offsetWidth;
+			const height = item.offsetHeight;
+
+			minX = Math.min(minX, x);
+			minY = Math.min(minY, y);
+			maxX = Math.max(maxX, x + width);
+			maxY = Math.max(maxY, y + height);
+		});
+
+		// Calculate center and size of the bounding box
+		const centerX = (minX + maxX) / 2;
+		const centerY = (minY + maxY) / 2;
+		const width = maxX - minX;
+		const height = maxY - minY;
+
+		// Calculate scale to fit the bounding box with some padding
+		const viewW = container.offsetWidth;
+		const viewH = container.offsetHeight;
+		const padding = 100; // pixels of padding around the group
+
+		const scaleX = (viewW - padding * 2) / width;
+		const scaleY = (viewH - padding * 2) / height;
+		const newScale = Math.min(scaleX, scaleY, 1.5); // Cap at 1.5x zoom
+
+		// Calculate pan position to center the group
+		targetScale = newScale;
+		targetPanX = viewW / 2 - centerX * newScale;
+		targetPanY = viewH / 2 - centerY * newScale;
+	};
+
+	// Anchor Listeners
+	let currentActiveIndex: string | null = null;
+	const anchorBtns = document.querySelectorAll(".anchor-btn");
+	anchorBtns.forEach(btn => {
+		const handleInteraction = (e: Event) => {
+			// Let browser handle native interactions for links
+			if (btn.tagName === "A") return;
+
+			if (e.type === "keydown") {
+				const ke = e as KeyboardEvent;
+				if (ke.key !== "Enter" && ke.key !== " ") {
+					return;
+				}
+				e.preventDefault(); // Prevent scrolling for Space
+			} else {
+				e.preventDefault(); // Prevent default click behavior for div
+			}
+
+			const index = (btn as HTMLElement).dataset.index;
+
+			// Toggle: if clicking the same button, deactivate it
+			if (currentActiveIndex === index) {
+				anchorBtns.forEach(b => b.classList.remove("active"));
+				currentActiveIndex = null;
+				layoutItems(null, true);
+
+				// Reset view
+				targetScale = 1;
+				targetPanX = 0;
+				targetPanY = 0;
+			} else {
+				anchorBtns.forEach(b => b.classList.remove("active"));
+				btn.classList.add("active");
+				currentActiveIndex = index || null;
+				layoutItems(index || null, true);
+
+				// Center to filtered items after a short delay (let animation start)
+				setTimeout(() => {
+					const allItems = gsap.utils.toArray(".explore-item") as HTMLElement[];
+					const visibleItems = allItems.filter(item => Number(gsap.getProperty(item, "autoAlpha")) > 0);
+					centerToItems(visibleItems);
+				}, 100);
+			}
+		};
+
+		btn.addEventListener("click", handleInteraction);
+		btn.addEventListener("keydown", handleInteraction);
+	});
+</script>
+
+<style>
+	.explore-container {
+		position: relative;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+		cursor: grab;
+		user-select: none;
+	}
+
+	.explore-container:active {
+		cursor: grabbing;
+	}
+
+	#explore-universe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		transform-origin: 0 0;
+		will-change: transform;
+	}
+
+	.nav-mask {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 8rem;
+		background: linear-gradient(to bottom, #ac782b, transparent);
+		z-index: 10;
+		pointer-events: none;
+	}
+
+	.nav-mask-bottom {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100vw;
+		height: 8rem;
+		background: linear-gradient(to top, #ac782b, transparent);
+		z-index: 10;
+		pointer-events: none;
+	}
+
+	.explore-item {
+		position: absolute;
+		left: 0;
+		top: 0;
+		margin: 0;
+	}
+</style>

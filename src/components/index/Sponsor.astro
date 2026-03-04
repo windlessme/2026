@@ -1,0 +1,731 @@
+---
+import { useTranslations, type Lang } from "@/utils/i18n";
+import { X } from "@lucide/astro";
+import sponsors from "@/data/sponsor.json";
+
+interface Props {
+	lang?: Lang;
+}
+
+interface Sponsor {
+	logo: string;
+	title_zh: string;
+	title_en: string;
+	description_zh: string;
+	description_en: string;
+	url: string;
+}
+
+const lang = Astro.props.lang ?? "zh";
+const t = useTranslations(lang).sponsor;
+
+const getTitle = (s: Sponsor) => (lang === "en" && s.title_en ? s.title_en : s.title_zh);
+const getDesc = (s: Sponsor) => (lang === "en" && s.description_en ? s.description_en : s.description_zh);
+const getLogo = (s: Sponsor) => (s.logo ? `/2026/img/sponsors/${s.logo}` : "");
+
+const supportersList = sponsors.supporters as Sponsor[];
+---
+
+<section class="sponsor-container">
+	<div class="content-wrapper">
+		<div class="top-tier-grid">
+			<div class="tier-item">
+				<h3 class="tier-title" id="main">{t.main}</h3>
+				{
+					sponsors.main.map((s, idx) => (
+						<button class="logo-box center-box sponsor-trigger" data-id={`main-${idx}`} data-name={getTitle(s)} data-desc={getDesc(s)} data-type={t.main} data-img={getLogo(s)} data-url={s.url}>
+							<img src={getLogo(s)} alt={getTitle(s)} />
+						</button>
+					))
+				}
+			</div>
+
+			<div class="tier-item">
+				<h3 class="tier-title" id="cohost">{t.cohost}</h3>
+				<div class="logo-row-2">
+					{
+						sponsors.cohost.map((s, idx) => (
+							<button class="logo-box sponsor-trigger" data-id={`cohost-${idx}`} data-name={getTitle(s)} data-desc={getDesc(s)} data-type={t.cohost} data-img={getLogo(s)} data-url={s.url}>
+								<img src={getLogo(s)} alt={getTitle(s)} />
+							</button>
+						))
+					}
+				</div>
+			</div>
+
+			<div class="tier-item">
+				<h3 class="tier-title" id="organizer">{t.organizer}</h3>
+				{
+					sponsors.organizer.map((s, idx) => (
+						<button class="logo-box sponsor-trigger" data-id={`organizer-${idx}`} data-name={getTitle(s)} data-desc={getDesc(s)} data-type={t.organizer} data-img={getLogo(s)} data-url={s.url}>
+							<img src={getLogo(s)} alt={getTitle(s)} />
+						</button>
+					))
+				}
+			</div>
+		</div>
+
+		<h3 class="tier-title text-reveal-title" id="sponsorNavigator">{t.sponsorNavigator}</h3>
+		<div class="main-grid">
+			{
+				sponsors.sponsorNavigator.map((s, idx) => (
+					<button
+						class="logo-box center-box sponsor-trigger"
+						data-id={`sponsorNavigator-${idx}`}
+						data-name={getTitle(s)}
+						data-desc={getDesc(s)}
+						data-type={t.sponsorNavigator}
+						data-img={getLogo(s)}
+						data-url={s.url}
+					>
+						<img src={getLogo(s)} alt={getTitle(s)} />
+					</button>
+				))
+			}
+		</div>
+
+		<h3 class="tier-title text-reveal-title" id="sponsorDeepCultivation">{t.sponsorDeepCultivation}</h3>
+		<div class="main-grid">
+			{
+				sponsors.sponsorDeepCultivation.map((s, idx) => (
+					<button
+						class="logo-box center-box sponsor-trigger"
+						data-id={`sponsorDeepCultivation-${idx}`}
+						data-name={getTitle(s)}
+						data-desc={getDesc(s)}
+						data-type={t.sponsorDeepCultivation}
+						data-img={getLogo(s)}
+						data-url={s.url}
+					>
+						<img src={getLogo(s)} alt={getTitle(s)} />
+					</button>
+				))
+			}
+		</div>
+
+		<h3 class="tier-title text-reveal-title" id="sponsorVisionary">{t.sponsorVisionary}</h3>
+		<div class="main-grid">
+			{
+				sponsors.sponsorVisionary.map((s, idx) => (
+					<button
+						class="logo-box center-box sponsor-trigger"
+						data-id={`sponsorVisionary-${idx}`}
+						data-name={getTitle(s)}
+						data-desc={getDesc(s)}
+						data-type={t.sponsorVisionary}
+						data-img={getLogo(s)}
+						data-url={s.url}
+					>
+						<img src={getLogo(s)} alt={getTitle(s)} />
+					</button>
+				))
+			}
+		</div>
+
+		<h3 class="tier-title text-reveal-title" id="sponsorNewSprout">{t.sponsorNewSprout}</h3>
+		<div class="main-grid">
+			{
+				sponsors.sponsorNewSprout.map((s, idx) => (
+					<button
+						class="logo-box center-box sponsor-trigger"
+						data-id={`sponsorNewSprout-${idx}`}
+						data-name={getTitle(s)}
+						data-desc={getDesc(s)}
+						data-type={t.sponsorNewSprout}
+						data-img={getLogo(s)}
+						data-url={s.url}
+					>
+						<img src={getLogo(s)} alt={getTitle(s)} />
+					</button>
+				))
+			}
+		</div>
+
+		<h3 class="tier-title text-reveal-title" id="supporters">{t.supporters}</h3>
+		<div class="main-grid">
+			{
+				supportersList.map((s, idx) => (
+					<button
+						class="logo-box center-box sponsor-trigger"
+						data-id={`supporters-${idx}`}
+						data-name={getTitle(s)}
+						data-desc={getDesc(s)}
+						data-type={t.supporters}
+						data-img={getLogo(s)}
+						data-url={s.url}
+					>
+						<img src={getLogo(s)} alt={getTitle(s)} />
+					</button>
+				))
+			}
+			<!-- <button class="logo-box center-box person-sponsor sponsor-trigger" data-name={t.personalSponsor} data-desc={t.personalSponsorThanks} data-type={t.personalSponsor}>
+				<span>{t.personalSponsor}</span>
+			</button> -->
+		</div>
+
+		<h3 class="tier-title text-reveal-title" id="mediaPartners">{t.mediaPartners}</h3>
+		<div class="main-grid">
+			{
+				sponsors.mediaPartners.map((s, idx) => (
+					<button
+						class="logo-box center-box sponsor-trigger"
+						data-id={`mediaPartners-${idx}`}
+						data-name={getTitle(s)}
+						data-desc={getDesc(s)}
+						data-type={t.mediaPartners}
+						data-img={getLogo(s)}
+						data-url={s.url}
+					>
+						<img src={getLogo(s)} alt={getTitle(s)} />
+					</button>
+				))
+			}
+		</div>
+	</div>
+
+	<!-- Popup -->
+	<dialog id="sponsor-dialog">
+		<div class="dialog-wrapper">
+			<button id="close-dialog" aria-label="Close">
+				<X size="24" stroke-width="2.2" aria-hidden="true" />
+			</button>
+
+			<div class="dialog-content">
+				<div class="header">
+					<span id="dialog-type" class="badge">{t.sponsorLevel}</span>
+				</div>
+
+				<div class="logo-area">
+					<img id="dialog-img" alt="Sponsor Logo" />
+				</div>
+				<h2 id="dialog-title">{t.sponsorName}</h2>
+				<p id="dialog-desc">{t.sponsorDesc}</p>
+				<div class="action-area">
+					<a href="#" target="_blank" class="visit-btn">{t.visitWebsite}</a>
+				</div>
+			</div>
+		</div>
+	</dialog>
+
+	<style>
+		.sponsor-container {
+			background-color: #f2f2f2;
+			padding: 4rem 1rem;
+			color: #333;
+			font-family: sans-serif;
+		}
+
+		.content-wrapper {
+			max-width: 75rem;
+			margin: 0 auto;
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		h2 {
+			font-size: 1.3rem;
+			margin-bottom: 1rem;
+			color: #1f2937;
+		}
+
+		h3 {
+			font-size: 1.1rem;
+			font-weight: bold;
+			margin-top: 2rem;
+			color: #222;
+			scroll-margin-top: 5rem;
+		}
+
+		.logo-box {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: none;
+			border: none;
+			padding: 0;
+			cursor: pointer;
+			width: 100%;
+			outline: none;
+			-webkit-tap-highlight-color: transparent;
+		}
+
+		.logo-box img {
+			width: 100%;
+			max-width: 10rem;
+			height: auto;
+			opacity: 0.4;
+			filter: grayscale(100%);
+			transition: all 0.3s ease;
+			mix-blend-mode: multiply;
+			display: block;
+		}
+
+		.logo-box:hover img {
+			opacity: 1;
+			filter: grayscale(0%);
+			transform: scale(1.05);
+		}
+
+		.top-tier-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 3rem;
+		}
+
+		.tier-item {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.center-box {
+			justify-content: center;
+		}
+
+		.logo-row-2 {
+			display: flex;
+			justify-content: center;
+			gap: 1rem;
+		}
+
+		.main-grid {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 3rem 2rem;
+		}
+
+		.person-sponsor {
+			font-size: 1.6rem;
+			font-weight: bold;
+			color: #aaa;
+			transition: all 0.3s ease;
+		}
+
+		.person-sponsor:hover {
+			color: black;
+			animation: neon-rainbow 2s linear infinite;
+		}
+
+		dialog {
+			position: fixed;
+			inset: 0;
+			margin: auto;
+			border: none;
+			background: transparent;
+			padding: 0;
+			width: 90%;
+			max-width: 30rem;
+			max-height: 90vh;
+			overflow: visible;
+			z-index: 1000;
+		}
+
+		dialog::backdrop {
+			background: rgba(0, 0, 0, 0.6);
+			backdrop-filter: blur(0.25rem);
+			animation: fade-in 0.3s forwards;
+		}
+
+		dialog[open] {
+			animation: pop-in 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+		}
+
+		dialog.closing {
+			animation: pop-out 0.2s ease-in forwards;
+		}
+
+		dialog.closing::backdrop {
+			animation: fade-out 0.2s ease-in forwards;
+		}
+
+		.dialog-wrapper {
+			background: #fff;
+			border-radius: 1rem;
+			padding: 1.5rem;
+			position: relative;
+			box-shadow: 0 1.5rem 3rem -0.75rem rgba(0, 0, 0, 0.25);
+			display: flex;
+			flex-direction: column;
+			gap: 2rem;
+			text-align: center;
+		}
+
+		.dialog-wrapper p {
+			color: #6b7280;
+		}
+
+		#close-dialog {
+			position: absolute;
+			top: 1rem;
+			right: 1rem;
+			background: #f3f4f6;
+			border: none;
+			border-radius: 50%;
+			width: 2rem;
+			height: 2rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			color: #666;
+			transition: all 0.2s;
+			outline: none;
+			-webkit-tap-highlight-color: transparent;
+			z-index: 10;
+		}
+
+		#close-dialog svg {
+			width: 1.5rem;
+			height: 1.5rem;
+		}
+
+		#close-dialog:hover {
+			background: #e5e7eb;
+			color: #000;
+			transform: rotate(90deg);
+		}
+
+		.badge {
+			background-color: #e0e7ff;
+			color: #4338ca;
+			font-size: 0.8rem;
+			font-weight: 700;
+			padding: 0.25rem 0.75rem;
+			border-radius: 6rem;
+		}
+
+		.logo-area {
+			height: 9rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 0.5rem;
+		}
+
+		.logo-area img {
+			max-height: 100%;
+			max-width: 18rem;
+			object-fit: contain;
+		}
+
+		.action-area {
+			margin-top: 1.5rem;
+		}
+
+		.visit-btn {
+			display: inline-block;
+			width: 100%;
+			padding: 0.8rem 0;
+			background: #111;
+			color: #fff;
+			border-radius: 0.5rem;
+			text-decoration: none;
+			font-weight: 500;
+			font-size: 1rem;
+
+			transition:
+				transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+				background 0.3s ease,
+				box-shadow 0.3s ease;
+
+			will-change: transform;
+			backface-visibility: hidden;
+		}
+
+		.visit-btn:hover {
+			background: #000;
+
+			transform: scale(1.05);
+
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+		}
+
+		.visit-btn:active {
+			transform: scale(0.98);
+			box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+		}
+
+		@keyframes pop-in {
+			0% {
+				opacity: 0;
+				transform: scale(0.9);
+			}
+			100% {
+				opacity: 1;
+				transform: scale(1);
+			}
+		}
+
+		@keyframes pop-out {
+			0% {
+				opacity: 1;
+				transform: scale(1);
+			}
+			100% {
+				opacity: 0;
+				transform: scale(0.95);
+			}
+		}
+
+		@keyframes fade-in {
+			0% {
+				background: rgba(0, 0, 0, 0);
+			}
+			100% {
+				background: rgba(0, 0, 0, 0.6);
+			}
+		}
+
+		@keyframes fade-out {
+			0% {
+				background: rgba(0, 0, 0, 0.6);
+			}
+			100% {
+				background: rgba(0, 0, 0, 0);
+			}
+		}
+
+		@keyframes neon-rainbow {
+			0% {
+				text-shadow:
+					0 0 0.3rem #fff,
+					0 0 0.6rem #fff,
+					0 0 1.2rem #ff0000;
+			}
+			50% {
+				text-shadow:
+					0 0 0.3rem #fff,
+					0 0 0.6rem #fff,
+					0 0 1.2rem #00ff00;
+			}
+			100% {
+				text-shadow:
+					0 0 0.3rem #fff,
+					0 0 0.6rem #fff,
+					0 0 1.2rem #ff0000;
+			}
+		}
+
+		@media (min-width: 48rem) {
+			.top-tier-grid {
+				display: grid;
+				grid-template-columns: repeat(5, 1fr);
+				gap: 3rem;
+			}
+
+			.tier-item:nth-child(1) {
+				grid-column: 1;
+			}
+			.tier-item:nth-child(2) {
+				grid-column: 2 / 4;
+			}
+			.tier-item:nth-child(3) {
+				grid-column: 4;
+			}
+
+			.tier-item:nth-child(2) .logo-row-2 {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 3rem;
+			}
+
+			.main-grid {
+				grid-template-columns: repeat(5, 1fr);
+				gap: 4rem 3rem;
+			}
+
+			.dialog-wrapper {
+				padding: 3rem;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.logo-box img {
+				transition: none;
+			}
+
+			.person-sponsor {
+				transition: none;
+				animation: none;
+			}
+
+			dialog[open] {
+				animation: none;
+				opacity: 1;
+				transform: scale(1);
+			}
+
+			dialog.closing {
+				animation: none;
+			}
+
+			dialog::backdrop {
+				animation: none;
+				background: rgba(0, 0, 0, 0.6);
+			}
+
+			dialog.closing::backdrop {
+				animation: none;
+			}
+
+			.visit-btn {
+				transition: none;
+			}
+
+			#close-dialog {
+				transition: none;
+			}
+		}
+
+		#dialog-desc :global(a) {
+			text-decoration: underline;
+			text-underline-offset: 4px;
+			text-decoration-thickness: 2px;
+		}
+	</style>
+
+	<script>
+		const initSponsorDialog = () => {
+			const container = document.querySelector(".sponsor-container") as HTMLElement | null;
+			if (!container) return () => {};
+			if (container.dataset.sponsorInit === "true") return () => {};
+			container.dataset.sponsorInit = "true";
+
+			const dialog = document.getElementById("sponsor-dialog") as HTMLDialogElement | null;
+			const closeBtn = document.getElementById("close-dialog");
+			const dialogTitle = document.getElementById("dialog-title");
+			const dialogDesc = document.getElementById("dialog-desc");
+			const dialogType = document.getElementById("dialog-type");
+			const dialogImg = document.getElementById("dialog-img") as HTMLImageElement | null;
+			const visitBtn = document.querySelector(".visit-btn") as HTMLAnchorElement | null;
+
+			const closeDialogAnim = () => {
+				if (!dialog) return;
+				dialog.classList.add("closing");
+
+				// Clear URL hash
+				if (window.location.hash) {
+					history.pushState(null, "", window.location.pathname + window.location.search);
+				}
+
+				dialog.addEventListener(
+					"animationend",
+					() => {
+						dialog.close();
+						dialog.classList.remove("closing");
+					},
+					{ once: true }
+				);
+			};
+
+			const openSponsorDialog = async (trigger: HTMLElement) => {
+				if (!dialog) return;
+				const { name, desc, type, img, url, id } = trigger.dataset;
+
+				if (dialogTitle) dialogTitle.textContent = name ?? "";
+				if (dialogDesc) dialogDesc.innerHTML = desc ?? "";
+				if (dialogType) dialogType.textContent = type ?? "";
+				if (dialogImg && img) dialogImg.src = img;
+				if (visitBtn) {
+					visitBtn.href = url || "#";
+					visitBtn.style.display = url ? "inline-block" : "none";
+				}
+
+				// Update URL hash
+				if (id) {
+					history.pushState(null, "", `#${id}`);
+				}
+
+				dialog.showModal();
+			};
+
+			const documentClickHandler = (e: Event) => {
+				const trigger = (e.target as Element)?.closest(".sponsor-trigger") as HTMLElement | null;
+				if (trigger) {
+					openSponsorDialog(trigger);
+				}
+			};
+
+			document.addEventListener("click", documentClickHandler);
+
+			const closeHandler = () => {
+				closeDialogAnim();
+			};
+
+			if (closeBtn) {
+				closeBtn.addEventListener("click", closeHandler);
+			}
+
+			const dialogClickHandler = (e: Event) => {
+				if (!dialog) return;
+				const rect = dialog.getBoundingClientRect();
+				const mouseEvent = e as MouseEvent;
+				const isInDialog = mouseEvent.clientX >= rect.left && mouseEvent.clientX <= rect.right && mouseEvent.clientY >= rect.top && mouseEvent.clientY <= rect.bottom;
+				if (!isInDialog) closeDialogAnim();
+			};
+
+			if (dialog) {
+				dialog.addEventListener("click", dialogClickHandler);
+			}
+
+			// Handle hash change (browser back/forward)
+			const hashChangeHandler = () => {
+				const hash = window.location.hash.slice(1);
+				if (hash && dialog && !dialog.open) {
+					const trigger = container.querySelector(`[data-id="${hash}"]`) as HTMLElement | null;
+					if (trigger) {
+						openSponsorDialog(trigger);
+					}
+				} else if (!hash && dialog?.open) {
+					closeDialogAnim();
+				}
+			};
+
+			window.addEventListener("hashchange", hashChangeHandler);
+
+			// Check initial hash on load
+			const initialHash = window.location.hash.slice(1);
+			if (initialHash) {
+				const trigger = container.querySelector(`[data-id="${initialHash}"]`) as HTMLElement | null;
+				if (trigger) {
+					// scroll to #sponsors
+					window.onload = () => document.getElementById("sponsors")?.scrollIntoView();
+					openSponsorDialog(trigger);
+				}
+			}
+
+			return () => {
+				document.removeEventListener("click", documentClickHandler);
+				if (closeBtn) closeBtn.removeEventListener("click", closeHandler);
+				if (dialog) dialog.removeEventListener("click", dialogClickHandler);
+				window.removeEventListener("hashchange", hashChangeHandler);
+				container.dataset.sponsorInit = "false";
+			};
+		};
+
+		let cleanup: (() => void) | null = null;
+		const mount = () => {
+			cleanup?.();
+			cleanup = initSponsorDialog();
+		};
+
+		const pageLoadHandler = () => {
+			mount();
+		};
+
+		const beforeSwapHandler = () => {
+			document.removeEventListener("astro:page-load", pageLoadHandler);
+			document.removeEventListener("astro:before-swap", beforeSwapHandler);
+			cleanup?.();
+		};
+
+		if (document.readyState === "loading") {
+			document.addEventListener("DOMContentLoaded", mount, { once: true });
+		} else {
+			mount();
+		}
+
+		document.addEventListener("astro:page-load", pageLoadHandler);
+		document.addEventListener("astro:before-swap", beforeSwapHandler);
+	</script>
+</section>

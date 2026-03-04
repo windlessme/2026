@@ -1,0 +1,392 @@
+---
+import { useTranslations, type Lang } from "@/utils/i18n";
+
+interface Props {
+	lang?: Lang;
+}
+
+const lang = Astro.props.lang ?? "zh";
+const t = useTranslations(lang).discuss;
+const messages = t.messages;
+---
+
+<section id="discuss">
+	<div class="container">
+		<div class="chat-wrapper">
+			<div class="chat-mask">
+				<div class="chat-stream" id="chatStream" data-messages={JSON.stringify(messages)}></div>
+			</div>
+		</div>
+
+		<div class="info-container">
+			<h2 class="text-reveal-title">{t.title}</h2>
+			<div class="btn-group">
+				<a href="https://forms.gle/5CCnNvFY3n7GqoyV9" class="btn-pill">{t.buttons.reserve}</a>
+				<a href="https://groups.google.com/g/sitcon-general/" class="btn-pill">{t.buttons.forum}</a>
+				<a href="https://gitlab.com/sitcon-tw/2026/board/-/boards" class="btn-pill">{t.buttons.records}</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- <img src="/2026/img/decoration-logo.png" alt="" class="decor-logo" /> -->
+</section>
+
+<style>
+	section {
+		background-color: #ac782b;
+	}
+	#discuss {
+		position: relative;
+		overflow: hidden;
+		padding: 0;
+	}
+
+	.container {
+		max-width: var(--max-width);
+		width: 90%;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 5rem;
+		position: relative;
+		z-index: 2;
+		padding: 4rem 0;
+	}
+
+	.chat-wrapper {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.chat-mask {
+		height: 320px;
+		width: 100%;
+		overflow: hidden;
+		position: relative;
+		mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 100%);
+		-webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 100%);
+	}
+
+	.chat-stream {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		height: 100%;
+		gap: 0.5rem;
+		padding: 1rem 0;
+		overflow: hidden;
+	}
+
+	#discuss :global(.message-bubble) {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		width: fit-content;
+		max-width: 85%;
+		flex-shrink: 0;
+		will-change: transform, opacity;
+	}
+
+	#discuss :global(.message-bubble.is-offset) {
+		margin-left: 4rem;
+	}
+
+	#discuss :global(.bubble-content) {
+		border-radius: 1.5rem;
+		padding: 1.1rem 1.6rem;
+		background: #c2a05a;
+		color: white;
+		font-size: 1.5rem;
+		font-weight: 500;
+		line-height: 1.45;
+		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+		max-width: 22rem;
+	}
+
+	#discuss :global(.bubble-tail) {
+		margin-top: -2px;
+		margin-left: 1.5rem;
+		line-height: 0;
+	}
+
+	#discuss :global(.bubble-tail svg) {
+		width: 20px;
+		height: 18px;
+		display: block;
+	}
+
+	.info-container {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		padding-left: 5rem;
+		min-width: 25rem;
+	}
+
+	h2 {
+		color: white;
+		margin-bottom: 1.5rem;
+	}
+
+	.btn-group {
+		display: flex;
+		gap: 1.8rem;
+		flex-wrap: wrap;
+	}
+
+	.btn-pill {
+		background-color: #ffd172;
+		color: #634a15;
+		padding: 1rem 2.5rem;
+		border-radius: 3.75rem;
+		text-decoration: none;
+		font-weight: bold;
+		font-size: 1.4rem;
+		transition:
+			transform 0.2s,
+			background-color 0.2s;
+	}
+
+	.btn-pill:hover {
+		transform: scale(1.05);
+		background-color: #fff;
+	}
+
+	.decor-logo {
+		position: absolute;
+		right: 3rem;
+		top: 25%;
+		width: 6.25rem;
+		opacity: 0.9;
+		z-index: 1;
+	}
+
+	.decor-paper {
+		position: absolute;
+		right: -6rem;
+		bottom: -7rem;
+		width: 30rem;
+		transform: rotate(-10deg);
+		z-index: 1;
+	}
+
+	/* RWD */
+	@media screen and (max-width: 1250px) {
+		.container {
+			gap: 3rem;
+			width: 95%;
+			padding: 3rem 0;
+		}
+
+		.info-container {
+			padding-left: 2rem;
+			min-width: auto;
+		}
+		#discuss :global(.message-bubble.is-offset) {
+			margin-left: 2.5rem;
+		}
+		.chat-mask {
+			height: 280px;
+		}
+		#discuss :global(.bubble-content) {
+			max-width: 18rem;
+			font-size: 1.35rem;
+		}
+	}
+
+	@media screen and (max-width: 992px) {
+		.container {
+			flex-direction: column-reverse;
+			gap: 3rem;
+			padding: 3rem 0;
+		}
+		.info-container {
+			padding-left: 0;
+			align-items: center;
+			text-align: center;
+			width: 100%;
+		}
+
+		.btn-group {
+			justify-content: center;
+		}
+		.chat-wrapper {
+			width: 100%;
+		}
+		.chat-mask {
+			width: 100%;
+		}
+		.chat-stream {
+			align-items: center;
+		}
+		#discuss :global(.message-bubble) {
+			max-width: 90%;
+		}
+		#discuss :global(.message-bubble.is-offset) {
+			margin-left: 0;
+		}
+		#discuss :global(.bubble-content) {
+			font-size: 1.2rem;
+			padding: 0.85rem 1.3rem;
+			max-width: 80vw;
+		}
+		#discuss :global(.bubble-tail) {
+			margin-left: 1rem;
+		}
+		#discuss :global(.bubble-tail svg) {
+			width: 16px;
+			height: 14px;
+		}
+	}
+
+	@media screen and (max-width: 576px) {
+		.container {
+			padding: 2.5rem 0;
+		}
+		.chat-mask {
+			height: 240px;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.btn-pill {
+			transition: none;
+		}
+	}
+</style>
+
+<script>
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	const initChatAnimation = () => {
+		const chatStreamEl = document.getElementById("chatStream");
+		if (!chatStreamEl) return () => {};
+		if (chatStreamEl.dataset.chatInit === "true") return () => {};
+		chatStreamEl.dataset.chatInit = "true";
+
+		const messagesData = chatStreamEl.dataset.messages;
+		if (!messagesData) return () => {};
+
+		const chatStream = chatStreamEl;
+		const messages: string[] = JSON.parse(messagesData);
+		const MAX_BUBBLES = 10;
+		const INTERVAL_MS = 2000;
+
+		let messageIndex = 0;
+		let displayCount = 0;
+		let intervalId: number | null = null;
+
+		const createBubble = (text: string, isOffset: boolean): HTMLElement => {
+			const bubble = document.createElement("div");
+			bubble.className = `message-bubble${isOffset ? " is-offset" : ""}`;
+			bubble.innerHTML = `
+				<div class="bubble-content">${text}</div>
+				<div class="bubble-tail">
+					<svg viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M0 21.9509C4.84211 12.1674 0 0 0 0L23 1.19723V1.22056C23 1.22056 9.68421 23.1715 0 21.9509Z" fill="#C2A05A"/>
+					</svg>
+				</div>
+			`;
+			return bubble;
+		};
+
+		const addMessage = (animate = true) => {
+			const text = messages[messageIndex % messages.length];
+			const isOffset = displayCount % 2 === 1;
+			const bubble = createBubble(text, isOffset);
+
+			chatStream.appendChild(bubble);
+
+			if (animate) {
+				gsap.set(bubble, {
+					opacity: 0,
+					scale: 0.92,
+					transformOrigin: "left bottom"
+				});
+
+				gsap.to(bubble, {
+					opacity: 1,
+					scale: 1,
+					duration: 0.45,
+					delay: 0.05,
+					ease: "back.out(1.4)"
+				});
+			}
+
+			// 清理舊訊息 - 每次只處理一個，避免無限循環
+			if (chatStream.children.length > MAX_BUBBLES) {
+				const oldest = chatStream.firstElementChild as HTMLElement;
+				if (oldest && !oldest.dataset.removing) {
+					oldest.dataset.removing = "true"; // 標記避免重複動畫
+					gsap.to(oldest, {
+						opacity: 0,
+						duration: 0.3,
+						ease: "power2.out",
+						onComplete: () => oldest.remove()
+					});
+				}
+			}
+
+			messageIndex++;
+			displayCount++;
+		};
+
+		const startLoop = () => {
+			if (intervalId !== null) return;
+			intervalId = window.setInterval(() => addMessage(true), INTERVAL_MS);
+		};
+
+		const stopLoop = () => {
+			if (intervalId !== null) {
+				window.clearInterval(intervalId);
+				intervalId = null;
+			}
+		};
+
+		for (let i = 0; i < 4; i++) {
+			addMessage(false);
+		}
+
+		const scrollTrigger = ScrollTrigger.create({
+			trigger: "#discuss",
+			start: "top bottom",
+			end: "bottom top",
+			onEnter: startLoop,
+			onLeave: stopLoop,
+			onEnterBack: startLoop,
+			onLeaveBack: stopLoop
+		});
+
+		return () => {
+			stopLoop();
+
+			// Ensure all GSAP tweens related to the chat stream are killed on cleanup
+			if (typeof gsap !== "undefined") {
+				gsap.killTweensOf(chatStreamEl);
+				gsap.killTweensOf(chatStreamEl.children);
+			}
+			scrollTrigger.kill();
+			chatStreamEl.dataset.chatInit = "false";
+		};
+	};
+
+	let cleanup: (() => void) | null = null;
+	const mount = () => {
+		cleanup?.();
+		cleanup = initChatAnimation();
+	};
+
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", mount, { once: true });
+	} else {
+		mount();
+	}
+
+	document.addEventListener("astro:page-load", mount);
+	document.addEventListener("astro:before-swap", () => cleanup?.());
+</script>

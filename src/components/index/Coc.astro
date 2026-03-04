@@ -1,0 +1,153 @@
+---
+import { useTranslations, type Lang } from "@/utils/i18n";
+import { ArrowRight } from "@lucide/astro";
+
+interface Props {
+	lang?: Lang;
+}
+
+const lang = Astro.props.lang ?? "zh";
+const t = useTranslations(lang).coc;
+---
+
+<section>
+	<div class="content">
+		<h2 class="text-reveal-title">{t.title}</h2>
+		<div class="content-coc">
+			<p class="text-reveal-paragraph" set:html={t.paragraph1} />
+
+			<p class="text-reveal-paragraph" set:html={t.paragraph2} />
+		</div>
+
+		<div class="mobile-cocLink">
+			<div class="cocLink">
+				<a href="https://sitcon.org/code-of-conduct/" target="_blank" rel="noopener noreferrer" aria-label="前往 SITCON 行為準則">
+					<ArrowRight size="55" stroke-width="3" color="#634A15" aria-hidden="true" />
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	section {
+		background-color: #1b1000;
+	}
+	.content {
+		max-width: var(--max-width);
+		width: 90%;
+		height: 25rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #fce6c5;
+		gap: 3rem;
+		margin: 0 auto;
+	}
+
+	.content-coc {
+		font-weight: 700;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5rem;
+	}
+
+	.content-coc p {
+		margin: 0;
+		line-height: 1.5;
+		font-size: 1.2rem;
+	}
+
+	.mobile-br {
+		display: none;
+	}
+
+	.cocLink {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 6rem;
+		height: 6rem;
+		background-color: #ffd172;
+		margin-top: 12rem;
+		border-radius: 50%;
+		transition:
+			transform 0.3s ease,
+			background-color 0.3s ease;
+		flex-shrink: 0;
+	}
+
+	.cocLink:hover {
+		transform: scale(1.125);
+		background-color: #fff;
+	}
+
+	@media screen and (max-width: 992px) {
+		.content {
+			flex-direction: column;
+			height: auto;
+			padding: 4rem 0;
+			text-align: center;
+			gap: 2rem;
+		}
+
+		.content-coc {
+			align-items: center;
+		}
+
+		.cocLink {
+			margin-top: 1rem;
+		}
+	}
+
+	@media screen and (max-width: 576px) {
+		.content {
+			padding: 3rem 0;
+			gap: 1.5rem;
+		}
+
+		.content h1 {
+			font-size: 3.5rem;
+			width: 22rem;
+			text-align: right;
+		}
+
+		.content-coc {
+			width: 22rem;
+			display: flex;
+			align-items: flex-start;
+			text-align: left;
+			justify-content: flex-start;
+		}
+		.content-coc p {
+			font-size: 1rem;
+		}
+
+		.mobile-br {
+			display: inline;
+		}
+
+		.cocLink {
+			width: 5rem;
+			height: 5rem;
+		}
+
+		.cocLink svg {
+			width: 2rem;
+			height: 2rem;
+		}
+
+		.mobile-cocLink {
+			width: 16rem;
+			display: flex;
+			justify-content: flex-end;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.cocLink {
+			transition: none;
+		}
+	}
+</style>

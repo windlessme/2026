@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+. "$(dirname "$0")/_/husky.sh"
+
+git -c core.quotepath=false diff --cached --name-only --diff-filter=ACMR -z \
+  | xargs -0 pnpm exec prettier --write --ignore-unknown
+
+git update-index --again

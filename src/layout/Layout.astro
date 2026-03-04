@@ -1,0 +1,303 @@
+---
+import Nav from "@/components/Nav.astro";
+import "lenis/dist/lenis.css";
+import "./global.css";
+import { langMeta, getAlternateUrl, type Lang } from "@/utils/i18n";
+
+interface Props {
+	title?: string;
+	description?: string;
+	ogImage?: string;
+	seoUrl?: string;
+	lang?: Lang;
+}
+
+const lang = Astro.props.lang ?? "zh";
+const meta = langMeta[lang];
+
+const defaultTitles = {
+	zh: "Jam the Chaos - SITCON 2026",
+	en: "Jam the Chaos - SITCON 2026"
+};
+
+const defaultDescriptions = {
+	zh: "SITCON 2026 學生計算機年會徵稿開始！主題「Jam the Chaos」，邀請對資訊技術有熱情的學生投稿分享你的創新想法、專案經驗與技術見解。2026/03/28 於中央研究院人文社會科學館盛大舉辦。",
+	en: "SITCON 2026 - Students' Information Technology Conference. Theme: 'Jam the Chaos'. Join us on 2026/03/28 at Academia Sinica Humanities and Social Sciences Building."
+};
+
+const title = Astro.props.title ?? defaultTitles[lang];
+const description = Astro.props.description ?? defaultDescriptions[lang];
+const ogImage = Astro.props.ogImage ?? "https://sitcon.org/2026/img/og.webp";
+const siteUrl = Astro.props.seoUrl ?? (lang === "en" ? "https://sitcon.org/2026/en/" : "https://sitcon.org/2026/");
+const alternateLang = lang === "en" ? "zh" : "en";
+const alternateUrl = getAlternateUrl(Astro.url.pathname, alternateLang);
+---
+
+<html lang={meta.htmlLang}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+
+		<title>{title}</title>
+		<meta name="title" content={title} />
+		<meta name="description" content={description} />
+		<meta name="keywords" content="SITCON,學生計算機年會,2026,徵稿,CFP,Call for Proposals,資訊技術,程式設計,開源,學生社群,技術研討會,Jam the Chaos,中央研究院,投稿,演講,工作坊" />
+		<meta name="author" content="SITCON" />
+		<meta name="robots" content="index, follow" />
+		<link rel="canonical" href={siteUrl} />
+		<link rel="alternate" hreflang={langMeta[alternateLang].htmlLang} href={`https://sitcon.org${alternateUrl}`} />
+
+		<link rel="icon" type="image/png" href="/2026/img/favicon/favicon-96x96.png" sizes="96x96" />
+		<link rel="shortcut icon" href="/2026/img/favicon/favicon.ico" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/2026/img/favicon/apple-touch-icon.png" />
+		<meta name="apple-mobile-web-app-title" content="SITCON" />
+		<link rel="manifest" href="/2026/img/favicon/site.webmanifest" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={siteUrl} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:locale" content={meta.ogLocale} />
+		<meta property="og:site_name" content="SITCON" />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:url" content={siteUrl} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
+		<meta name="twitter:site" content="@SITCONtw" />
+		<meta name="twitter:creator" content="@SITCONtw" />
+
+		<meta name="theme-color" content="#010121" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<link rel="alternate" hreflang="zh-TW" href="https://sitcon.org/2026/" />
+		<link rel="alternate" hreflang="en" href="https://sitcon.org/2026/en/" />
+
+		<link rel="preconnect" href="https://font.emtech.cc" />
+		<link rel="preconnect" href="https://www.googletagmanager.com" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://font.emtech.cc/css/GenKiMinTW" rel="stylesheet" />
+		<link href="https://font.emtech.cc/css/GenKiGothicTW" rel="stylesheet" />
+		<link href="https://font.emtech.cc/css/JetBrainsMono" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap&text=Jam%20theCos" rel="stylesheet" />
+
+		<script type="application/ld+json" is:inline>
+			{
+				"@context": "https://schema.org",
+				"@type": "Event",
+				"name": "SITCON 2026 學生計算機年會",
+				"description": "學生計算機年會（Students' Information Technology Conference）以學生為本、由學生自發舉辦，長期投身學生資訊教育與推廣開源精神。2026 年主題「Jam the Chaos」，邀請對資訊技術有熱情的學生投稿分享創新想法、專案經驗與技術見解。",
+				"startDate": "2026-03-28T09:00:00+08:00",
+				"endDate": "2026-03-28T17:00:00+08:00",
+				"eventStatus": "https://schema.org/EventScheduled",
+				"eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+				"location": {
+					"@type": "Place",
+					"name": "中央研究院人文社會科學館",
+					"address": {
+						"@type": "PostalAddress",
+						"streetAddress": "研究院路二段128號",
+						"addressLocality": "南港區",
+						"addressRegion": "台北市",
+						"addressCountry": "TW"
+					}
+				},
+				"image": ["https://sitcon.org/2026/cfp/og-image.webp"],
+				"organizer": {
+					"@type": "Organization",
+					"name": "SITCON 學生計算機年會籌備團隊",
+					"url": "https://sitcon.org"
+				},
+				"offers": [
+					{
+						"@type": "Offer",
+						"name": "學生票（第一波）",
+						"url": "https://sitcon.org/2026/cfp/",
+						"price": "0",
+						"priceCurrency": "TWD",
+						"availability": "https://schema.org/PreOrder",
+						"validFrom": "2026-01-25T20:00:00+08:00",
+						"validThrough": "2026-02-07T23:59:00+08:00"
+					},
+					{
+						"@type": "Offer",
+						"name": "一般票（第一波）",
+						"url": "https://sitcon.org/2026/cfp/",
+						"price": "0",
+						"priceCurrency": "TWD",
+						"availability": "https://schema.org/PreOrder",
+						"validFrom": "2026-01-25T20:00:00+08:00",
+						"validThrough": "2026-02-07T23:59:00+08:00"
+					},
+					{
+						"@type": "Offer",
+						"name": "學生票（第二波）",
+						"url": "https://sitcon.org/2026/cfp/",
+						"price": "0",
+						"priceCurrency": "TWD",
+						"availability": "https://schema.org/PreOrder",
+						"validFrom": "2026-02-23T20:00:00+08:00",
+						"validThrough": "2026-03-01T23:59:00+08:00"
+					},
+					{
+						"@type": "Offer",
+						"name": "一般票（第二波）",
+						"url": "https://sitcon.org/2026/cfp/",
+						"price": "0",
+						"priceCurrency": "TWD",
+						"availability": "https://schema.org/PreOrder",
+						"validFrom": "2026-02-23T20:00:00+08:00",
+						"validThrough": "2026-03-01T23:59:00+08:00"
+					},
+					{
+						"@type": "Offer",
+						"name": "邀請票",
+						"url": "https://sitcon.org/2026/cfp/",
+						"price": "0",
+						"priceCurrency": "TWD",
+						"availability": "https://schema.org/InStock",
+						"validFrom": "2025-12-15T00:00:00+08:00",
+						"validThrough": "2026-02-10T23:59:00+08:00"
+					}
+				],
+				"performer": {
+					"@type": "Organization",
+					"name": "SITCON 學生計算機年會"
+				}
+			}
+		</script>
+		<!-- Google Tag Manager -->
+		<script is:inline>
+			(function (w, d, s, l, i) {
+				w[l] = w[l] || [];
+				w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+				var f = d.getElementsByTagName(s)[0],
+					j = d.createElement(s),
+					dl = l != "dataLayer" ? "&l=" + l : "";
+				j.async = true;
+				j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+				f.parentNode.insertBefore(j, f);
+			})(window, document, "script", "dataLayer", "GTM-NPVBCDZ");
+		</script>
+		<!-- End Google Tag Manager -->
+	</head>
+	<body class={lang === "en" ? "lang-en" : "lang-zh"}>
+		<div id="loading-mask">
+			<div class="loader-content">
+				<div class="spinner"></div>
+				<p>SITCON 2026</p>
+			</div>
+		</div>
+
+		<style>
+			#loading-mask {
+				position: fixed;
+				inset: 0;
+				z-index: 99999;
+				background-color: #ac782b;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				transition:
+					opacity 0.6s ease-out,
+					visibility 0.6s ease-out;
+			}
+			#loading-mask.hidden {
+				opacity: 0;
+				visibility: hidden;
+			}
+			.loader-content {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 1.5rem;
+				color: #fff;
+				font-family: "JetBrainsMono", monospace;
+			}
+			.loader-content p {
+				font-size: 1.2rem;
+				letter-spacing: 0.1em;
+				animation: pulse 2s infinite;
+			}
+			.spinner {
+				width: 50px;
+				height: 50px;
+				border: 3px solid rgba(255, 255, 255, 0.2);
+				border-top-color: #fff;
+				border-radius: 50%;
+				animation: spin 1s linear infinite;
+			}
+			@keyframes spin {
+				to {
+					transform: rotate(360deg);
+				}
+			}
+			@keyframes pulse {
+				0%,
+				100% {
+					opacity: 0.6;
+				}
+				50% {
+					opacity: 1;
+				}
+			}
+		</style>
+
+		<script>
+			const hideLoader = () => {
+				const mask = document.getElementById("loading-mask");
+				if (mask) {
+					mask.classList.add("hidden");
+				}
+			};
+
+			if (document.readyState === "complete") {
+				hideLoader();
+			} else {
+				window.addEventListener("load", hideLoader);
+			}
+		</script>
+
+		<a href="#main-content" class="skip-link">{lang === "en" ? "Skip to main content" : "跳至主要內容"}</a>
+		<Nav lang={lang} />
+		<div id="main-content">
+			<slot />
+		</div>
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NPVBCDZ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+		<script>
+			import Lenis from "lenis";
+			import "@/utils/text-reveal";
+
+			let lenis: InstanceType<typeof Lenis> | null = null;
+
+			const initLenis = () => {
+				const pathname = window.location.pathname;
+				if (/(^|\/)team\/explore(\/|$)/.test(pathname)) {
+					if (lenis) {
+						lenis.destroy();
+						lenis = null;
+					}
+				} else {
+					if (!lenis) {
+						lenis = new Lenis({
+							autoRaf: true,
+							anchors: true
+						});
+					}
+				}
+			};
+
+			initLenis();
+
+			document.addEventListener("astro:page-load", initLenis);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,258 @@
+---
+interface Props {
+	lines: string[];
+	rows?: number;
+	speed?: number;
+	gap?: number;
+	opacity?: number;
+}
+
+const { lines, rows = 6, speed = 150, gap = 80, opacity = 0.12 } = Astro.props;
+
+const uniqueId = `danmaku-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<div class="danmaku-container" id={uniqueId} data-lines={JSON.stringify(lines)} data-rows={rows} data-speed={speed} data-gap={gap} data-opacity={opacity}></div>
+
+<style define:vars={{ opacity }}>
+	.danmaku-container {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index: 1;
+		user-select: none;
+		overflow: hidden;
+	}
+
+	:global(.danmaku-item) {
+		position: absolute;
+		white-space: nowrap;
+		font-weight: 900;
+		color: white;
+		opacity: var(--opacity);
+		will-change: transform;
+	}
+</style>
+
+<script>
+	const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	const initDanmaku = () => {
+		if (prefersReducedMotion()) return () => {};
+
+		const containers = Array.from(document.querySelectorAll<HTMLElement>(".danmaku-container"));
+		if (containers.length === 0) return () => {};
+
+		const cleanups: Array<() => void> = [];
+
+		containers.forEach(container => {
+			if (container.dataset.danmakuInit === "true") return;
+			container.dataset.danmakuInit = "true";
+
+			// Clean up any previously created danmaku items before re-initializing.
+			while (container.firstChild) {
+				container.removeChild(container.firstChild);
+			}
+
+			const lines: string[] = JSON.parse(container.dataset.lines || "[]");
+			const rows = parseInt(container.dataset.rows || "6", 10);
+			const speed = parseInt(container.dataset.speed || "150", 10);
+			const gap = parseInt(container.dataset.gap || "80", 10);
+			const opacity = parseFloat(container.dataset.opacity || "0.12");
+
+			// 如果沒有彈幕資料，直接返回
+			if (!lines || lines.length === 0) {
+				container.dataset.danmakuInit = "false";
+				return;
+			}
+
+			let fontSize = 0;
+			let rowState: { lastEndTime: number }[] = [];
+			let animationFrameId = 0;
+			let isRunning = false;
+			let resizeTimeout: number | null = null;
+			const removalTimeouts = new Set<number>();
+
+			const updateFontSize = () => {
+				const screenWidth = window.innerWidth;
+				fontSize = Math.max(48, Math.min(80, screenWidth * 0.06));
+			};
+
+			const measureText = (text: string): number => {
+				const canvas = document.createElement("canvas");
+				const ctx = canvas.getContext("2d");
+				if (!ctx) return text.length * fontSize;
+				ctx.font = `900 ${fontSize}px sans-serif`;
+				return ctx.measureText(text).width;
+			};
+
+			const getRandomText = (): string => {
+				return lines[Math.floor(Math.random() * lines.length)];
+			};
+
+			const createDanmaku = (row: number, initialOffset = 0) => {
+				const text = getRandomText();
+				const textWidth = measureText(text);
+				const screenWidth = window.innerWidth;
+				const totalDistance = screenWidth + textWidth;
+				const duration = totalDistance / speed;
+
+				const el = document.createElement("p");
+				el.className = "danmaku-item";
+				el.textContent = text;
+				el.style.fontSize = `${fontSize}px`;
+				el.style.top = `${(row / rows) * 100}%`;
+				el.style.left = `${screenWidth + initialOffset}px`;
+				el.style.opacity = String(opacity);
+				el.style.transform = "translateX(0)";
+				el.style.transition = `transform ${duration}s linear`;
+
+				container.appendChild(el);
+
+				// 強制 reflow 以確保 transition 生效
+				el.offsetHeight;
+
+				// 開始動畫
+				el.style.transform = `translateX(-${totalDistance}px)`;
+
+				const timeUntilFullyEntered = (textWidth + gap) / speed;
+				rowState[row].lastEndTime = performance.now() + timeUntilFullyEntered * 1000;
+
+				// 動畫結束後移除元素
+				el.addEventListener(
+					"transitionend",
+					() => {
+						el.remove();
+					},
+					{ once: true }
+				);
+
+				// 備用：如果 transitionend 沒觸發，用 setTimeout 清理
+				const timeoutId = window.setTimeout(
+					() => {
+						removalTimeouts.delete(timeoutId);
+						if (el.parentNode) {
+							el.remove();
+						}
+					},
+					(duration + 1) * 1000
+				);
+				removalTimeouts.add(timeoutId);
+			};
+
+			const tick = (currentTime: number) => {
+				if (!isRunning) return;
+				for (let row = 0; row < rows; row++) {
+					if (currentTime >= rowState[row].lastEndTime) {
+						createDanmaku(row);
+					}
+				}
+				animationFrameId = requestAnimationFrame(tick);
+			};
+
+			const start = () => {
+				if (isRunning) return;
+				isRunning = true;
+				container.innerHTML = "";
+				const startTime = performance.now();
+
+				rowState = Array.from({ length: rows }, () => ({ lastEndTime: 0 }));
+
+				for (let row = 0; row < rows; row++) {
+					const initialDelay = (row * 0.3 + Math.random() * 0.5) * 1000;
+					rowState[row].lastEndTime = startTime + initialDelay;
+				}
+
+				animationFrameId = requestAnimationFrame(tick);
+			};
+
+			const stop = () => {
+				if (!isRunning) return;
+				isRunning = false;
+				cancelAnimationFrame(animationFrameId);
+				removalTimeouts.forEach(id => window.clearTimeout(id));
+				removalTimeouts.clear();
+				// 清除現有的彈幕元素
+				container.innerHTML = "";
+			};
+
+			const handleResize = () => {
+				if (!isRunning) return;
+				cancelAnimationFrame(animationFrameId);
+				container.innerHTML = "";
+				updateFontSize();
+				// 重新啟動
+				isRunning = false;
+				start();
+			};
+
+			// 初始化字體大小
+			updateFontSize();
+
+			// 使用 IntersectionObserver 控制動畫，離開視口時停止
+			const observer = new IntersectionObserver(
+				entries => {
+					const entry = entries[0];
+					if (!entry) return;
+
+					if (entry.isIntersecting) {
+						start();
+					} else {
+						stop();
+					}
+				},
+				{ threshold: 0 }
+			);
+			observer.observe(container);
+
+			// 監聽視窗大小變化
+			const onResize = () => {
+				if (resizeTimeout !== null) {
+					clearTimeout(resizeTimeout);
+				}
+				resizeTimeout = window.setTimeout(handleResize, 200);
+			};
+
+			window.addEventListener("resize", onResize);
+
+			cleanups.push(() => {
+				stop();
+				if (resizeTimeout !== null) {
+					clearTimeout(resizeTimeout);
+				}
+				window.removeEventListener("resize", onResize);
+				observer.disconnect();
+				container.dataset.danmakuInit = "false";
+			});
+		});
+
+		return () => {
+			cleanups.forEach(fn => fn());
+		};
+	};
+
+	let cleanup: (() => void) | null = null;
+	const mount = () => {
+		cleanup?.();
+		cleanup = initDanmaku();
+	};
+
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", mount, { once: true });
+	} else {
+		mount();
+	}
+
+	const pageLoadHandler = () => mount();
+	const beforeSwapHandler = () => {
+		cleanup?.();
+		document.removeEventListener("astro:page-load", pageLoadHandler);
+		document.removeEventListener("astro:before-swap", beforeSwapHandler);
+	};
+
+	document.addEventListener("astro:page-load", pageLoadHandler);
+	document.addEventListener("astro:before-swap", beforeSwapHandler);
+</script>

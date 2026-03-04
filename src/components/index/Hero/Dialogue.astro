@@ -1,0 +1,50 @@
+---
+import { useTranslations, type Lang } from "@/utils/i18n";
+
+interface Props {
+	lang?: Lang;
+}
+
+const lang = Astro.props.lang ?? "zh";
+const t = useTranslations(lang).dialogue;
+---
+
+<div class="dialogue-section">
+	<h2 set:html={t.headline} />
+	<p class="text-reveal-paragraph">{t.paragraph1}</p>
+	<p class="text-reveal-paragraph">{t.paragraph2}</p>
+	<p class="text-reveal-paragraph intro">{t.paragraph3}</p>
+</div>
+
+<style>
+	.dialogue-section {
+		max-width: var(--max-width);
+		margin: 0 auto;
+		padding: 8rem 2rem;
+	}
+
+	h2 {
+		font-weight: 700;
+		font-size: min(2.5rem, 6vw);
+		line-height: 1.6;
+		text-align: center;
+		margin-bottom: 6rem;
+	}
+
+	:global(.lang-en) .dialogue-section h2 {
+		font-size: min(2.2rem, 5vw);
+	}
+
+	p {
+		font-size: 1.125rem;
+		line-height: 2;
+		margin-bottom: 2rem;
+		text-align: justify;
+		max-width: 45rem;
+	}
+
+	.intro {
+		margin-left: auto;
+		margin-top: 5rem;
+	}
+</style>

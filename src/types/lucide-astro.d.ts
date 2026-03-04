@@ -1,0 +1,34 @@
+declare module "@lucide/astro" {
+	export const X: any;
+	export const Plus: any;
+	export const Check: any;
+	export const Heart: any;
+	export const Flag: any;
+	export const Minus: any;
+	export const Container: any;
+	export const ChevronUp: any;
+	export const ChevronDown: any;
+	export const ChevronLeft: any;
+	export const ChevronRight: any;
+	export const Menu: any;
+	export const Plane: any;
+	export const Users: any;
+	export const CodeXml: any;
+	export const ExternalLink: any;
+	export const Move: any;
+	export const Grip: any;
+	export const List: any;
+	export const Globe: any;
+	export const Guitar: any;
+	export const Share2: any;
+	export const X: any;
+	export const TriangleAlert: any;
+	export const MapPin: any;
+	export const Clock: any;
+	export const Play: any;
+	export const Triangle: any;
+	export const ArrowUp: any;
+	export const ArrowRight: any;
+	export const ArrowUpRight: any;
+	export const MessageCircle: any;
+}

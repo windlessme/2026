@@ -1,0 +1,798 @@
+---
+import Layout from "@/layout/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import { useTranslations } from "@/utils/i18n";
+import AgendaTimeline from "@/components/agenda/AgendaTimeline.astro";
+import CircularGallery from "@/components/agenda/CircularGallery.astro";
+import SessionModal from "@/components/agenda/SessionModal.astro";
+import ShareJamModal from "@/components/agenda/ShareJamModal.astro";
+import CalendarDays from "@lucide/astro/icons/calendar-days";
+import Link from "@lucide/astro/icons/link";
+import Info from "@lucide/astro/icons/info";
+import agendaData from "@/../public/sessions-web.json";
+import postersData from "@/data/posters.json";
+import { normalizeAgendaSessionsFromFile } from "@/utils/agenda";
+import type { Lang } from "@/utils/agenda";
+import type { AgendaDataFile } from "@/types/agenda";
+
+const lang = (Astro.props.lang ?? "zh") as Lang;
+const agendaID = Astro.props.agendaID ?? "";
+const title = Astro.props.title ?? (lang === "en" ? "Agenda - SITCON 2026" : "議程表 - SITCON 2026");
+const description = Astro.props.description;
+const ogImage = Astro.props.ogImage;
+const seoUrl = Astro.props.seoUrl;
+const t = useTranslations(lang).agenda;
+
+const agendaItems = normalizeAgendaSessionsFromFile(agendaData as AgendaDataFile, lang);
+const posters = Array.isArray(postersData) ? postersData : [];
+
+const mcpServerUrl = "https://mcp.sitcon.org/mcp";
+
+const i18nScript = {
+	agendaTitle: t.title,
+	curatedLabel: t.curatedLabel,
+	mcpCopied: t.mcpCopied,
+	sessionTypeUndefined: t.sessionTypeUndefined,
+	sessionTypeSponsored: t.sessionTypeSponsored,
+	sessionAskQuestion: t.sessionAskQuestion,
+	sessionCollabNotes: t.sessionCollabNotes,
+	sessionPresentation: t.sessionPresentation
+};
+---
+
+<Layout title={title} description={description} ogImage={ogImage} seoUrl={seoUrl} lang={lang}>
+	<main>
+		<div class="agenda-header">
+			<h1 class="agenda-title" id="agenda-title">{t.title}</h1>
+			<div class="agenda-legend">
+				<div class="legend-item">
+					<div class="legend-color keynote"></div>
+					<span>Keynote</span>
+				</div>
+				<div class="legend-item">
+					<div class="legend-color presentation"></div>
+					<span>Presentation</span>
+				</div>
+				<div class="legend-item">
+					<div class="legend-color espresso"></div>
+					<span>Espresso</span>
+				</div>
+				<div class="legend-item">
+					<div class="legend-color undefined"></div>
+					<span>{t.legendUndefined}</span>
+				</div>
+				<div class="legend-item">
+					<div class="legend-color sponsored"></div>
+					<span>{t.legendSponsored}</span>
+				</div>
+			</div>
+		</div>
+
+		<AgendaTimeline items={agendaItems} lang={lang} />
+
+		<!-- MCP Connection Section -->
+		<section class="mcp-section">
+			<div class="mcp-container">
+				<h3 class="mcp-title" id="mcp-title">SITCON MCP Server</h3>
+				<p class="mcp-desc">
+					{t.mcpDesc}
+				</p>
+				<div class="mcp-features">
+					<div class="mcp-feature-item">
+						<CalendarDays size={16} />
+						<span>{t.mcpFeatureAgenda}</span>
+					</div>
+					<div class="mcp-feature-item">
+						<Link size={16} />
+						<span>{t.mcpFeatureShare}</span>
+					</div>
+					<div class="mcp-feature-item">
+						<Info size={16} />
+						<span>{t.mcpFeatureInfo}</span>
+					</div>
+				</div>
+				<div class="mcp-actions">
+					<a href={lang === "en" ? "/2026/en/mcp/" : "/2026/mcp/"} target="_blank" rel="noopener noreferrer" class="mcp-btn action-btn">
+						<div class="hover-bg"></div>
+						<span class="btn-text">{t.mcpTutorial}</span>
+					</a>
+					<button id="mcp-copy-btn" class="mcp-btn action-btn" type="button" data-url={mcpServerUrl}>
+						<div class="hover-bg"></div>
+						<span class="btn-text">{t.mcpCopyUrl}</span>
+					</button>
+					<a href="https://github.com/sitcon-tw/2026-mcp" target="_blank" rel="noopener noreferrer" class="mcp-btn action-btn">
+						<div class="hover-bg"></div>
+						<span class="btn-text">GitHub Repo</span>
+					</a>
+				</div>
+			</div>
+		</section>
+		<section class="gallery-section">
+			<h1 class="gallery-title" id="gallery-title">{t.galleryTitle}</h1>
+			<CircularGallery items={posters} lang={lang} />
+		</section>
+	</main>
+	<SessionModal type="" name="" description="" speakers={[]} tags={[]} venue="" startTime="" lang={lang} />
+	<ShareJamModal lang={lang} shareJamTitle={t.shareJamTitle} shareJamPlaceholder={t.shareJamPlaceholder} shareJamCopy={t.shareJamCopy} shareJamCopied={t.shareJamCopied} />
+	<Footer />
+</Layout>
+
+<script define:vars={{ agendaID, i18nScript }}>
+	const isEn = window.location.pathname.startsWith("/2026/en/");
+	const basePath = isEn ? "/2026/en/agenda" : "/2026/agenda";
+
+	const originalTitle = document.title;
+
+	function getAgendaIdFromPathname(pathname) {
+		// Support: /2026/agenda/:id/ , /2026/en/agenda/:id/ , /agenda/:id , /en/agenda/:id
+		const cleanPath = pathname.replace(/\/$/, "");
+		const parts = cleanPath.split("/").filter(Boolean);
+		// /2026/agenda/:id -> ["2026", "agenda", "id"]
+		if (parts.length === 3 && parts[0] === "2026" && parts[1] === "agenda") return parts[2];
+		// /2026/en/agenda/:id -> ["2026", "en", "agenda", "id"]
+		if (parts.length === 4 && parts[0] === "2026" && parts[1] === "en" && parts[2] === "agenda") return parts[3];
+		// /agenda/:id (no base)
+		if (parts.length === 2 && parts[0] === "agenda") return parts[1];
+		if (parts.length === 3 && parts[0] === "en" && parts[1] === "agenda") return parts[2];
+		return null;
+	}
+
+	function openSessionById(id) {
+		const block = document.querySelector(`.session-block[data-session-id="${CSS.escape(id)}"]`);
+		if (!block) return;
+		// Build modal detail from block data (don't rely on click listener - script order may differ)
+		const getAttr = name => block.getAttribute(name) || "";
+		let speakers = [];
+		try {
+			const raw = block.getAttribute("data-session-speakers");
+			if (raw) speakers = JSON.parse(raw);
+		} catch (_) {}
+		let tags = [];
+		try {
+			const raw = block.getAttribute("data-session-tags");
+			if (raw) tags = JSON.parse(raw);
+		} catch (_) {}
+		let advertisement;
+		try {
+			const raw = block.getAttribute("data-session-advertisement");
+			if (raw) advertisement = JSON.parse(raw);
+		} catch (_) {}
+		const detail = {
+			id,
+			type: getAttr("data-session-type"),
+			name: getAttr("data-session-name"),
+			description: getAttr("data-session-description"),
+			speakers,
+			tags,
+			venue: getAttr("data-session-venue"),
+			startTime: getAttr("data-session-start-time"),
+			endTime: getAttr("data-session-end-time"),
+			slidoLink: getAttr("data-session-slido"),
+			slidesLink: getAttr("data-session-slides"),
+			notesLink: getAttr("data-session-notes"),
+			advertisement,
+			lang: getAttr("data-session-lang") || "zh"
+		};
+		document.dispatchEvent(new CustomEvent("openSessionModal", { detail }));
+	}
+
+	function closeModalSilently() {
+		const modal = document.getElementById("session-modal");
+		if (modal) modal.classList.remove("active");
+		document.body.style.overflow = "";
+	}
+
+	// Handle modal opening from SessionBlock clicks
+	document.addEventListener("openSessionModal", async e => {
+		const modal = document.getElementById("session-modal");
+		if (!modal) return;
+
+		const data = e.detail ?? {};
+
+		if (data?.name) {
+			document.title = `${data.name} - SITCON 2026`;
+		}
+
+		// URL sync: /2026/agenda/:id/ or /2026/en/agenda/:id/
+		if (data?.id) {
+			const nextUrl = `${basePath}/${data.id}/`;
+			if (window.location.pathname !== nextUrl && !window.location.pathname.startsWith(`${basePath}/${data.id}/`)) {
+				history.pushState({ agendaID: data.id }, "", nextUrl);
+			}
+		}
+
+		// Update modal content
+		const updateModalContent = async () => {
+			// Update all the modal fields
+			const typeEl = modal.querySelector(".session-type-badge");
+			const nameEl = modal.querySelector(".session-title");
+			const descEl = modal.querySelector(".session-description");
+			const venueEl = modal.querySelector(".meta-item:has(svg)");
+			const timeEl = modal.querySelectorAll(".meta-item")[0];
+			const speakerEl = modal.querySelector(".speaker-name");
+			const speakerInfoEl = modal.querySelector(".speaker-info");
+
+			if (typeEl) {
+				typeEl.textContent =
+					data.type === "keynote"
+						? "Keynote"
+						: data.type === "presentation"
+							? "Presentation"
+							: data.type === "undefined"
+								? i18nScript.sessionTypeUndefined
+								: data.type === "espresso"
+									? "Espresso"
+									: data.type === "sponsored"
+										? i18nScript.sessionTypeSponsored
+										: "";
+			}
+
+			nameEl.textContent = data.name || "";
+			descEl.innerHTML = data.description;
+
+			// Update time (forced to GMT+8 / Asia/Taipei)
+			if (timeEl && data.startTime) {
+				const formatTime = timestamp => {
+					const date = new Date(Number(timestamp));
+					return date.toLocaleTimeString("en-US", {
+						hour: "2-digit",
+						minute: "2-digit",
+						hour12: false,
+						timeZone: "Asia/Taipei"
+					});
+				};
+				const timeText = formatTime(data.startTime) + (data.endTime ? ` - ${formatTime(data.endTime)}` : "");
+				const span = timeEl.querySelector("span");
+				if (span) span.textContent = timeText;
+			}
+
+			// Update venue
+			const venueItems = Array.from(modal.querySelectorAll(".meta-item"));
+			if (venueItems[1] && data.venue) {
+				const span = venueItems[1].querySelector("span");
+				if (span) span.textContent = data.venue;
+			}
+
+			// Update speakers
+			if (speakerInfoEl && data.speakers) {
+				speakerInfoEl.innerHTML = "";
+				data.speakers.forEach(speaker => {
+					const speakerItem = document.createElement("div");
+					speakerItem.className = "speaker-item";
+					if (speaker.avatar) {
+						const img = document.createElement("img");
+						img.src = speaker.avatar;
+						img.alt = speaker.name || "";
+						img.className = "speaker-avatar";
+						speakerItem.appendChild(img);
+					}
+					const nameSpan = document.createElement("span");
+					nameSpan.className = "speaker-name";
+					nameSpan.textContent = speaker.name || "";
+					speakerItem.appendChild(nameSpan);
+					speakerInfoEl.appendChild(speakerItem);
+				});
+			}
+
+			// Update action buttons (same structure as SessionModal: hover-bg + span for content-btn style)
+			const actionsEl = modal.querySelector(".session-actions");
+			if (actionsEl) {
+				try {
+					actionsEl.innerHTML = "";
+
+					function createActionBtn(content) {
+						const hoverBg = document.createElement("div");
+						hoverBg.className = "hover-bg";
+						const span = document.createElement("span");
+						if (typeof content === "string") {
+							span.textContent = content;
+						} else {
+							span.appendChild(content);
+						}
+						return { hoverBg, span };
+					}
+
+					if (data.slidoLink) {
+						const btn = document.createElement("a");
+						btn.href = data.slidoLink;
+						btn.target = "_blank";
+						btn.rel = "noopener noreferrer";
+						btn.className = "action-btn";
+						const { hoverBg, span } = createActionBtn(i18nScript.sessionAskQuestion);
+						btn.appendChild(hoverBg);
+						btn.appendChild(span);
+						actionsEl.appendChild(btn);
+					}
+
+					if (data.notesLink) {
+						const btn = document.createElement("a");
+						btn.href = data.notesLink;
+						btn.target = "_blank";
+						btn.rel = "noopener noreferrer";
+						btn.className = "action-btn";
+						const { hoverBg, span } = createActionBtn(i18nScript.sessionCollabNotes);
+						btn.appendChild(hoverBg);
+						btn.appendChild(span);
+						actionsEl.appendChild(btn);
+					}
+
+					if (data.slidesLink) {
+						const btn = document.createElement("a");
+						btn.href = data.slidesLink;
+						btn.target = "_blank";
+						btn.rel = "noopener noreferrer";
+						btn.className = "action-btn";
+						const { hoverBg, span } = createActionBtn(i18nScript.sessionPresentation);
+						btn.appendChild(hoverBg);
+						btn.appendChild(span);
+						actionsEl.appendChild(btn);
+					}
+
+					const shareBtn = document.createElement("button");
+					shareBtn.type = "button";
+					shareBtn.id = "share-btn";
+					shareBtn.className = "action-btn action-share";
+					const shareIconSize = Number(modal.getAttribute("data-share-icon-size")) || 24;
+					const shareSvg = document.createElement("div");
+					shareSvg.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="${shareIconSize}" height="${shareIconSize}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="18" cy="5" r="3"></circle>
+					<circle cx="6" cy="12" r="3"></circle>
+					<circle cx="18" cy="19" r="3"></circle>
+					<line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+					<line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+				</svg>`;
+					const shareHoverBg = document.createElement("div");
+					shareHoverBg.className = "hover-bg";
+					const shareSpan = document.createElement("span");
+					if (shareSvg.firstElementChild) shareSpan.appendChild(shareSvg.firstElementChild);
+					shareBtn.appendChild(shareHoverBg);
+					shareBtn.appendChild(shareSpan);
+
+					const shareIcon = shareSpan.querySelector("svg");
+					const checkSvg = document.createElement("div");
+					checkSvg.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="${shareIconSize}" height="${shareIconSize}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M20 6 9 17l-5-5"></path>
+					</svg>`;
+					const checkIcon = checkSvg.firstElementChild;
+					if (checkIcon) {
+						checkIcon.style.display = "none";
+						shareSpan.appendChild(checkIcon);
+					}
+
+					let shareSuccessTimer = 0;
+					const showShareSuccess = () => {
+						if (!shareIcon || !checkIcon) return;
+						shareIcon.style.display = "none";
+						checkIcon.style.display = "block";
+						if (shareSuccessTimer) window.clearTimeout(shareSuccessTimer);
+						shareSuccessTimer = window.setTimeout(() => {
+							checkIcon.style.display = "none";
+							shareIcon.style.display = "block";
+						}, 2000);
+					};
+
+					shareBtn.addEventListener("click", async () => {
+						if (navigator.share) {
+							try {
+								const speakers = data.speakers.map(speaker => speaker.name).join(", ");
+								const date = new Date(Number(data.startTime)).toLocaleDateString("zh-TW", {
+									year: "numeric",
+									month: "2-digit",
+									day: "2-digit",
+									timeZone: "Asia/Taipei"
+								});
+								const startTime = new Date(Number(data.startTime)).toLocaleTimeString("en-US", {
+									hour: "2-digit",
+									minute: "2-digit",
+									hour12: false,
+									timeZone: "Asia/Taipei"
+								});
+								const endTime = new Date(Number(data.endTime)).toLocaleTimeString("en-US", {
+									hour: "2-digit",
+									minute: "2-digit",
+									hour12: false,
+									timeZone: "Asia/Taipei"
+								});
+								const text = `${String(data.type).charAt(0).toUpperCase() + String(data.type).slice(1)} - ${data.name} | ${speakers}\n${date} ${startTime} - ${endTime} @ 中央研究院人文社會科學館 ${data.venue}\n\n${data.description.replace(/<[^>]*>?/g, "")}`;
+								await navigator.share({
+									title: data.name || "",
+									text: text || "",
+									url: window.location.href
+								});
+								showShareSuccess();
+							} catch (err) {
+								console.log("Error sharing:", err);
+							}
+						} else {
+							try {
+								await navigator.clipboard.writeText(window.location.href);
+								showShareSuccess();
+							} catch (err) {
+								console.log("Error copying:", err);
+							}
+						}
+					});
+					actionsEl.appendChild(shareBtn);
+				} catch (err) {
+					console.error("Session modal action buttons:", err);
+				}
+			}
+
+			// Update tags
+			const tagsEl = modal.querySelector(".session-tags");
+			if (tagsEl && data.tags) {
+				tagsEl.innerHTML = "";
+				data.tags.forEach(tag => {
+					const tagSpan = document.createElement("span");
+					tagSpan.className = "session-tag";
+					tagSpan.textContent = `#${tag}`;
+					tagsEl.appendChild(tagSpan);
+				});
+			}
+
+			// Update advertisement panel: session ad or random ad from /2026/img/ads
+			const leftPanel = modal.querySelector(".modal-left-panel");
+			const rightPanel = modal.querySelector(".modal-right-panel");
+			const hasSessionAd = data.advertisement && (data.advertisement.positions?.length || data.advertisement.title);
+			const adContentEl = leftPanel?.querySelector(".advertisement-content");
+			const adImageEl = leftPanel?.querySelector(".ad-image-content");
+
+			if (hasSessionAd) {
+				if (leftPanel) {
+					leftPanel.style.display = "flex";
+					if (adContentEl) adContentEl.style.display = "";
+					if (adImageEl) adImageEl.style.display = "none";
+					// Update advertisement content
+					const adTitle = leftPanel.querySelector(".ad-title");
+					const adDesc = leftPanel.querySelector(".ad-description");
+
+					if (adTitle) {
+						adTitle.textContent = data.advertisement.title || "";
+						adTitle.style.display = data.advertisement.title ? "block" : "none";
+					}
+
+					if (adDesc && data.advertisement.description) {
+						adDesc.textContent = data.advertisement.description;
+					}
+				}
+				if (rightPanel) {
+					rightPanel.classList.add("with-ad");
+					rightPanel.classList.remove("full-width");
+				}
+			} else {
+				if (leftPanel) {
+					if (adImageEl) {
+						leftPanel.style.display = "flex";
+						adImageEl.style.display = "";
+					} else {
+						leftPanel.style.display = "none";
+					}
+					if (adContentEl) adContentEl.style.display = "none";
+				}
+				if (rightPanel) {
+					rightPanel.classList.add(adImageEl ? "with-ad" : "full-width");
+					rightPanel.classList.remove(adImageEl ? "full-width" : "with-ad");
+				}
+			}
+		};
+
+		await updateModalContent();
+
+		// Show modal
+		modal.classList.add("active");
+		document.body.style.overflow = "hidden";
+	});
+
+	// URL sync: closing reverts to /2026/agenda/ or /2026/en/agenda/
+	// Use replaceState to avoid adding extra history entries and prevent scroll jump
+	document.addEventListener("closeSessionModal", () => {
+		document.title = originalTitle;
+
+		const basePathWithSlash = `${basePath}/`;
+		if (window.location.pathname !== basePathWithSlash) {
+			const scrollX = window.scrollX;
+			const scrollY = window.scrollY;
+			history.replaceState({}, "", basePathWithSlash);
+			// Restore scroll position in case browser tries to reset it
+			window.scrollTo(scrollX, scrollY);
+		}
+	});
+
+	// URL params ?q=id1,id2,id3&n=NAME: show "NAME 嚴選議程", only blocks in q, filter to favorites
+	const agendaTitleEl = document.getElementById("agenda-title");
+	const timelineContainer = document.getElementById("agenda-timeline");
+	const filterTabAll = document.getElementById("filter-tab-all");
+	const filterTabFavorites = document.getElementById("filter-tab-favorites");
+
+	function applyUrlCuratedState() {
+		const params = new URLSearchParams(window.location.search);
+		const q = params.get("q");
+		const n = params.get("n");
+		if (!q || !q.trim()) return;
+		const ids = q
+			.split(",")
+			.map(s => s.trim())
+			.filter(Boolean);
+		if (ids.length === 0) return;
+
+		const name = n ? decodeURIComponent(n).trim() : "";
+		const curatedLabel = isEn ? "Picks" : "的精選議程";
+		if (agendaTitleEl) {
+			agendaTitleEl.textContent = name ? `${name} ${curatedLabel}` : curatedLabel;
+		}
+		if (timelineContainer) {
+			timelineContainer.classList.add("agenda-url-curated");
+			timelineContainer.setAttribute("data-curated-ids", ids.join(","));
+			timelineContainer.classList.add("agenda-filter-favorites");
+			const blocks = document.querySelectorAll(".session-block");
+			const idSet = new Set(ids);
+			blocks.forEach(block => {
+				const bid = block.getAttribute("data-session-id") || "";
+				block.classList.toggle("hidden-by-curated", !idSet.has(bid));
+			});
+		}
+		if (filterTabAll && filterTabFavorites) {
+			filterTabAll.classList.remove("active");
+			filterTabAll.setAttribute("aria-selected", "false");
+			filterTabFavorites.classList.add("active");
+			filterTabFavorites.setAttribute("aria-selected", "true");
+		}
+		const slider = document.getElementById("filter-tab-slider");
+		if (slider)
+			requestAnimationFrame(() => {
+				const list = document.getElementById("filter-tabs-list");
+				const activeTab = filterTabFavorites;
+				if (list && activeTab) {
+					const listRect = list.getBoundingClientRect();
+					const tabRect = activeTab.getBoundingClientRect();
+					slider.style.left = `${tabRect.left - listRect.left}px`;
+					slider.style.width = `${tabRect.width}px`;
+				}
+			});
+	}
+
+	function clearUrlCuratedState() {
+		if (!timelineContainer?.classList.contains("agenda-url-curated")) return;
+		timelineContainer.classList.remove("agenda-url-curated");
+		timelineContainer.removeAttribute("data-curated-ids");
+		timelineContainer.classList.remove("agenda-filter-favorites");
+		document.querySelectorAll(".session-block.hidden-by-curated").forEach(el => el.classList.remove("hidden-by-curated"));
+		const defaultTitle = isEn ? "Agenda" : "議程表";
+		if (agendaTitleEl) agendaTitleEl.textContent = defaultTitle;
+		window.history.replaceState({}, "", window.location.pathname);
+		if (filterTabAll && filterTabFavorites) {
+			filterTabAll.classList.add("active");
+			filterTabAll.setAttribute("aria-selected", "true");
+			filterTabFavorites.classList.remove("active");
+			filterTabFavorites.setAttribute("aria-selected", "false");
+		}
+		const slider = document.getElementById("filter-tab-slider");
+		if (slider)
+			requestAnimationFrame(() => {
+				const list = document.getElementById("filter-tabs-list");
+				const activeTab = filterTabAll;
+				if (list && activeTab) {
+					const listRect = list.getBoundingClientRect();
+					const tabRect = activeTab.getBoundingClientRect();
+					slider.style.left = `${tabRect.left - listRect.left}px`;
+					slider.style.width = `${tabRect.width}px`;
+				}
+			});
+	}
+
+	function cleanNonExistBookmarks() {
+		let bookmarks = JSON.parse(window.localStorage.getItem("sitcon2026:agendaBookmarks") || "[]");
+		const blocks = document.querySelectorAll(".session-block");
+		let existsBookmarks = [];
+		blocks.forEach(block => {
+			const id = block.getAttribute("data-session-id");
+			if (id) existsBookmarks.push(id);
+		});
+
+		bookmarks = bookmarks.filter(id => existsBookmarks.includes(id)) || [];
+		window.localStorage.setItem("sitcon2026:agendaBookmarks", JSON.stringify(bookmarks));
+	}
+
+	function initMcpCopyBtn() {
+		const btn = document.getElementById("mcp-copy-btn");
+		if (!btn) return;
+
+		btn.addEventListener("click", async () => {
+			const url = btn.getAttribute("data-url");
+			if (!url) return;
+
+			try {
+				await navigator.clipboard.writeText(url);
+				const span = btn.querySelector(".btn-text");
+				if (span) {
+					const originalText = span.textContent;
+					span.textContent = isEn ? "Copied!" : "已複製！";
+
+					// Reset text after 2 seconds
+					setTimeout(() => {
+						span.textContent = originalText;
+					}, 2000);
+				}
+			} catch (err) {
+				console.error("Failed to copy:", err);
+			}
+		});
+	}
+
+	document.addEventListener("clearUrlCuratedState", clearUrlCuratedState);
+
+	// Deep link on first load
+	document.addEventListener("DOMContentLoaded", () => {
+		applyUrlCuratedState();
+		cleanNonExistBookmarks();
+		initMcpCopyBtn();
+		const idFromPath = getAgendaIdFromPathname(window.location.pathname);
+		const ssrAgendaId = agendaID || null;
+		const id = idFromPath || ssrAgendaId;
+		if (id && typeof id === "string") {
+			openSessionById(id);
+		}
+	});
+
+	// Back/forward support
+	window.addEventListener("popstate", () => {
+		const id = getAgendaIdFromPathname(window.location.pathname);
+		if (id) {
+			openSessionById(id);
+		} else {
+			closeModalSilently();
+			document.title = originalTitle;
+		}
+	});
+</script>
+
+<style>
+	main {
+		padding: 0;
+	}
+
+	.agenda-header {
+		text-align: center;
+		margin-top: 7rem;
+	}
+
+	.agenda-title {
+		font-size: 4rem;
+		color: white;
+		font-weight: bold;
+		margin-bottom: 1.5rem;
+	}
+
+	.gallery-title {
+		margin-top: 5rem;
+		text-align: center;
+		font-size: 4rem;
+		color: white;
+		font-weight: bold;
+		margin-bottom: 1.5rem;
+	}
+
+	.agenda-legend {
+		display: flex;
+		justify-content: center;
+		gap: 2rem;
+		flex-wrap: wrap;
+	}
+
+	.legend-item {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.legend-color {
+		width: 1.5rem;
+		height: 1.5rem;
+		border-radius: 0.25rem;
+	}
+
+	.legend-color.keynote {
+		background-color: #8d5e00;
+	}
+
+	.legend-color.presentation {
+		background-color: #484848;
+	}
+
+	.legend-color.undefined {
+		background-color: #5a4a7a;
+	}
+
+	.legend-color.espresso {
+		background-color: #bababa;
+	}
+
+	.legend-color.sponsored {
+		background-color: #c45c5c;
+	}
+
+	.legend-color.generic {
+		background-color: #1d1d1d;
+	}
+
+	.mcp-section {
+		display: flex;
+		justify-content: center;
+		padding: 0 1.5rem;
+		margin-top: 5rem;
+	}
+
+	.mcp-container {
+		width: 100%;
+		max-width: 50rem;
+		text-align: center;
+		align-items: start;
+		display: flex;
+		flex-direction: column;
+		background-color: #d9bd8b;
+		padding: 3rem 4rem;
+		border-radius: 1rem;
+	}
+
+	.mcp-title {
+		margin-top: 0;
+		text-align: center;
+		font-size: 2rem;
+		color: rgb(0, 0, 0);
+		font-weight: bold;
+		margin-bottom: 1rem;
+		line-height: 1.2;
+		font-family: inherit;
+	}
+
+	.mcp-desc {
+		font-size: 1.2rem;
+		color: #000000;
+		margin-bottom: 1rem;
+		max-width: 56.25rem;
+		line-height: 1.6;
+	}
+
+	.mcp-features {
+		display: flex;
+		gap: 0.5rem;
+		margin-bottom: 2rem;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.mcp-feature-item {
+		display: flex;
+		align-items: center;
+		gap: 0.1rem;
+		font-size: 1rem;
+		color: #000000;
+		background-color: #f1d6ae;
+		padding: 0.5rem 1rem;
+		border-radius: 2rem;
+	}
+
+	.mcp-actions {
+		display: flex;
+		gap: 1.5rem;
+		justify-content: center;
+		align-items: center;
+		align-content: center;
+		flex-wrap: wrap;
+	}
+
+	.mcp-btn {
+		position: relative;
+		padding: 1rem 2.5rem;
+		background-color: #3a2300;
+		color: #ffffff;
+		border-radius: 999px;
+		transition: transform 0.2s ease;
+		gap: 0.8rem;
+		border: none;
+	}
+
+	.mcp-btn:hover {
+		transform: scale(1.05);
+	}
+</style>
