@@ -28,9 +28,9 @@
 
 - Check "I understand and wish to continue" (This MCP is open source, does not collect any data, and SITCON will not know you used it)
 
-## VSCode
+## VS Code
 
-### 1. Open VSCode, press "Ctrl+Shift+P" to open the Command Palette, type "MCP", and select "MCP: Add server"
+### 1. Open VS Code, press "Ctrl+Shift+P" to open the Command Palette, type "MCP", and select "MCP: Add server"
 
 ![](/2026/img/mcp/V1.webp)
 

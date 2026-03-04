@@ -109,7 +109,7 @@ const description = isEn ? "Connect to the MCP Server, arrange your personal age
 
 	.mcp-header {
 		text-align: center;
-		margin-bottom: 4rem;
+		margin-block: 2rem 4rem;
 		width: 100%;
 		max-width: 1200px;
 		color: #fff;
@@ -132,6 +132,7 @@ const description = isEn ? "Connect to the MCP Server, arrange your personal age
 		max-width: 1200px;
 		gap: 2rem;
 		justify-content: center;
+		position: relative;
 	}
 
 	.platform-switch {
@@ -143,22 +144,20 @@ const description = isEn ? "Connect to the MCP Server, arrange your personal age
 		border-radius: 1rem;
 		overflow: hidden;
 		height: fit-content;
+		position: sticky;
+		top: 8rem;
 	}
 
 	.switch-btn {
 		padding: 0.7rem;
 		border: none;
-		border-bottom: 1px solid #000;
 		color: #333;
 		text-decoration: none;
 		font-size: 1rem;
 		font-weight: bold;
 		text-align: start;
 		transition: all 0.3s ease;
-	}
-
-	.switch-btn:last-child {
-		border-bottom: none;
+		border-radius: 0.5rem;
 	}
 
 	.switch-btn:hover {
@@ -230,12 +229,12 @@ const description = isEn ? "Connect to the MCP Server, arrange your personal age
 	}
 
 	.markdown-body :global(img) {
-		max-width: 100%;
-		width: 600px;
-		height: auto;
+		max-width: min(100%, 800px);
+		max-height: 400px;
+		object-fit: contain;
 		border-radius: 0.5rem;
 		display: block;
-		margin: 1rem 0;
+		margin: 2rem auto;
 	}
 
 	.markdown-body :global(img[src*="C3"]) {

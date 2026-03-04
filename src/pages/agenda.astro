@@ -27,12 +27,23 @@ const agendaItems = normalizeAgendaSessionsFromFile(agendaData as AgendaDataFile
 const posters = Array.isArray(postersData) ? postersData : [];
 
 const mcpServerUrl = "https://mcp.sitcon.org/mcp";
+
+const i18nScript = {
+	agendaTitle: t.title,
+	curatedLabel: t.curatedLabel,
+	mcpCopied: t.mcpCopied,
+	sessionTypeUndefined: t.sessionTypeUndefined,
+	sessionTypeSponsored: t.sessionTypeSponsored,
+	sessionAskQuestion: t.sessionAskQuestion,
+	sessionCollabNotes: t.sessionCollabNotes,
+	sessionPresentation: t.sessionPresentation
+};
 ---
 
 <Layout title={title} description={description} ogImage={ogImage} seoUrl={seoUrl} lang={lang}>
 	<main>
 		<div class="agenda-header">
-			<h1 class="agenda-title" id="agenda-title">{lang === "en" ? "Agenda" : "議程表"}</h1>
+			<h1 class="agenda-title" id="agenda-title">{t.title}</h1>
 			<div class="agenda-legend">
 				<div class="legend-item">
 					<div class="legend-color keynote"></div>
@@ -48,11 +59,11 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 				</div>
 				<div class="legend-item">
 					<div class="legend-color undefined"></div>
-					<span>{lang === "en" ? "Undefined" : "開放式議程"}</span>
+					<span>{t.legendUndefined}</span>
 				</div>
 				<div class="legend-item">
 					<div class="legend-color sponsored"></div>
-					<span>{lang === "en" ? "Sponsored" : "合作議程"}</span>
+					<span>{t.legendSponsored}</span>
 				</div>
 			</div>
 		</div>
@@ -62,36 +73,32 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 		<!-- MCP Connection Section -->
 		<section class="mcp-section">
 			<div class="mcp-container">
-				<h3 class="mcp-title" id="mcp-title">{lang === "en" ? "SITCON MCP Server" : "SITCON MCP Server"}</h3>
+				<h3 class="mcp-title" id="mcp-title">SITCON MCP Server</h3>
 				<p class="mcp-desc">
-					{
-						lang === "en"
-							? "Connect to our MCP server to customize your agenda, manage schedule, and share it with others effortlessly."
-							: "連線至 MCP Server，安排您的專屬議程、管理行程並與他人分享。"
-					}
+					{t.mcpDesc}
 				</p>
 				<div class="mcp-features">
 					<div class="mcp-feature-item">
 						<CalendarDays size={16} />
-						<span>{lang === "en" ? "Agenda Arrangement" : "議程安排"}</span>
+						<span>{t.mcpFeatureAgenda}</span>
 					</div>
 					<div class="mcp-feature-item">
 						<Link size={16} />
-						<span>{lang === "en" ? "Share Link" : "分享連結"}</span>
+						<span>{t.mcpFeatureShare}</span>
 					</div>
 					<div class="mcp-feature-item">
 						<Info size={16} />
-						<span>{lang === "en" ? "Conference Info" : "年會資訊"}</span>
+						<span>{t.mcpFeatureInfo}</span>
 					</div>
 				</div>
 				<div class="mcp-actions">
 					<a href={lang === "en" ? "/2026/en/mcp/" : "/2026/mcp/"} target="_blank" rel="noopener noreferrer" class="mcp-btn action-btn">
 						<div class="hover-bg"></div>
-						<span class="btn-text">{lang === "en" ? "Tutorial" : "使用教學"}</span>
+						<span class="btn-text">{t.mcpTutorial}</span>
 					</a>
 					<button id="mcp-copy-btn" class="mcp-btn action-btn" type="button" data-url={mcpServerUrl}>
 						<div class="hover-bg"></div>
-						<span class="btn-text">{lang === "en" ? "Copy Server URL" : "複製 Server 網址"}</span>
+						<span class="btn-text">{t.mcpCopyUrl}</span>
 					</button>
 					<a href="https://github.com/sitcon-tw/2026-mcp" target="_blank" rel="noopener noreferrer" class="mcp-btn action-btn">
 						<div class="hover-bg"></div>
@@ -101,68 +108,20 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 			</div>
 		</section>
 		<section class="gallery-section">
-			<h1 class="gallery-title" id="gallery-title">{lang === "en" ? "Demo Gallery" : "Demo 展"}</h1>
+			<h1 class="gallery-title" id="gallery-title">{t.galleryTitle}</h1>
 			<CircularGallery items={posters} lang={lang} />
 		</section>
 	</main>
 	<SessionModal type="" name="" description="" speakers={[]} tags={[]} venue="" startTime="" lang={lang} />
-	<ShareJamModal
-		lang={lang}
-		shareJamTitle={t.shareJamTitle ?? (lang === "en" ? "Your Exclusive Jam" : "你的專屬 Jam")}
-		shareJamPlaceholder={t.shareJamPlaceholder ?? (lang === "en" ? "Enter your name" : "輸入匿名")}
-		shareJamCopy={t.shareJamCopy ?? (lang === "en" ? "Copy link" : "複製連結")}
-		shareJamCopied={t.shareJamCopied ?? (lang === "en" ? "Copied!" : "已複製！")}
-	/>
+	<ShareJamModal lang={lang} shareJamTitle={t.shareJamTitle} shareJamPlaceholder={t.shareJamPlaceholder} shareJamCopy={t.shareJamCopy} shareJamCopied={t.shareJamCopied} />
 	<Footer />
 </Layout>
 
-<script define:vars={{ agendaID }}>
+<script define:vars={{ agendaID, i18nScript }}>
 	const isEn = window.location.pathname.startsWith("/2026/en/");
 	const basePath = isEn ? "/2026/en/agenda" : "/2026/agenda";
 
 	const originalTitle = document.title;
-
-	function initActionBtnEffects(container) {
-		if (!container) return;
-		import("gsap")
-			.then(({ gsap }) => {
-				const buttons = container.querySelectorAll(".action-btn");
-				buttons.forEach(btn => {
-					const content = btn.querySelector("span");
-					const hoverBg = btn.querySelector(".hover-bg");
-					if (!content || !hoverBg) return;
-
-					btn.addEventListener("mouseenter", () => {
-						gsap.killTweensOf([content, hoverBg]);
-						gsap.to(content, {
-							x: 20,
-							opacity: 0,
-							duration: 0.3,
-							ease: "power2.in",
-							onComplete: () => {
-								gsap.set(content, { x: -20 });
-								gsap.to(content, { x: 0, opacity: 1, duration: 0.3, ease: "power2.out" });
-							}
-						});
-						gsap.fromTo(hoverBg, { x: "-100%" }, { x: "0%", duration: 0.5, ease: "power2.out" });
-					});
-
-					btn.addEventListener("mouseleave", () => {
-						gsap.killTweensOf([content, hoverBg]);
-						gsap.to(content, { x: 0, opacity: 1, duration: 0.3, ease: "power2.out" });
-						gsap.to(hoverBg, {
-							x: "100%",
-							duration: 0.5,
-							ease: "power2.in",
-							onComplete: () => {
-								gsap.set(hoverBg, { x: "-100%" });
-							}
-						});
-					});
-				});
-			})
-			.catch(() => {});
-	}
 
 	function getAgendaIdFromPathname(pathname) {
 		// Support: /2026/agenda/:id/ , /2026/en/agenda/:id/ , /agenda/:id , /en/agenda/:id
@@ -260,15 +219,11 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 						: data.type === "presentation"
 							? "Presentation"
 							: data.type === "undefined"
-								? data.lang === "en"
-									? "Undefined"
-									: "開放式議程"
+								? i18nScript.sessionTypeUndefined
 								: data.type === "espresso"
 									? "Espresso"
 									: data.type === "sponsored"
-										? data.lang === "en"
-											? "Sponsored"
-											: "合作議程"
+										? i18nScript.sessionTypeSponsored
 										: "";
 			}
 
@@ -343,7 +298,7 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 						btn.target = "_blank";
 						btn.rel = "noopener noreferrer";
 						btn.className = "action-btn";
-						const { hoverBg, span } = createActionBtn(data.lang === "en" ? "Ask Question" : "提問");
+						const { hoverBg, span } = createActionBtn(i18nScript.sessionAskQuestion);
 						btn.appendChild(hoverBg);
 						btn.appendChild(span);
 						actionsEl.appendChild(btn);
@@ -355,7 +310,7 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 						btn.target = "_blank";
 						btn.rel = "noopener noreferrer";
 						btn.className = "action-btn";
-						const { hoverBg, span } = createActionBtn(data.lang === "en" ? "Collaborative Notes" : "共筆");
+						const { hoverBg, span } = createActionBtn(i18nScript.sessionCollabNotes);
 						btn.appendChild(hoverBg);
 						btn.appendChild(span);
 						actionsEl.appendChild(btn);
@@ -367,7 +322,7 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 						btn.target = "_blank";
 						btn.rel = "noopener noreferrer";
 						btn.className = "action-btn";
-						const { hoverBg, span } = createActionBtn(data.lang === "en" ? "Presentation" : "簡報");
+						const { hoverBg, span } = createActionBtn(i18nScript.sessionPresentation);
 						btn.appendChild(hoverBg);
 						btn.appendChild(span);
 						actionsEl.appendChild(btn);
@@ -458,9 +413,6 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 						}
 					});
 					actionsEl.appendChild(shareBtn);
-
-					// Re-apply content-btn hover effect (GSAP) to dynamically injected buttons
-					initActionBtnEffects(actionsEl);
 				} catch (err) {
 					console.error("Session modal action buttons:", err);
 				}
@@ -673,7 +625,6 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 	document.addEventListener("DOMContentLoaded", () => {
 		applyUrlCuratedState();
 		cleanNonExistBookmarks();
-		initActionBtnEffects(document.querySelector(".mcp-section"));
 		initMcpCopyBtn();
 		const idFromPath = getAgendaIdFromPathname(window.location.pathname);
 		const ssrAgendaId = agendaID || null;
@@ -768,17 +719,18 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 		display: flex;
 		justify-content: center;
 		padding: 0 1.5rem;
-		margin-top: 6rem;
+		margin-top: 5rem;
 	}
 
 	.mcp-container {
+		width: 100%;
 		max-width: 50rem;
 		text-align: center;
 		align-items: start;
 		display: flex;
 		flex-direction: column;
-		background-color: rgba(231, 216, 172, 0.53);
-		padding: 2rem 4rem;
+		background-color: #d9bd8b;
+		padding: 3rem 4rem;
 		border-radius: 1rem;
 	}
 
@@ -790,6 +742,7 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 		font-weight: bold;
 		margin-bottom: 1rem;
 		line-height: 1.2;
+		font-family: inherit;
 	}
 
 	.mcp-desc {
@@ -803,7 +756,7 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 	.mcp-features {
 		display: flex;
 		gap: 0.5rem;
-		margin-bottom: 3rem;
+		margin-bottom: 2rem;
 		flex-wrap: wrap;
 		justify-content: center;
 	}
@@ -814,8 +767,8 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 		gap: 0.1rem;
 		font-size: 1rem;
 		color: #000000;
-		background-color: rgba(255, 255, 255, 0.6);
-		padding: 0.3rem 0.6rem;
+		background-color: #f1d6ae;
+		padding: 0.5rem 1rem;
 		border-radius: 2rem;
 	}
 
@@ -830,47 +783,16 @@ const mcpServerUrl = "https://mcp.sitcon.org/mcp";
 
 	.mcp-btn {
 		position: relative;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
 		padding: 1rem 2.5rem;
 		background-color: #3a2300;
 		color: #ffffff;
-		font-size: 1.2rem;
-		font-weight: bold;
-		border-radius: 3rem;
-		text-decoration: none;
-		overflow: hidden;
+		border-radius: 999px;
 		transition: transform 0.2s ease;
-		cursor: pointer;
-		border: none;
 		gap: 0.8rem;
-	}
-
-	@media (max-width: 48rem) {
-		.mcp-btn {
-			font-size: 1rem;
-		}
+		border: none;
 	}
 
 	.mcp-btn:hover {
 		transform: scale(1.05);
-	}
-
-	.mcp-btn span,
-	.mcp-btn .mcp-btn-icon {
-		position: relative;
-		z-index: 2;
-	}
-
-	.mcp-btn .hover-bg {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: #d4d4d4;
-		z-index: 1;
-		transform: translateX(-100%);
 	}
 </style>
