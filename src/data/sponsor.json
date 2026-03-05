@@ -135,6 +135,16 @@
 			"url": "https://www.youtube.com/@shasha77"
 		}
 	],
+	"commuteSupporters": [
+		{
+			"logo": "tony.webp",
+			"title_zh": "Tony Yip",
+			"title_en": "",
+			"description_zh": "來自香港的 DevSecOps 工程師，目前於臺北工作。醉心研究開源的雲端原生技術，曾在 KCD Taipei 等研討會上分享。",
+			"description_en": "",
+			"url": "https://gitlab.com/tonyhhyip"
+		}
+	],
 	"supporters": [
 		{
 			"logo": "hackmd.webp",
