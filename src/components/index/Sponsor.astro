@@ -65,7 +65,7 @@ const supportersList = sponsors.supporters as Sponsor[];
 			</div>
 		</div>
 
-		<!-- <h3 class="tier-title text-reveal-title" id="sponsorNavigator">{t.sponsorNavigator}</h3>
+		<h3 class="tier-title text-reveal-title" id="sponsorNavigator">{t.sponsorNavigator}</h3>
 		<div class="main-grid">
 			{
 				sponsors.sponsorNavigator.map((s, idx) => (
@@ -82,7 +82,7 @@ const supportersList = sponsors.supporters as Sponsor[];
 					</button>
 				))
 			}
-		</div> -->
+		</div>
 
 		<h3 class="tier-title text-reveal-title" id="sponsorDeepCultivation">{t.sponsorDeepCultivation}</h3>
 		<div class="main-grid">
@@ -132,25 +132,6 @@ const supportersList = sponsors.supporters as Sponsor[];
 						data-name={getTitle(s)}
 						data-desc={getDesc(s)}
 						data-type={t.sponsorNewSprout}
-						data-img={getLogo(s)}
-						data-url={s.url}
-					>
-						<img src={getLogo(s)} alt={getTitle(s)} />
-					</button>
-				))
-			}
-		</div>
-
-		<h3 class="tier-title text-reveal-title" id="commuteSupporters">{t.commuteSupporters}</h3>
-		<div class="main-grid">
-			{
-				sponsors.commuteSupporters.map((s, idx) => (
-					<button
-						class="logo-box center-box sponsor-trigger"
-						data-id={`commuteSupporters-${idx}`}
-						data-name={getTitle(s)}
-						data-desc={getDesc(s)}
-						data-type={t.commuteSupporters}
 						data-img={getLogo(s)}
 						data-url={s.url}
 					>

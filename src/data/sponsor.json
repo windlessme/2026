@@ -40,7 +40,7 @@
 	"sponsorNavigator": [
 		{
 			"logo": "line.webp",
-			"title_zh": "LINE",
+			"title_zh": "LINE台灣",
 			"title_en": "",
 			"description_zh": "總部位於日本的 LINE 以「拉近你我的距離」為企業使命，透過多元的行動服務與內容，致力將人們、資訊與社會緊密連結。自 2011 年 6 月以通訊軟體的型態推出，現更推展其多元的全球生態系，並將觸角延伸至人工智慧、金融科技等領域，積極實現「智慧入口」的願景，2021 年 3 月，LINE與日本規模最大的網路科技集團之一 Z Holdings 正式整併，未來也將持續提供用戶享有最即時、便利的行動生活。",
 			"description_en": "",
@@ -89,6 +89,14 @@
 			"description_zh": "台灣人工智慧學校深耕 8 年，培訓 1.3 萬名 AI 人才、服務逾千家企業。近年推動 AI 認證與產業人才指引，並發起「公民 AI 素養計畫」落實普惠 AI。",
 			"description_en": "",
 			"url": "https://aiacademy.tw/"
+		},
+		{
+			"logo": "scedu.webp",
+			"title_zh": "尚進美日韓語",
+			"title_en": "",
+			"description_zh": "尚進美日韓語專注真人線上一對一外語教學，<br/>幫助學生提升英文實力，從考試到實習面試，<br/>打造未來職場必備的國際溝通能力。",
+			"description_en": "",
+			"url": "https://scedu.com.tw/"
 		}
 	],
 	"sponsorNewSprout": [
@@ -153,6 +161,30 @@
 			"description_zh": "",
 			"description_en": "",
 			"url": "https://hackmd.io/"
+		},
+		{
+			"logo": "kotech.svg",
+			"title_zh": "康喔科技 / KangOTech",
+			"title_en": "",
+			"description_zh": "Ꮚ･ꈊ･Ꮚ 嘻嘻我先暫時沒想到這邊要寫什麼，但還是祝 SITCON 順利！",
+			"description_en": "",
+			"url": "https://kotech.tw"
+		},
+		{
+			"logo": "cheapserver.webp",
+			"title_zh": "CheapServer",
+			"title_en": "",
+			"description_zh": "很便宜的 Minecraft 伺服器託管",
+			"description_en": "",
+			"url": "https://cheapserver.tw"
+		},
+		{
+			"logo": "ncse.svg",
+			"title_zh": "NCSE Network",
+			"title_en": "",
+			"description_zh": "NCSE Network 成立於 2019 年，提供企業級 VPS 主機、機房代管及網路基礎設施解決方案，以 99% SLA 保證與專業技術支援，協助企業與開發者打造穩定、高效的網路基礎架構與雲端服務。並長期回饋社會，透過贊助計畫協助開源社群、技術競賽及公益專案。",
+			"description_en": "",
+			"url": "https://ncse.tw/"
 		},
 		{
 			"logo": "individual.webp",
